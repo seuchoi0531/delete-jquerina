@@ -16,7 +16,7 @@ var ctx = canvas.getContext("2d"); //캔버스컨텍트
 var ballRadius = 1 / 32 * canvas.height;
 var x = canvas.width / 2;
 var y = 15 / 16 * canvas.height;
-var vel = 5;
+var vel = 15;
 var dx = 0;
 var dy = vel;
 var paddleHeight = 1 / 32 * canvas.height;
@@ -32,17 +32,52 @@ var brickOffsetTop = 3 / 32 * canvas.height;
 var brickOffsetLeft = 1 / 16 * canvas.width;
 var rightPressed = false; //오른쪽 방향키
 var leftPressed = false; //왼쪽 방향키
-var brickRowCount = 4; //벽돌 열개수
-var brickColumnCount = 1; //벽돌 행개수
+var brickRowCount = 5; //벽돌 열개수
+var brickColumnCount = 3; //벽돌 행개수
 var score = 0; //점수
 var lives = 3; //목숨
 var stage = 1; //난이도
 var winscore = 0; //승리점수
+var breeding_level = 0; // 번식 횟수
+var start_time; // start 버튼을 누른 시간
+var time_limit = 100; //타임 리미트
+var play_time; // 남은 게임 시간
+
+// bgm
+var audio_breeding = new Audio("breeding_bgm.mp3"); // 번식 이펙트 -> 번식 5초전에 경고.
+
+
+// 타이머
+function Timer() {
+  var now = new Date();
+  var interval = start_time - now.getTime();
+  play_time = parseFloat((interval / 1000) + time_limit);
+  document.getElementById("timer").innerHTML = play_time.toFixed(3);
+  document.getElementById("progress").value = play_time.toFixed(3);
+}
+
+// 셔플
+function shuffle(a) {
+  var j, x, i;
+  for (i = a.length; i; i -= 1) {
+    j = Math.floor(Math.random() * i);
+    x = a[i - 1];
+    a[i - 1] = a[j];
+    a[j] = x;
+  }
+  return a;
+}
+
+// 난이도에 따른 벽돌 체력 설정
+var s_index = 0;
 var bricks = []; //벽돌 배열
+var shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 3];
+shuffle_list = shuffle(shuffle_list);
+
 for(var c = 0; c < brickColumnCount; c++) {
   bricks[c] = [];
   for(var r = 0; r < brickRowCount; r++) {
-    bricks[c][r] = { x: 0, y: 0, status: 3 }; //status는 벽돌목숨
+    bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 벽돌목숨
     winscore += bricks[c][r].status;
   }
 }
@@ -153,6 +188,31 @@ function drawPaddle() {
   ctx.fillRect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
 }
 
+// 번식
+function breeding() {
+  // alert("breeding!!");
+  breeding_level++;
+  // 이펙트 및 효과음 주기. 번식 횟수마다 다르게 하려면 breeding level 활용하기
+
+
+
+  for (var c = 0; c < brickColumnCount; c++) {
+    for (var r = 0; r < brickRowCount; r++) {
+      if (bricks[c][r].status == 0) {
+        var breeding_status;
+        var random_status = Math.floor(Math.random() * 10); // 0~9
+        if (random_status == 0 || random_status >= 7) breeding_status = 0;
+        else if (random_status >= 5) breeding_status = 3;
+        else if (random_status >= 3) breeding_status = 2;
+        else breeding_status = 1;
+        bricks[c][r].status = breeding_status;
+        winscore += bricks[c][r].status;
+        // bricks[c][r].status = 2;
+      }
+    }
+  }
+}
+
 //벽돌 그리기
 function drawBricks() {
   for(var c=0; c<brickColumnCount; c++) {
@@ -168,7 +228,7 @@ function drawBricks() {
           ctx.fillStyle = "orange";
         else if(bricks[c][r].status == 1)
           ctx.fillStyle = "yellow";
-          ctx.fillRect(brickX, brickY, brickWidth, brickHeight);
+        ctx.fillRect(brickX, brickY, brickWidth, brickHeight);
       }
     }
   }
@@ -190,6 +250,19 @@ function drawLives() {
 
 //main
 function draw() {
+
+  // 프로그레스 바 생성
+  
+  var obj = document.getElementById("progress_div");
+  obj.innerHTML="<progress id='progress' value='100' min='0' max='100'></progress>";
+  Timer();
+  if(play_time<0){
+    alert("GAME OVER");
+    document.location.reload();
+  }
+  if(play_time == 100 || play_time == 80 || play_time == 55 || play_time == 30 || play_time == 5){
+    audio_breeding.play();
+  }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBricks();
   drawBall();
@@ -301,11 +374,17 @@ function menu() {
         window.resizeTo(window.screen.availWidth / 2, window.screen.availWHeight / 2);
       }
     } else if (cx >= canvas.width * 3 / 8 && cx <= canvas.width * 5 / 8){
-      if (cy >= canvas.height * 3 / 7 && cy <= canvas.width * 4 / 7)
+      if (cy >= canvas.height * 3 / 7 && cy <= canvas.width * 4 / 7){
+        start_time = new Date().getTime();
+        setInterval(breeding, 25000);  //번식 타이머 작동
         draw();
+      }
+        
+        
       else if(cy >= canvas.height * 5 / 7 && cy <= canvas.width * 6 / 7)
         setting();
     }
   }
 }
+
 menu();
