@@ -7,3 +7,11 @@
 canvas{
   background: #eee;
 }
+#info{
+  z-index: 1;
+  overflow: hidden;
+}
+
+#timer{
+  text-align: right;
+}

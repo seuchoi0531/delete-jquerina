@@ -1,10 +1,10 @@
-
-
 document.body.style.overflow="hidden"; //스크롤바 제거
 //var canvasWidth = 480; // 캔버스 폭
 //var canvasHeight = 320; // 캔버스 높이
-var canvasWidth = window.innerWidth;
-var canvasHeight = window.innerHeight;
+var canvasHeight = 9/10*window.innerHeight;
+// var canvasWidth = window.innerWidth;
+var canvasWidth = 3/2*canvasHeight;
+var infoElementHeight = 1/20*window.innerHeight;
 window.onresize = function(event){//창 크기 변경하면 작동하는 함수, 작동안됨
   canvasWidth = window.innerWidth;
   canvasHeight = window.innerHeight;
@@ -13,10 +13,12 @@ document.getElementById("myCanvas").width = canvasWidth;
 document.getElementById("myCanvas").height = canvasHeight;
 var canvas = document.getElementById("myCanvas"); //캔버스
 var ctx = canvas.getContext("2d"); //캔버스컨텍트
+
+//캔버스 기준으로 좌표설정됨.
 var ballRadius = 1 / 32 * canvas.height;
 var x = canvas.width / 2;
 var y = 15 / 16 * canvas.height;
-var vel = 15;
+var vel = 25;
 var dx = 0;
 var dy = vel;
 var paddleHeight = 1 / 32 * canvas.height;
@@ -52,8 +54,9 @@ function Timer() {
   var now = new Date();
   var interval = start_time - now.getTime();
   play_time = parseFloat((interval / 1000) + time_limit);
-  document.getElementById("timer").innerHTML = play_time.toFixed(3);
+  document.getElementById("timer").innerText = play_time.toFixed(3);
   document.getElementById("progress").value = play_time.toFixed(3);
+  $("#timer").css({width:canvasWidth,height : infoElementHeight,fontSize: infoElementHeight/3*2.2});
 }
 
 // 셔플
@@ -248,14 +251,19 @@ function drawLives() {
   ctx.fillText("Lives: "+lives, canvas.width-65, 20);
 }
 
+
 //main
 function draw() {
 
   // 프로그레스 바 생성
-  
   var obj = document.getElementById("progress_div");
   obj.innerHTML="<progress id='progress' value='100' min='0' max='100'></progress>";
-  Timer();
+  $("#progress").css({width : canvas.width});
+  $("#progress").css({height : infoElementHeight});
+  Timer(); 
+  
+
+  // 게임시간이 0 이되면 게임종료.
   if(play_time<0){
     alert("GAME OVER");
     document.location.reload();
