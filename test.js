@@ -41,7 +41,7 @@ var winscore = 0; //승리점수
 var breeding_level = 0; // 번식 횟수
 var start_time; // start 버튼을 누른 시간
 var time_limit = 100; //타임 리미트
-var play_time; // 남은 게임 시간
+var play_time = -1; // 남은 게임 시간
 
 // bgm
 var audio_breeding = new Audio("breeding_bgm.mp3"); // 번식 이펙트 -> 번식 5초전에 경고.
@@ -259,8 +259,9 @@ function draw() {
   if(play_time<0){
     alert("GAME OVER");
     document.location.reload();
+    return;
   }
-  if(play_time == 100 || play_time == 80 || play_time == 55 || play_time == 30 || play_time == 5){
+  if(Math.floor(play_time) == 80 || Math.floor(play_time) == 55 || Math.floor(play_time) == 30 || Math.floor(play_time) == 5){
     audio_breeding.play();
   }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
