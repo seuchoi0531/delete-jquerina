@@ -15,6 +15,7 @@ body {
   width: 850px;
   height: 800px;
   position: relative;
+  display: none;
 }
 /* scene1 */
 .titleBox {
@@ -30,11 +31,11 @@ body {
   height: 100%;
 }
 #gameTitle {
-  font-size: 64px;
+  font-size: 72px;
   color: #FF1919;
 }
 #gameTitleWhite {
-  font-size: 64px;
+  font-size: 56px;
   color: #ffffff;
 }
 .scene1Btn {
@@ -54,19 +55,63 @@ body {
   background-color: #a70000;
   color: #ffffff;
 }
-.scene1Btn1 {
+#scene1Btn1 {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate( -50%, 0% );
 }
-.scene1Btn2 {
+#scene1Btn2 {
   position: absolute;
   top: 65%;
   left: 50%;
   transform: translate( -50%, 0% );
 }
-
+/* scene2 */
+.doctor {
+  position: absolute;
+  top: 36%;
+  left: 15%;
+}
+.speachBubble {
+  background-color: #ffffff;
+  opacity: 0.9;
+  width: 780px;
+  height: 220px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 10px 35px;
+}
+.speaker {
+  font-size: 32px;
+  font-weight: bold;
+  display: block;
+  padding-bottom: 10px;
+}
+.speach {
+  font-size: 20px;
+}
+.speachBubbleBtn {
+  width: 102px;
+  height: 49px;
+  background-color: #626262;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  line-height: 49px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+.speachBubbleBtn:hover {
+  background-color: #D663FF;
+}
+.red {
+  color: #FF0000;
+}
 canvas{
   background: #eee;
 }
