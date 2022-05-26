@@ -1,42 +1,109 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="deleteJquerina.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  </head>
-  <body>
-    <script type="text/javascript" src="deleteJquerina.js"></script>
-    <div id="container">
-      <div class="scene" id="scene1">
-        <div class="titleBox">
-          <h2 id="gameTitle">Delete</h2>
-          <h2 id="gameTitleWhite">Jquerina-virus</h2>
-        </div>
-        <img class="backgroundImage" src="./images/laboratoryIntro.png">
-        <div class="scene1Btn" id="scene1Btn1">게임시작</div>
-        <div class="scene1Btn" id="scene1Btn2">환경설정</div>
+
+<head>
+  <link rel="stylesheet" href="deleteJquerina.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+  <script type="text/javascript" src="deleteJquerina.js"></script>
+  <div id="container">
+    <div class="scene" id="scene1">
+      <div class="titleBox">
+        <h2 id="gameTitle">Delete</h2>
+        <h2 id="gameTitleWhite">Jquerina-virus</h2>
       </div>
-      <div class="scene" id="scene2">
-        <img class="backgroundImage" src="./images/laboratoryIntro.png">
-        <img class="doctor" src="./images/doctor.png">
-        <div class="speachBubble">
-          <p class="speaker">Dr.박</p>
-          <p class="speach">드디어 왔구만! 한시가 급하네...!!
-            코로나19 바이러스보다 더 무시무시한 신규 바이러스인 <span class="red">제이쿼리나 바이러스</span>를
-            지금 당장 없애야 해! </p>
-          <div class="speachBubbleBtn" id="scene2Btn1">다음</div>
-        </div>
-      </div>
-      <div class="scene" id="scene3">
-        <img class="backgroundImage" src="./images/laboratoryIntro.png">
-        <img class="doctor" src="./images/doctor.png">
-        <div class="speachBubble">
-          <p class="speaker">Dr.박</p>
-          <p class="speach">지금부터 자네는 특별한 축소빔을 맞고 제이쿼리나 바이러스 <span class="red">최초 발병자의 몸 속</span>으로 들어갈거야. 목, 폐, 그리고 심장에 퍼져있는 바이러스를 모두 없애고 돌아오게나.. 그렇지 않으면 지구는 멸망하고 말거야..! </p>
-          <div class="speachBubbleBtn" id="sene3Btn1">다음</div>
-        </div>
-      </div>
-      <!--<canvas id="myCanvas"></canvas>-->
+      <img class="backgroundImage" src="./images/laboratoryIntro.png">
+      <div class="scene1Btn" id="scene1Btn1">게임시작</div>
+      <div class="scene1Btn" id="scene1Btn2">환경설정</div>
     </div>
-  </body>
+    <div class="scene" id="scene2">
+      <img class="backgroundImage" src="./images/laboratoryIntro.png">
+      <img class="doctor" src="./images/doctor.png">
+      <div class="speachBubble">
+        <p class="speaker">Dr.박</p>
+        <p class="speach">드디어 왔구만! 한시가 급하네...!!<br>
+          코로나19 바이러스보다 더 무시무시한 신규 바이러스인 <span class="red">제이쿼리나 바이러스</span>를
+          지금 당장 없애야 해! </p>
+        <div class="speachBubbleBtn" id="scene2Btn1">다음</div>
+      </div>
+    </div>
+    <div class="scene" id="scene3">
+      <img class="backgroundImage" src="./images/laboratoryIntro.png">
+      <img class="doctor" src="./images/doctor.png">
+      <div class="speachBubble">
+        <p class="speaker">Dr.박</p>
+        <p class="speach">지금부터 자네는 특별한 축소빔을 맞고 제이쿼리나 바이러스 <span class="red">최초 발병자의 몸 속</span>으로 들어갈거야. 목, 폐, 그리고 심장에
+          퍼져있는 바이러스를 모두 없애고 돌아오게나...<br>그렇지 않으면 지구는 멸망하고 말거야..!</p>
+        <div class="speachBubbleBtn" id="scene3Btn1">다음</div>
+      </div>
+    </div>
+    <div class="scene" id="scene4">
+      <img class="backgroundImage" src="./images/laboratoryIntro.png">
+      <img class="doctor" src="./images/doctor.png">
+      <ul class="selectBox">
+        <li>
+          <img src="./images/character1.png">
+          <input type="radio" name="character" value="brave" id="brave" checked>
+          <label for="brave" class="selectBtn">용감이</label>
+        </li>
+        <li>
+          <img src="./images/character2.png">
+          <input type="radio" name="character" value="smart" id="smart">
+          <label for="smart" class="selectBtn">똑똑이</label>
+        </li>
+        <li>
+          <img src="./images/character3.png">
+          <input type="radio" name="character" value="bully" id="bully">
+          <label for="bully" class="selectBtn">삐뚤이</label>
+        </li>
+      </ul>
+      <div class="speachBubble">
+        <p class="speaker">Dr.박</p>
+        <p class="speach">자네가 사용할 항생 물질을 선택하시게.<br>
+          모두 내가 열심히 개발한 아이들이지!</p>
+        <div class="speachBubbleBtn" id="scene4Btn1">다음</div>
+      </div>
+    </div>
+    <div class="scene" id="scene5">
+      <img class="backgroundImage" src="./images/laboratoryIntro.png">
+      <img class="doctor" src="./images/doctor.png">
+      <ul class="selectBox">
+        <li>
+          <img src="./images/paddle1.png" class="paddleImg">
+          <input type="radio" name="paddle" value="green" id="green" checked>
+          <label for="green" class="selectBtn">선택</label>
+        </li>
+        <li>
+          <img src="./images/paddle2.png" class="paddleImg">
+          <input type="radio" name="paddle" value="pink" id="pink">
+          <label for="pink" class="selectBtn">선택</label>
+        </li>
+        <li>
+          <img src="./images/paddle3.png" class="paddleImg">
+          <input type="radio" name="paddle" value="blue" id="blue">
+          <label for="blue" class="selectBtn">선택</label>
+        </li>
+      </ul>
+      <div class="speachBubble">
+        <p class="speaker">Dr.박</p>
+        <p class="speach">오호...자네와 잘 어울리는 물질을 골랐군.<br>자, 이제 항생 물질을 보낼 도구를 고르시게..!</p>
+        <div class="speachBubbleBtn" id="scene5Btn1">다음</div>
+      </div>
+    </div>
+    <div class="scene" id="scene6">
+      <img class="backgroundImage" src="./images/laboratoryIntro.png">
+      <img class="doctor" src="./images/doctor.png">
+
+      <div class="speachBubble">
+        <p class="speaker">Dr.박</p>
+        <p class="speach">.</p>
+        <div class="speachBubbleBtn" id="scene5Btn1">다음</div>
+      </div>
+    </div>
+    <!--<canvas id="myCanvas"></canvas>-->
+  </div>
+</body>
+
 </html>

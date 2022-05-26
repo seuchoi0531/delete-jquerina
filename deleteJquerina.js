@@ -1,6 +1,11 @@
+var character; // 선택된 캐릭터 종류
+var paddle; // 선택된 패들 종류
+
 $(document).ready(function () {
   $("#scene1").show();
-  var titleColorIndex = 0; // scene1의 title 색 변경
+
+  // scene1의 title 색 변경
+  var titleColorIndex = 0;
   setInterval(function () {
     var color_arr = ["#FF0404", "#FFE604", "#FF04E6"];
     if (titleColorIndex > color_arr.length) {
@@ -9,16 +14,29 @@ $(document).ready(function () {
     $("#gameTitle").css("color", color_arr[titleColorIndex++]);
   }, 400);
 
-  // scene1
-  $("#scene1Btn1").click(function() {
+  // scene 변경
+  $("#scene1Btn1").click(function () {
     $("#scene1").hide();
     $("#scene2").show();
-  })
-  $("#scene2Btn1").click(function() {
-    console.log('btn2')
+  });
+  $("#scene2Btn1").click(function () {
     $("#scene2").hide();
     $("#scene3").show();
-  })
+  });
+  $("#scene3Btn1").click(function () {
+    $("#scene3").hide();
+    $("#scene4").show();
+  });
+  $("#scene4Btn1").click(function () {
+    $("#scene4").hide();
+    $("#scene5").show();
+    character = $("input[name=character]:checked").val();
+  });
+  $("#scene5Btn1").click(function () {
+    $("#scene5").hide();
+    $("#scene6").show();
+    paddle = $("input[name=paddle]:checked").val();
+  });
 
   // // canvas 관련 함수
   // document.body.style.overflow = "hidden"; //스크롤바 제거

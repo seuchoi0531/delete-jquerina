@@ -1,10 +1,13 @@
-*{
+* {
   margin: 0;
   padding: 0;
   border: 0;
 }
 body {
   background-color: #2e2e2e;
+}
+li {
+  list-style-type: none;
 }
 #container {
   display: flex;
@@ -17,14 +20,14 @@ body {
   position: relative;
   display: none;
 }
-/* scene1 */
+/* start scene */
 .titleBox {
   width: 463px;
   position: absolute;
   top: 50%;
   left: 50%;
   text-align: center;
-	transform: translate( -50%, -220% );
+  transform: translate(-50%, -220%);
 }
 .backgroundImage {
   width: 100%;
@@ -59,15 +62,15 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate( -50%, 0% );
+  transform: translate(-50%, 0%);
 }
 #scene1Btn2 {
   position: absolute;
   top: 65%;
   left: 50%;
-  transform: translate( -50%, 0% );
+  transform: translate(-50%, 0%);
 }
-/* scene2 */
+/* speachBubble */
 .doctor {
   position: absolute;
   top: 36%;
@@ -91,6 +94,7 @@ body {
 }
 .speach {
   font-size: 20px;
+  line-height: 32px;
 }
 .speachBubbleBtn {
   width: 102px;
@@ -112,6 +116,41 @@ body {
 .red {
   color: #FF0000;
 }
-canvas{
+/* selectBox */
+.selectBox {
+  position: absolute;
+  bottom: 330px;
+  right: 70px;
+}
+.selectBox li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 42px;
+}
+.selectBox label {
+  width: 102px;
+  height: 49px;
+  background-color: #626262;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  line-height: 49px;
+  display: inline-block;
+  margin-left: 70px;
+}
+.selectBox input {
+  display: none;
+}
+.selectBox input:checked+label {
+  background-color: #D663FF;
+}
+.paddleImg {
+  width: 175px;
+  height: 20px;
+}
+canvas {
   background: #eee;
 }
