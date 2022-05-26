@@ -28,6 +28,7 @@ li {
   left: 50%;
   text-align: center;
   transform: translate(-50%, -220%);
+  font-family: 'NeoDunggeunmo';
 }
 .backgroundImage {
   width: 100%;
@@ -45,9 +46,9 @@ li {
   width: 330px;
   height: 83px;
   background-color: #ffffff;
+  font-family: 'NeoDunggeunmo';
   font-size: 32px;
   color: #141414;
-  font-weight: 900;
   text-align: center;
   line-height: 83px;
   border-radius: 10px;
@@ -84,13 +85,14 @@ li {
   position: absolute;
   bottom: 0;
   left: 0;
-  padding: 10px 35px;
+  padding: 20px 35px 0px 35px;
+  font-family: 'NeoDunggeunmo';
 }
 .speaker {
   font-size: 32px;
-  font-weight: bold;
   display: block;
   padding-bottom: 10px;
+  font-weight: 600;
 }
 .speach {
   font-size: 20px;
@@ -101,7 +103,6 @@ li {
   height: 49px;
   background-color: #626262;
   font-size: 20px;
-  font-weight: bold;
   color: #ffffff;
   cursor: pointer;
   text-align: center;
@@ -133,13 +134,13 @@ li {
   height: 49px;
   background-color: #626262;
   font-size: 20px;
-  font-weight: bold;
   color: #ffffff;
   cursor: pointer;
   text-align: center;
   line-height: 49px;
   display: inline-block;
   margin-left: 70px;
+  font-family: 'NeoDunggeunmo';
 }
 .selectBox input {
   display: none;
