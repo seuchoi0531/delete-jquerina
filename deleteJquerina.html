@@ -12,13 +12,34 @@
   <script type="text/javascript" src="deleteJquerina.js"></script>
   <div id="container">
     <div class="scene" id="scene1">
-      <div class="titleBox">
-        <h2 class="gameTitle">Delete</h2>
-        <h2 class="gameTitleWhite">Jquerina-virus</h2>
-      </div>
       <img class="backgroundImage" src="./images/laboratoryIntro.png">
+      <div class="titleBox">
+        <h2 class="title">Delete</h2>
+        <h2 class="titleWhite">Jquerina-virus</h2>
+      </div>
       <div class="scene1Btn" id="scene1Btn1">게임시작</div>
       <div class="scene1Btn" id="scene1Btn2">환경설정</div>
+    </div>
+    <div class="scene" id="settingScene">
+      <img class="backgroundImage" src="./images/laboratoryIntro.png">
+      <div class="titleBox">
+        <h2 class="title">배경음악</h2>
+      </div>
+      <ul class="settingBox">
+        <li>
+          <input type="radio" name="bgm" value="1" id="bgm1" checked>
+          <label for="bgm1">여기는</label>
+        </li>
+        <li>
+          <input type="radio" name="bgm" value="2" id="bgm2">
+          <label for="bgm2">팀원님께</label>
+        </li>
+        <li>
+          <input type="radio" name="bgm" value="3" id="bgm3">
+          <label for="bgm3">작명맡김</label>
+        </li>
+      </ul>
+      <div class="scene1Btn settingSaveBtn" id="settingSaveBtn">완료</div>
     </div>
     <div class="scene" id="scene2">
       <img class="backgroundImage" src="./images/laboratoryIntro.png">
@@ -48,17 +69,17 @@
         <li>
           <img src="./images/character1.png">
           <input type="radio" name="character" value="brave" id="brave" checked>
-          <label for="brave" class="selectBtn">용감이</label>
+          <label for="brave">용감이</label>
         </li>
         <li>
           <img src="./images/character2.png">
           <input type="radio" name="character" value="smart" id="smart">
-          <label for="smart" class="selectBtn">똑똑이</label>
+          <label for="smart">똑똑이</label>
         </li>
         <li>
           <img src="./images/character3.png">
           <input type="radio" name="character" value="bully" id="bully">
-          <label for="bully" class="selectBtn">삐뚤이</label>
+          <label for="bully">삐뚤이</label>
         </li>
       </ul>
       <div class="speachBubble">
@@ -113,8 +134,8 @@
       </ul>
       <div class="speachBubble">
         <p class="speaker">닥터 박.</p>
-        <p class="speach">자네가 없애야 할 바이러스의 모습이네.
-          각각 항생 물질을 1번, 2번, 10번 맞아야 사라지고 몸 아래로 갈수록 강한 바이러스가 많아지지...</p>
+        <p class="speach">이제 준비는 다 되었군. 이것이 자네가 없애야 할 바이러스의 모습이네.
+          각각 항생 물질을 1번, 2번, 10번 맞아야 사라지고 심장에 가까워질수록 강해지지...</p>
         <div class="speachBubbleBtn" id="scene6Btn1">다음</div>
       </div>
     </div>
@@ -144,11 +165,12 @@
       <img class="backgroundImage" src="./images/laboratoryIntro.png">
       <img class="doctor" src="./images/doctor.png">
       <div class="titleBox">
-        <h2 class="gameTitle">Welcome!</h2>
+        <h2 class="title">Welcome!</h2>
       </div>
       <div class="speachBubble">
         <p class="speaker">닥터 박.</p>
         <p class="speach">무사히 돌아온 것을 환영하네..!!<br>자네는 지구의 영웅이야!</p>
+        <!-- 다시하기 버튼을 눌렀을 때 게임 초기화시키는 로직 추가 부탁드려요. -->
         <div class="speachBubbleBtn" id="resetBtn">다시하기</div>
       </div>
     </div>

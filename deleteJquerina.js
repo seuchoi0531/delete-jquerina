@@ -1,18 +1,18 @@
 var character; // 선택된 캐릭터 종류. brave, smart, bully.
 var paddle; // 선택된 패들 종류. green, pink, blue.
 var stage; // 스테이지 단계. 1,2,3.
-
+var bgm; // 배경음악 종류. 1,2,3.
 $(document).ready(function () {
   $("#scene1").show();
 
-  // scene1의 title 색 변경
+  // title 색 변경
   var titleColorIndex = 0;
   setInterval(function () {
     var color_arr = ["#FF0404", "#FFE604", "#FF04E6", "#00FF66"];
     if (titleColorIndex > color_arr.length) {
       titleColorIndex = 0;
     }
-    $(".gameTitle").css("color", color_arr[titleColorIndex++]);
+    $(".title").css("color", color_arr[titleColorIndex++]);
   }, 300);
 
   // scene 변경
@@ -20,6 +20,15 @@ $(document).ready(function () {
     $("#scene1").hide();
     $("#scene2").show();
   });
+  $("#scene1Btn2").click(function () {
+    $("#scene1").hide();
+    $("#settingScene").show();
+  });
+  $("#settingSaveBtn").click(function(){
+    $("#settingScene").hide();
+    $("#scene1").show();
+    bgm = $("input[name=bgm]:checked").val();
+  })
   $("#scene2Btn1").click(function () {
     $("#scene2").hide();
     $("#scene3").show();
@@ -38,7 +47,7 @@ $(document).ready(function () {
     $("#scene6").show();
     paddle = $("input[name=paddle]:checked").val();
   });
-  // scene6로 동일한 화면에서 대사만 변경
+  // scene6에서 대사 변경 후 scene7로 이동
   var activeScene7 = false;
   $("#scene6Btn1").click(function () {
     if (activeScene7) {
@@ -47,21 +56,21 @@ $(document).ready(function () {
     }
     activeScene7 = true;
     $("#scene6 .speach").html(
-      "몸 아래에 있는 바이러스를 잡을수록 그 위의 모든 바이러스가 사라져 빨리 돌아올 수 있지만, 그만큼 아래에 있는 바이러스는 강하니 조심하게나.<br>그럼 행운을 빌지..!"
+      "심장에 가장 가까운 바이러스를 없애면 그 외의 모든 바이러스가 사라져 빨리<br>돌아올 수 있지만, 그만큼 강하니 조심하게나.<br>그럼 행운을 빌지..!"
     );
   });
 
   // 마지막 장면 폭죽 관련 함수
-  let particles = [];
+  var particles = [];
   const colors = ["#eb6383", "#fa9191", "#ffe9c5", "#b4f2e1"];
-  function pop() {
-    for (let i = 0; i < 150; i++) {
-      const p = document.createElement("particule");
+  function makeParticle() {
+    for (var i = 0; i < 150; i++) {
+      const p = document.createElement("particle");
       p.x = window.innerWidth * 0.5;
       p.y = window.innerHeight + Math.random() * window.innerHeight * 0.3;
       p.vel = {
         x: (Math.random() - 0.5) * 10,
-        y: Math.random() * -20 - 15,
+        y: Math.random() * -30,
       };
       p.mass = Math.random() * 0.2 + 0.8;
       particles.push(p);
@@ -72,41 +81,43 @@ $(document).ready(function () {
       p.style.background = colors[Math.floor(Math.random() * colors.length)];
       document.body.appendChild(p);
     }
+    console.log('makeParticle')
   }
   function render() {
-    for (let i = particles.length - 1; i--; i > -1) {
-      const p = particles[i];
-      p.style.transform = `translate3d(${p.x}px, ${p.y}px, 1px)`;
+      for (var i = particles.length - 1; i--; i > -1) {
+        const p = particles[i];
+        p.style.transform = `translate3d(${p.x}px, ${p.y}px, 1px)`;
 
-      p.x += p.vel.x;
-      p.y += p.vel.y;
+        p.x += p.vel.x;
+        p.y += p.vel.y;
 
-      p.vel.y += 0.5 * p.mass;
-      if (p.y > window.innerHeight * 2) {
-        p.remove();
-        particles.splice(i, 1);
+        p.vel.y += 0.5 * p.mass;
+        if (p.y > window.innerHeight * 2) {
+          p.remove();
+          particles.splice(i, 1);
+        }
       }
-    }
     requestAnimationFrame(render);
+    console.log('render')
   }
 
-  // 스테이지 선택 시 시작 버튼 활성화
+  // stage 선택 시 시작 버튼 활성화
   $("input[name=stage]").change(function () {
     $("#startBtn").removeClass("disableStartBtn");
   });
   $("#startBtn").click(function () {
-    // 선택한 스테이지로 이동
-    // 해당 스테이지에 맞는 게임을 실행시켜주시면 됩니다. 우선 마지막 장면이랑 연결시켰습니다.
+    // 선택한 stage로 이동
+    // stage에 맞는 게임을 실행시켜주시면 됩니다. 임시로 마지막 장면이랑 연결시켰습니다.
     if ($("input[name=stage]").is(":checked")) {
       stage = $("input[name=stage]:checked").val();
       $("#scene7").hide();
-      $("#lastScene").show(); // 다시하기 버튼을 눌렀을 때 게임 초기화시키는 로직 추가 부탁드려요
+      $("#lastScene").show();
 
       // 이 아래는 마지막 장면에서만 사용되는 코드입니다.
-      pop();
-      window.setTimeout(render, 100);
+      makeParticle();
+      window.setTimeout(render, 200);
       $("#lastScene .titleBox").css("cursor", "pointer");
-      $("#lastScene .titleBox").click(pop); // 마지막 장면에서 welcome!을 클릭하면 커서 모양이 변하고 폭죽이 다시 터집니다.
+      $("#lastScene .titleBox").click(makeParticle); // 마지막 장면에서 welcome!을 클릭하면 커서 모양이 변하고 폭죽이 다시 터집니다.
     }
   });
   // // canvas 관련 함수
