@@ -4,10 +4,12 @@
   border: 0;
   font-size: 100%;
 }
+
 canvas{
   background: #eee;
   position: relative;
 }
+
 #info{
 position: relative;
 background-color: rgb(201, 201, 201);
@@ -19,7 +21,6 @@ height: 60px;
   position: absolute;
   top: 10px;
   left : 390px;
-  /* line-height: 60px; */
   font-size: 30px;
   font-weight: bold;
 }
@@ -53,22 +54,19 @@ height: 60px;
   left: 770px;
   font-weight: bold;
 }
+
 #progress {
   appearance: none;
 }
+
 #progress::-webkit-progress-bar {
   background:white;
   border-radius:12px;
-  /* box-shadow: inset 3px 3px 10px #ccc; */
 }
+
 #progress::-webkit-progress-value {
   border-radius:12px;
   background: #601473;
-
-  /* 그라데이션 효과 */
-  /* background: -webkit-linear-gradient(to right, #93F9B9, #1D976C);
-  background: linear-gradient(to right, #93F9B9, #1D976C); */
-
 }
 
 #breeding_img1{
