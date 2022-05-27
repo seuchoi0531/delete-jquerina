@@ -1,7 +1,10 @@
 var character; // 선택된 캐릭터 종류. brave, smart, bully.
 var paddle; // 선택된 패들 종류. green, pink, blue.
-var stage; // 스테이지 단계. 1,2,3.
+var stage = 1; // 스테이지 단계. 1,2,3.
 var bgm; // 배경음악 종류. 1,2,3.
+var start_time; // start 버튼을 누른 시간
+var time_limit = 100; //타임 리미트
+var play_time = -1; // 남은 게임 시간
 
 $(document).ready(function () {
   $("#scene1").show();
@@ -67,7 +70,7 @@ $(document).ready(function () {
   $("#settingSaveBtn").click(function () {
     $("#settingScene").hide();
     $("#scene1").show();
-    bgm = $("input[name=bgm]:checked").val();
+    bgm = parseInt($("input[name=bgm]:checked").val());
   });
   $("#scene2Btn1").click(function () {
     $("#scene2").hide();
@@ -107,14 +110,12 @@ $(document).ready(function () {
     // 선택한 stage로 이동
     // stage에 맞는 게임을 실행시켜주시면 됩니다. 임시로 마지막 장면이랑 연결시켰습니다.
     if ($("input[name=stage]").is(":checked")) {
-      stage = $("input[name=stage]:checked").val();
+      stage = parseInt($("input[name=stage]:checked").val());
       $("#scene7").hide();
-
       //목으로 가는 이미지
       if(stage==1){
         $("#rect1").show();
       }
-
 
       //폐로 가는 이미지
       if(stage==2){
@@ -129,10 +130,10 @@ $(document).ready(function () {
       // $("#lastScene").show();
 
       // 이 아래는 마지막 장면에서만 사용되는 코드입니다.
-      // makeParticle();
-      // window.setTimeout(render, 200);
-      // $("#lastScene .titleBox").css("cursor", "pointer");
-      // $("#lastScene .titleBox").click(makeParticle);
+      //makeParticle();
+      //window.setTimeout(render, 200);
+      //$("#lastScene .titleBox").css("cursor", "pointer");
+      //$("#lastScene .titleBox").click(makeParticle);
       // 마지막 장면에서 welcome!을 클릭하면 커서 모양이 변하고 폭죽이 다시 터집니다.
     }
   });
@@ -143,8 +144,10 @@ $(document).ready(function () {
     $("#box1").animate({height:40, width:40, top:168, left:250})
     $("#oval1").fadeIn('slow');
     $("#rect1").fadeOut(2000);
-    $('canvas').show();
-    $("#info").show();
+    start_time = new Date().getTime();
+    $('#myCanvas').show();
+    $("#info").fadeIn(2000);
+    setTimeout(draw, 2000);
   })
 
   $("#box2").click(function(){
@@ -152,8 +155,10 @@ $(document).ready(function () {
     $("#box2").animate({height:40, width:40, top:290, left:213})
     $("#oval2").fadeIn('slow');
     $("#rect2").fadeOut(2000);
-    $('canvas').show();
-    $("#info").show();
+    start_time = new Date().getTime();
+    $('#myCanvas').fadeIn(2000);
+    $("#info").fadeIn(2000);
+    setTimeout(draw, 2000);
   })
 
   $("#box3").click(function(){
@@ -161,14 +166,26 @@ $(document).ready(function () {
     $("#box3").animate({height:40, width:40, top:322, left:268})
     $("#oval3").fadeIn('slow');
     $("#rect3").fadeOut(2000);
-    $('canvas').show();
-    $("#info").show();
+    start_time = new Date().getTime();
+    $('#myCanvas').fadeIn(2000);
+    $("#info").fadeIn(2000);
+    setTimeout(draw, 2000);
   })
 
+  function canvasOn(){
+    document.getElementById("container").style.display = "none";
+    document.getElementById("info").style.display = "block";
+    document.getElementById("myCanvas").style.display = "block";
+  }
+  function containerOn(){
+    document.getElementById("container").style.display = "flex";
+    document.getElementById("info").style.display = "none";
+    document.getElementById("myCanvas").style.display = "none";
+  }
   // 여기서부터 준원님 코드입니다
   document.body.style.overflow = "hidden"; //스크롤바 제거
   var canvasWidth = 850; // 캔버스 폭
-  var canvasHeight = 800; // 캔버스 높이
+  var canvasHeight = 740; // 캔버스 높이
   window.onresize = function (event) {
     //창 크기 변경하면 작동하는 함수, 작동안됨
     canvasWidth = window.innerWidth;
@@ -201,12 +218,14 @@ $(document).ready(function () {
   var brickColumnCount = 2; //벽돌 행개수
   var score = 0; //점수
   var lives = 3; //목숨
-  var stage = 1; //난이도
-  var winscore = 0; //승리점수
+  var winscore = 10; //승리점수
   var breeding_level = 0; // 번식 횟수
-  var start_time; // start 버튼을 누른 시간
-  var time_limit = 100; //타임 리미트
-  var play_time = -1; // 남은 게임 시간
+  var bosslives = 10; //보스 체력
+  var bdx = 5; //보스 속도
+  var bossX = canvas.width / 2 - 80; //보스 x좌표
+  var bossY = 50; //보스 y좌표
+  var bossWidth = 160; //보스 가로길이
+  var bossHeight = 147; //보스 세로길이
 
   // bgm
   var audio_breeding = new Audio("breeding_bgm.mp3"); // 번식 이펙트 -> 번식 5초전에 경고.
@@ -249,6 +268,8 @@ $(document).ready(function () {
       winscore += bricks[c][r].status;
     }
   }
+  if(stage == 3)
+    winscore = 10;
 
   document.addEventListener("keydown", keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
@@ -282,63 +303,73 @@ $(document).ready(function () {
 
   //공이 벽돌에 닿을 때 작동
   function collisionDetection() {
-    for (var c = 0; c < brickColumnCount; c++) {
-      for (var r = 0; r < brickRowCount; r++) {
-        var b = bricks[c][r];
-        if (b.status > 0) {
-          if (
-            collision(
-              x,
-              y,
-              ballRadius,
-              bricks[c][r].x,
-              bricks[c][r].y,
-              brickWidth,
-              brickHeight
-            )
-          ) {
-            b.status--; //벽돌 목숨 감소
-            score++; //점수 증가
-            if (score == winscore) {
-              //벽돌이 다 부서지면
-              alert("YOU WIN, CONGRATS!");
-              // stage++;
-              document.location.reload();
+    if(stage != 3){
+      for(var c = 0; c < brickColumnCount; c++) {
+        for(var r = 0; r < brickRowCount; r++) {
+          var b = bricks[c][r];
+          if(b.status > 0) {
+            if(collision(x, y, ballRadius, bricks[c][r].x, bricks[c][r].y, brickWidth, brickHeight)){
+              b.status--; //벽돌 목숨 감소
+              score++; //점수 증가
+              if(score == winscore) { //벽돌이 다 부서지면
+                alert("YOU WIN, CONGRATS!");
+                document.location.reload();
+              }
             }
+          }
+        }
+      }
+    }else{
+      if(bosslives > 0){
+        if(collision(x, y, ballRadius, bossX, bossY, bossWidth, bossHeight)){
+          bosslives--;
+          score++;
+          if(score == 10){
+            alert("YOU WIN, CONGRATS!");
+            document.location.reload();
           }
         }
       }
     }
   }
 
+  //충돌 여부
   function collision(x, y, r, bx, by, bw, bh) {
-    if (x + r > bx && x - r < bx + bw && y + r > by && y - r < by + bh) {
-      if (x > bx && x < bx + bw) {
-        dy *= -1;
-        return true;
-      } else if (y > by && y < by + bh) {
-        dx *= -1;
-        return true;
-      }
-    } else if (distance(x, y, bx, by) <= r + 2) {
-      var temp = dx;
-      dx = dy * -1;
-      dy = temp * -1;
+    if(x > bx && x < bx + bw && y > by - r && y < by + bh + r){
+      dy *= -1;
       return true;
-    } else if (distance(x, y, bx + bw, by) <= r + 2) {
+    } else if(y > by && y < by + bh && x > bx - r && x < bx + bw + r){
+      if(bdx * dx < 0)
+        bdx *= -1;
+      dx *= -1;
+      return true;
+    } else if(distance(x, y, bx, by) <= r){
+      if(bdx * dx < 0)
+        bdx *= -1;
+      var temp = dx;
+      dx = dy * (-1);
+      dy = temp * (-1);
+      return true;
+    } else if(distance(x, y, bx + bw, by) <= r){
+      if(bdx * dx < 0)
+        bdx *= -1;
       var temp = dx;
       dx = dy;
       dy = temp;
       return true;
-    } else if (distance(x, y, bx, by + bh) <= r + 2) {
+    } else if(distance(x, y, bx, by + bh) <= r){
+      if(bdx * dx < 0)
+        bdx *= -1;
       var temp = dx;
       dx = dy;
       dy = temp;
       return true;
-    } else if (distance(x, y, bx + bw, by + bh) <= r + 2) {
+    } else if(distance(x, y, bx + bw, by + bh) <= r){
+      if(bdx * dx < 0)
+        bdx *= -1;
       var temp = dx;
-      dx = dy * -1;
-      dy = temp * -1;
+      dx = dy * (-1);
+      dy = temp * (-1);
       return true;
     }
     return false;
@@ -410,6 +441,15 @@ $(document).ready(function () {
     }
   }
 
+
+  //보스 그리기
+  function drawBoss(){
+    if(bosslives > 0){
+      ctx.fillStyle = "black";
+      ctx.fillRect(bossX, bossY, bossWidth, bossHeight);
+    }
+  }
+
   //점수 그리기
   function drawScore() {
     var str = score + "point";
@@ -456,7 +496,7 @@ $(document).ready(function () {
 
     // 게임시간이 0 이되면 게임종료.
     if (play_time < 0) {
-      alert("GAME OVER");
+      alert("GAME OVER, time out");
       document.location.reload();
       return;
     }
@@ -471,7 +511,10 @@ $(document).ready(function () {
       audio_breeding.play();
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBricks();
+    if (stage != 3)
+      drawBricks();
+    else
+      drawBoss();
     drawBall();
     drawPaddle();
     drawScore();
@@ -514,7 +557,7 @@ $(document).ready(function () {
       } else {
         lives--;
         if (!lives) {
-          alert("GAME OVER");
+          alert("GAME OVER, lifeless");
           document.location.reload();
         } else {
           x = canvas.width / 2;
@@ -526,6 +569,9 @@ $(document).ready(function () {
       }
     }
 
+    if(bossX + bdx > canvas.width - bossWidth || bossX + bdx < 0)
+      bdx = -bdx;
+
     if (rightPressed && paddleX < canvas.width - paddleWidth) {
       paddleX += 7;
     } else if (leftPressed && paddleX > 0) {
@@ -534,88 +580,8 @@ $(document).ready(function () {
 
     x += dx;
     y += dy;
+    if(stage == 3)
+      bossX += bdx;
     requestAnimationFrame(draw);
   }
-
-  //setting
-  function setting() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.font = "40px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Setting", (canvas.width * 2) / 5 - 10, canvas.height / 4);
-  }
-
-  var cx = -1;
-  var cy = -1;
-  //menu
-  function menu() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.font = "40px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Destoy", (canvas.width * 2) / 5 - 10, canvas.height / 4);
-    ctx.fillText(
-      "Jquerina",
-      (canvas.width * 2) / 5 - 25,
-      canvas.height / 4 + 40
-    );
-
-    ctx.fillStyle = "#0095DD";
-    ctx.fillRect(
-      (canvas.width * 3) / 8,
-      (canvas.height * 3) / 7,
-      canvas.width / 4,
-      canvas.height / 7
-    );
-    ctx.fillRect(
-      (canvas.width * 3) / 8,
-      (canvas.height * 5) / 7,
-      canvas.width / 4,
-      canvas.height / 7
-    );
-    ctx.fillRect(0, 0, canvas.width / 6, canvas.height / 7);
-
-    ctx.font = "20px Arial";
-    ctx.fillStyle = "white";
-    ctx.fillText("Start", (canvas.width * 4) / 9, (canvas.height * 4) / 7 - 20);
-    ctx.fillText(
-      "Setting",
-      (canvas.width * 4) / 9,
-      (canvas.height * 6) / 7 - 20
-    );
-
-    canvas.onMouseOver = function (event) {
-      // 커서변경, 작동안됨
-      var x = event.clientX;
-      var y = event.clientY;
-      if (x >= (canvas.width * 3) / 8 && x <= (canvas.width * 5) / 8) {
-        if (y >= (canvas.height * 3) / 7 && y <= (canvas.width * 4) / 7)
-          canvas.cursor = "pointer";
-      }
-    };
-    canvas.onclick = function (event) {
-      // start클릭
-      cx = event.clientX;
-      cy = event.clientY;
-      if (cx >= 0 && cx <= canvas.width / 6) {
-        if (cy >= 0 && cy <= canvas.height / 7) {
-          window.resizeTo(
-            window.screen.availWidth / 2,
-            window.screen.availWHeight / 2
-          );
-        }
-      } else if (cx >= (canvas.width * 3) / 8 && cx <= (canvas.width * 5) / 8) {
-        if (cy >= (canvas.height * 3) / 7 && cy <= (canvas.width * 4) / 7) {
-          // 스테이지 바뀔 떄
-          start_time = new Date().getTime();
-          setInterval(breeding, 25000); //번식 타이머 작동
-          draw();
-        } else if (
-          cy >= (canvas.height * 5) / 7 &&
-          cy <= (canvas.width * 6) / 7
-        )
-          setting();
-      }
-    };
-  }
-  menu();
 });
