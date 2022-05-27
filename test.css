@@ -9,6 +9,168 @@ body {
 li {
   list-style-type: none;
 }
+
+#rect1{
+  position: relative;
+  width: 850px;
+  height: 800px;
+  background-color: #141414;
+  display: none;
+}
+
+#organ1{
+  position: absolute;
+  width:550px;
+  height:517px;
+  top :283px;
+  left :150px;
+  background: url(organs.png);
+}
+
+#oval1{
+  position: relative;
+  width: 424px;
+  height: 172px;
+  background: url(Ellipse.png);
+  top: 91px;
+  left: 213px;
+  display: none;
+}
+
+#message1{
+  position: relative;
+  width: 160px;
+  height: 58px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 58px;
+  text-align: center;
+  color: #000000;
+  top: 57px;
+  left: 132px;
+}
+
+#rect2{
+  position: relative;
+  width: 850px;
+  height: 800px;
+  background-color: #141414;
+  display: none;
+}
+
+#organ2{
+  position: absolute;
+  width:550px;
+  height:517px;
+  top :283px;
+  left :150px;
+  background: url(organs.png);
+}
+
+#oval2{
+  position: relative;
+  width: 424px;
+  height: 172px;
+  background: url(Ellipse.png);
+  top: 91px;
+  left: 213px;
+  display: none;
+}
+
+#message2{
+  position: relative;
+  width: 160px;
+  height: 58px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 58px;
+  text-align: center;
+  color: #000000;
+  top: 57px;
+  left: 132px;
+}
+
+#rect3{
+  position: relative;
+  width: 850px;
+  height: 800px;
+  background-color: #141414;
+  display: none;
+}
+
+#organ3{
+  position: absolute;
+  width:550px;
+  height:517px;
+  top :283px;
+  left :150px;
+  background: url(organs.png);
+}
+
+#oval3{
+  position: relative;
+  width: 424px;
+  height: 172px;
+  background: url(Ellipse.png);
+  top: 91px;
+  left: 213px;
+  display: none;
+}
+
+#message3{
+  position: relative;
+  width: 160px;
+  height: 58px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 58px;
+  text-align: center;
+  color: #000000;
+  top: 57px;
+  left: 132px;
+}
+
+#box1{
+  position: relative;
+  width:40px;
+  height:40px;
+  top :150px;
+  left :350px;
+  background: #44FFE9;
+}
+
+#box2{
+  position: relative;
+  width:40px;
+  height:40px;
+  top :168px;
+  left :250px;
+  background: #44FFE9;
+}
+
+#box3{
+  position: relative;
+  width:40px;
+  height:40px;
+  top :290px;
+  left :213px;
+  background: #44FFE9;
+}
+
+
+
+
+
+
+
+
+
 #container {
   display: flex;
   justify-content: center;
@@ -267,13 +429,15 @@ particle {
 canvas{
   background: #eee;
   position: relative;
+  display: none;
 }
 
 #info{
-position: relative;
-background-color: rgb(201, 201, 201);
-width: 850px;
-height: 60px;
+  position: relative;
+  background-color: rgb(201, 201, 201);
+  width: 850px;
+  height: 60px;
+  display: none;
 }
 
 #timer{
