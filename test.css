@@ -12,10 +12,14 @@ li {
 
 #rect1{
   position: relative;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0%);
   width: 850px;
   height: 800px;
   background-color: #141414;
   display: none;
+  z-index: 1;
 }
 
 #organ1{
@@ -54,10 +58,14 @@ li {
 
 #rect2{
   position: relative;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0%);
   width: 850px;
   height: 800px;
   background-color: #141414;
   display: none;
+  z-index: 1;
 }
 
 #organ2{
@@ -96,10 +104,14 @@ li {
 
 #rect3{
   position: relative;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0%);
   width: 850px;
   height: 800px;
   background-color: #141414;
   display: none;
+  z-index: 1;
 }
 
 #organ3{
@@ -435,12 +447,18 @@ particle {
 }
 canvas{
   background: #eee;
-  position: relative;
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translate(-50%, 0%);
   display: none;
 }
 
 #info{
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0%);
   background-color: rgb(201, 201, 201);
   width: 850px;
   height: 60px;
