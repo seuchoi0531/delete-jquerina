@@ -13,6 +13,13 @@ li {
   display: flex;
   justify-content: center;
 }
+/* font */
+@font-face {
+  font-family: "neodgm";
+  src: url("fonts/neodgm.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 /* scene */
 .scene {
   width: 850px;
@@ -26,7 +33,7 @@ li {
   top: 16%;
   width: 100%;
   text-align: center;
-  font-family: 'NeoDunggeunmo';
+  font-family: 'neodgm';
 }
 .backgroundImage {
   width: 100%;
@@ -44,7 +51,7 @@ li {
   width: 330px;
   height: 83px;
   background-color: #ffffff;
-  font-family: 'NeoDunggeunmo';
+  font-family: 'neodgm';
   font-size: 32px;
   color: #141414;
   text-align: center;
@@ -90,7 +97,7 @@ li {
   cursor: pointer;
   text-align: center;
   line-height: 50px;
-  font-family: 'NeoDunggeunmo';
+  font-family: 'neodgm';
   border: 1px solid #ffffff;
 }
 .settingBox input {
@@ -124,7 +131,7 @@ li {
   bottom: 0;
   left: 0;
   padding: 20px 35px 0px 35px;
-  font-family: 'NeoDunggeunmo';
+  font-family: 'neodgm';
 }
 .speaker {
   font-size: 32px;
@@ -175,7 +182,7 @@ li {
   line-height: 49px;
   display: inline-block;
   margin-left: 70px;
-  font-family: 'NeoDunggeunmo';
+  font-family: 'neodgm';
   border: 1px solid #ffffff;
 }
 .selectBox input {
@@ -214,7 +221,7 @@ li {
 }
 .virusImgBox li span{
   font-size: 24px;
-  font-family: 'NeoDunggeunmo';
+  font-family: 'neodgm';
   margin-left: 20px;
 }
 /* stageBox */
@@ -230,7 +237,7 @@ li {
   width: 330px;
   height: 83px;
   background-color: #ffffff;
-  font-family: 'NeoDunggeunmo';
+  font-family: 'neodgm';
   font-size: 32px;
   color: #141414;
   text-align: center;
