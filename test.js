@@ -109,15 +109,61 @@ $(document).ready(function () {
     if ($("input[name=stage]").is(":checked")) {
       stage = $("input[name=stage]:checked").val();
       $("#scene7").hide();
-      $("#lastScene").show();
+
+      //목으로 가는 이미지
+      if(stage==1){
+        $("#rect1").show();
+      }
+
+
+      //폐로 가는 이미지
+      if(stage==2){
+        $("#rect2").show();
+      }
+
+      //심장으로 가는 이미지
+      if(stage==3){
+        $("#rect3").show();
+      }
+
+      // $("#lastScene").show();
 
       // 이 아래는 마지막 장면에서만 사용되는 코드입니다.
-      makeParticle();
-      window.setTimeout(render, 200);
-      $("#lastScene .titleBox").css("cursor", "pointer");
-      $("#lastScene .titleBox").click(makeParticle); // 마지막 장면에서 welcome!을 클릭하면 커서 모양이 변하고 폭죽이 다시 터집니다.
+      // makeParticle();
+      // window.setTimeout(render, 200);
+      // $("#lastScene .titleBox").css("cursor", "pointer");
+      // $("#lastScene .titleBox").click(makeParticle);
+      // 마지막 장면에서 welcome!을 클릭하면 커서 모양이 변하고 폭죽이 다시 터집니다.
     }
   });
+
+  //폐로가는 애니메이트
+  $("#box1").click(function(){
+    $("#box1").text("")
+    $("#box1").animate({height:40, width:40, top:168, left:250})
+    $("#oval1").fadeIn('slow');
+    $("#rect1").fadeOut(2000);
+    $('canvas').show();
+    $("#info").show();
+  })
+
+  $("#box2").click(function(){
+    $("#box2").text("")
+    $("#box2").animate({height:40, width:40, top:290, left:213})
+    $("#oval2").fadeIn('slow');
+    $("#rect2").fadeOut(2000);
+    $('canvas').show();
+    $("#info").show();
+  })
+
+  $("#box3").click(function(){
+    $("#box3").text("")
+    $("#box3").animate({height:40, width:40, top:322, left:268})
+    $("#oval3").fadeIn('slow');
+    $("#rect3").fadeOut(2000);
+    $('canvas').show();
+    $("#info").show();
+  })
 
   // 여기서부터 준원님 코드입니다
   document.body.style.overflow = "hidden"; //스크롤바 제거
