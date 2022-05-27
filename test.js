@@ -186,11 +186,11 @@ $(document).ready(function () {
   document.body.style.overflow = "hidden"; //스크롤바 제거
   var canvasWidth = 850; // 캔버스 폭
   var canvasHeight = 740; // 캔버스 높이
-  window.onresize = function (event) {
+  //window.onresize = function (event) {
     //창 크기 변경하면 작동하는 함수, 작동안됨
-    canvasWidth = window.innerWidth;
-    canvasHeight = window.innerHeight;
-  };
+  //  canvasWidth = window.innerWidth;
+  //  canvasHeight = window.innerHeight;
+  //};
   document.getElementById("myCanvas").width = canvasWidth;
   document.getElementById("myCanvas").height = canvasHeight;
   var canvas = document.getElementById("myCanvas"); //캔버스
@@ -255,7 +255,7 @@ $(document).ready(function () {
   var s_index = 0;
   var bricks = []; //벽돌 배열
   var shuffle_list = [];
-  if (stage == 1) shuffle_list = [3, 3, 3, 3, 3, 3, 3, 1, 1, 1];
+  if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
   else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
   else {
   } //보스 스테이지
@@ -295,9 +295,9 @@ $(document).ready(function () {
 
   //마우스를 움직일 때 작동
   function mouseMoveHandler(e) {
-    var relativeX = e.clientX - canvas.offsetLeft;
-    if (relativeX > 0 && relativeX < canvas.width) {
-      paddleX = relativeX - paddleWidth / 2;
+    var relativeX = e.clientX;
+    if (relativeX > window.innerWidth / 2 - canvas.width / 2 && relativeX < window.innerWidth / 2 + canvas.width / 2) {
+      paddleX = relativeX - paddleWidth * 3 / 2;
     }
   }
 
@@ -381,24 +381,52 @@ $(document).ready(function () {
 
   //공 그리기
   function drawBall() {
-    ctx.beginPath();
-    ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-    ctx.fillStyle = "red";
-    ctx.fill();
-    ctx.closePath();
+    var ballimg = new Image();
+    if(character == "brave")
+      ballimg.src = "images/ball1.png";
+    else if(character == "smart")
+      ballimg.src = "images/ball2.png";
+    else if(character == "bully")
+      ballimg.src = "images/ball3.png";
+    ctx.drawImage(
+      ballimg,
+      x - ballRadius,
+      y - ballRadius,
+      ballRadius * 2,
+      ballRadius * 2
+    );
+    //ctx.beginPath();
+    //ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+    //ctx.fillStyle = "red";
+    //ctx.fill();
+    //ctx.closePath();
   }
 
   //패들 그리기
   function drawPaddle() {
     ctx.fillStyle = "white";
     ctx.fillRect(0, canvas.height - paddleHeight, canvas.width, paddleHeight);
-    ctx.fillStyle = "#0095DD";
-    ctx.fillRect(
+    var paddletype = new Image();
+    if(paddle == "green")
+      paddletype.src = "images/paddle1.png";
+    else if(paddle == "pink")
+      paddletype.src = "images/paddle2.png";
+    else if(paddle == "blue")
+      paddletype.src = "images/paddle3.png";
+    ctx.drawImage(
+      paddletype,
       paddleX,
       canvas.height - paddleHeight,
       paddleWidth,
       paddleHeight
     );
+    //ctx.fillStyle = "#0095DD";
+    //ctx.fillRect(
+    //  paddleX,
+    //  canvas.height - paddleHeight,
+    //  paddleWidth,
+    //  paddleHeight
+    //);
   }
 
   // 번식
@@ -425,6 +453,10 @@ $(document).ready(function () {
 
   //벽돌 그리기
   function drawBricks() {
+    var virus1 = new Image();
+    virus1.src = "images/virus1.png";
+    var virus2 = new Image();
+    virus2.src = "images/virus2.png";
     for (var c = 0; c < brickColumnCount; c++) {
       for (var r = 0; r < brickRowCount; r++) {
         if (bricks[c][r].status > 0) {
@@ -432,10 +464,8 @@ $(document).ready(function () {
           var brickY = c * (brickHeight + brickUDPadding) + brickOffsetTop;
           bricks[c][r].x = brickX;
           bricks[c][r].y = brickY;
-          if (bricks[c][r].status == 3) ctx.fillStyle = "red";
-          else if (bricks[c][r].status == 2) ctx.fillStyle = "orange";
-          else if (bricks[c][r].status == 1) ctx.fillStyle = "yellow";
-          ctx.fillRect(brickX, brickY, brickWidth, brickHeight);
+          if (bricks[c][r].status == 1) ctx.drawImage(virus1, brickX, brickY, brickWidth, brickHeight);
+          else if (bricks[c][r].status == 2) ctx.drawImage(virus2, brickX, brickY, brickWidth, brickHeight);
         }
       }
     }
@@ -444,10 +474,10 @@ $(document).ready(function () {
 
   //보스 그리기
   function drawBoss(){
-    if(bosslives > 0){
-      ctx.fillStyle = "black";
-      ctx.fillRect(bossX, bossY, bossWidth, bossHeight);
-    }
+    var boss = new Image();
+    boss.src = "images/boss.png";
+    if (bosslives > 0)
+      ctx.drawImage(boss, bossX, bossY, bossWidth, bossHeight);
   }
 
   //점수 그리기
@@ -521,6 +551,7 @@ $(document).ready(function () {
     drawLives();
     drawTimerImg();
     drawBreedingImg();
+    drawBall();
     collisionDetection();
 
     //캔버스 좌우에 공이 닿을 때
