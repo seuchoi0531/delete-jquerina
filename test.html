@@ -4,13 +4,14 @@
 <head>
   <!-- font -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/neodgm/neodgm-webfont@1.530/neodgm/style.css">
-  <link rel="stylesheet" href="deleteJquerina.css">
+  <link rel="stylesheet" href="test.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
-  <script type="text/javascript" src="deleteJquerina.js"></script>
+  <script type="text/javascript" src="test.js"></script>
   <div id="container">
+    <!-- 게임 시작 화면 -->
     <div class="scene" id="scene1">
       <img class="backgroundImage" src="./images/bgImage.png">
       <div class="titleBox">
@@ -20,6 +21,7 @@
       <div class="scene1Btn" id="scene1Btn1">게임시작</div>
       <div class="scene1Btn" id="scene1Btn2">환경설정</div>
     </div>
+    <!-- 환경설정 화면 -->
     <div class="scene" id="settingScene">
       <img class="backgroundImage" src="./images/bgImage.png">
       <div class="titleBox">
@@ -32,15 +34,16 @@
         </li>
         <li>
           <input type="radio" name="bgm" value="2" id="bgm2">
-          <label for="bgm2">팀원님께</label>
+          <label for="bgm2">팀원님의</label>
         </li>
         <li>
           <input type="radio" name="bgm" value="3" id="bgm3">
-          <label for="bgm3">작명맡김</label>
+          <label for="bgm3">작명센스를믿어요</label>
         </li>
       </ul>
       <div class="scene1Btn settingSaveBtn" id="settingSaveBtn">완료</div>
     </div>
+    <!-- scene2 -->
     <div class="scene" id="scene2">
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
@@ -52,6 +55,7 @@
         <div class="speachBubbleBtn" id="scene2Btn1">다음</div>
       </div>
     </div>
+    <!-- scene3 -->
     <div class="scene" id="scene3">
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
@@ -62,6 +66,7 @@
         <div class="speachBubbleBtn" id="scene3Btn1">다음</div>
       </div>
     </div>
+    <!-- scene4 -->
     <div class="scene" id="scene4">
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
@@ -89,6 +94,7 @@
         <div class="speachBubbleBtn" id="scene4Btn1">다음</div>
       </div>
     </div>
+    <!-- scene5 -->
     <div class="scene" id="scene5">
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
@@ -115,6 +121,7 @@
         <div class="speachBubbleBtn" id="scene5Btn1">다음</div>
       </div>
     </div>
+    <!-- scene6 -->
     <div class="scene" id="scene6">
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
@@ -139,6 +146,7 @@
         <div class="speachBubbleBtn" id="scene6Btn1">다음</div>
       </div>
     </div>
+    <!-- scene7 -->
     <div class="scene" id="scene7">
       <img class="backgroundImage" src="./images/bgImage.png">
       <ul class="stageBox">
@@ -158,9 +166,11 @@
       <div class="speachBubble">
         <p class="speaker">나.</p>
         <p class="speach">흠...어디부터 가야할까?</p>
+        <!-- 게임 시작 버튼 -->
         <div class="speachBubbleBtn disableStartBtn" id="startBtn">시작</div>
       </div>
     </div>
+    <!-- last scene -->
     <div class="scene" id="lastScene">
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">

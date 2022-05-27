@@ -2,6 +2,7 @@ var character; // 선택된 캐릭터 종류. brave, smart, bully.
 var paddle; // 선택된 패들 종류. green, pink, blue.
 var stage; // 스테이지 단계. 1,2,3.
 var bgm; // 배경음악 종류. 1,2,3.
+
 $(document).ready(function () {
   $("#scene1").show();
 
@@ -24,11 +25,11 @@ $(document).ready(function () {
     $("#scene1").hide();
     $("#settingScene").show();
   });
-  $("#settingSaveBtn").click(function(){
+  $("#settingSaveBtn").click(function () {
     $("#settingScene").hide();
     $("#scene1").show();
     bgm = $("input[name=bgm]:checked").val();
-  })
+  });
   $("#scene2Btn1").click(function () {
     $("#scene2").hide();
     $("#scene3").show();
@@ -81,24 +82,22 @@ $(document).ready(function () {
       p.style.background = colors[Math.floor(Math.random() * colors.length)];
       document.body.appendChild(p);
     }
-    console.log('makeParticle')
   }
   function render() {
-      for (var i = particles.length - 1; i--; i > -1) {
-        const p = particles[i];
-        p.style.transform = `translate3d(${p.x}px, ${p.y}px, 1px)`;
+    for (var i = particles.length - 1; i--; i > -1) {
+      const p = particles[i];
+      p.style.transform = `translate3d(${p.x}px, ${p.y}px, 1px)`;
 
-        p.x += p.vel.x;
-        p.y += p.vel.y;
+      p.x += p.vel.x;
+      p.y += p.vel.y;
 
-        p.vel.y += 0.5 * p.mass;
-        if (p.y > window.innerHeight * 2) {
-          p.remove();
-          particles.splice(i, 1);
-        }
+      p.vel.y += 0.5 * p.mass;
+      if (p.y > window.innerHeight * 2) {
+        p.remove();
+        particles.splice(i, 1);
       }
+    }
     requestAnimationFrame(render);
-    console.log('render')
   }
 
   // stage 선택 시 시작 버튼 활성화
