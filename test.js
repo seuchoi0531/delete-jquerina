@@ -1,10 +1,6 @@
-
-
 document.body.style.overflow="hidden"; //스크롤바 제거
-//var canvasWidth = 480; // 캔버스 폭
-//var canvasHeight = 320; // 캔버스 높이
-var canvasWidth = window.innerWidth;
-var canvasHeight = window.innerHeight;
+var canvasWidth = 850; // 캔버스 폭
+var canvasHeight = 800; // 캔버스 높이
 window.onresize = function(event){//창 크기 변경하면 작동하는 함수, 작동안됨
   canvasWidth = window.innerWidth;
   canvasHeight = window.innerHeight;
@@ -13,36 +9,73 @@ document.getElementById("myCanvas").width = canvasWidth;
 document.getElementById("myCanvas").height = canvasHeight;
 var canvas = document.getElementById("myCanvas"); //캔버스
 var ctx = canvas.getContext("2d"); //캔버스컨텍트
+
+//캔버스 기준으로 좌표설정됨.
 var ballRadius = 1 / 32 * canvas.height;
 var x = canvas.width / 2;
 var y = 15 / 16 * canvas.height;
-var vel = 5;
+var vel = 20;
 var dx = 0;
 var dy = vel;
 var paddleHeight = 1 / 32 * canvas.height;
-var paddleWidth = 5 / 32 * canvas.width;
+var paddleWidth = 10 / 32 * canvas.width;
 var paddleX = (canvas.width-paddleWidth) / 2;
-//var brickWidth = 1 / 32 * canvas.width;
 var brickWidth = 5 / 32 * canvas.width;
 var brickHeight = 1 / 16 * canvas.height;
-//var brickHeight = 1 / 2 * canvas.height;
 var brickUDPadding = 1 / 48 * canvas.height;
 var brickRLPadding = 1 / 32 * canvas.width;
 var brickOffsetTop = 3 / 32 * canvas.height;
 var brickOffsetLeft = 1 / 16 * canvas.width;
 var rightPressed = false; //오른쪽 방향키
 var leftPressed = false; //왼쪽 방향키
-var brickRowCount = 4; //벽돌 열개수
-var brickColumnCount = 1; //벽돌 행개수
+var brickRowCount = 5; //벽돌 열개수
+var brickColumnCount = 2; //벽돌 행개수
 var score = 0; //점수
 var lives = 3; //목숨
 var stage = 1; //난이도
 var winscore = 0; //승리점수
+var breeding_level = 0; // 번식 횟수
+var start_time; // start 버튼을 누른 시간
+var time_limit = 100; //타임 리미트
+var play_time = -1; // 남은 게임 시간
+
+// bgm
+var audio_breeding = new Audio("breeding_bgm.mp3"); // 번식 이펙트 -> 번식 5초전에 경고.
+
+// 타이머
+function Timer() {
+  var now = new Date();
+  var interval = start_time - now.getTime();
+  play_time = parseFloat((interval / 1000) + time_limit);
+  document.getElementById("timer").innerText = play_time.toFixed(3);
+  document.getElementById("progress").value = play_time.toFixed(3);
+}
+
+// 셔플
+function shuffle(a) {
+  var j, x, i;
+  for (i = a.length; i; i -= 1) {
+    j = Math.floor(Math.random() * i);
+    x = a[i - 1];
+    a[i - 1] = a[j];
+    a[j] = x;
+  }
+  return a;
+}
+
+// 난이도에 따른 벽돌 체력 설정
+var s_index = 0;
 var bricks = []; //벽돌 배열
+var shuffle_list = [];
+if(stage == 1) shuffle_list = [3,3,3,3,3,3,3,1,1,1];
+else if(stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
+else {} //보스 스테이지
+shuffle_list = shuffle(shuffle_list);
+
 for(var c = 0; c < brickColumnCount; c++) {
   bricks[c] = [];
   for(var r = 0; r < brickRowCount; r++) {
-    bricks[c][r] = { x: 0, y: 0, status: 3 }; //status는 벽돌목숨
+    bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 벽돌목숨
     winscore += bricks[c][r].status;
   }
 }
@@ -90,6 +123,7 @@ function collisionDetection() {
           score++; //점수 증가
           if(score == winscore) { //벽돌이 다 부서지면
             alert("YOU WIN, CONGRATS!");
+            // stage++;
             document.location.reload();
           }
         }
@@ -108,22 +142,22 @@ function collision(x, y, r, bx, by, bw, bh) {
       dx *= -1;
       return true;
     }
-  } else if(distance(x, y, bx, by) < r){
+  } else if(distance(x, y, bx, by) <= r+2){
     var temp = dx;
     dx = dy * (-1);
     dy = temp * (-1);
     return true;
-  } else if(distance(x, y, bx + bw, by) < r){
+  } else if(distance(x, y, bx + bw, by) <= r+2){
     var temp = dx;
     dx = dy;
     dy = temp;
     return true;
-  } else if(distance(x, y, bx, by + bh) < r){
+  } else if(distance(x, y, bx, by + bh) <= r+2){
     var temp = dx;
     dx = dy;
     dy = temp;
     return true;
-  } else if(distance(x, y, bx + bw, by + bh) < r){
+  } else if(distance(x, y, bx + bw, by + bh) <= r+2){
     var temp = dx;
     dx = dy * (-1);
     dy = temp * (-1);
@@ -153,6 +187,28 @@ function drawPaddle() {
   ctx.fillRect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
 }
 
+// 번식
+function breeding() {
+  breeding_level++;
+  // 이펙트 및 효과음 주기. 번식 횟수마다 다르게 하려면 breeding level 활용하기
+  // 추후 논의
+
+  for (var c = 0; c < brickColumnCount; c++) {
+    for (var r = 0; r < brickRowCount; r++) {
+      if (bricks[c][r].status == 0) {
+        var breeding_status;
+        var random_status = Math.floor(Math.random() * 10); // 0~9
+        if (random_status == 0 || random_status >= 7) breeding_status = 0;
+        else if (random_status >= 5) breeding_status = 3;
+        else if (random_status >= 3) breeding_status = 2;
+        else breeding_status = 1;
+        bricks[c][r].status = breeding_status;
+        winscore += bricks[c][r].status;
+      }
+    }
+  }
+}
+
 //벽돌 그리기
 function drawBricks() {
   for(var c=0; c<brickColumnCount; c++) {
@@ -168,7 +224,7 @@ function drawBricks() {
           ctx.fillStyle = "orange";
         else if(bricks[c][r].status == 1)
           ctx.fillStyle = "yellow";
-          ctx.fillRect(brickX, brickY, brickWidth, brickHeight);
+        ctx.fillRect(brickX, brickY, brickWidth, brickHeight);
       }
     }
   }
@@ -176,27 +232,65 @@ function drawBricks() {
 
 //점수 그리기
 function drawScore() {
-  ctx.font = "16px Arial";
-  ctx.fillStyle = "#0095DD";
-  ctx.fillText("Score: "+score, 8, 20);
+  var str = score+"point";
+  document.getElementById("score_div").innerText = str;
 }
 
 //목숨 그리기
 function drawLives() {
-  ctx.font = "16px Arial";
-  ctx.fillStyle = "#0095DD";
-  ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+  var str = "<img src='heart.png'>"+" "+lives
+  document.getElementById("lives_div").innerHTML = str;
+}
+
+//타이머 이미지 그리기
+function drawTimerImg(){
+  var str = "<img src='timer.png' />";
+  document.getElementById("timer_img_div").innerHTML = str;
+}
+
+//번식 이미지 그리기
+function drawBreedingImg(){
+  var str = "<img src='timeVirus.png' />";
+  if(play_time>=75) document.getElementById("breeding_img1").innerHTML = str;
+  else document.getElementById("breeding_img1").innerHTML = "";
+  if(play_time>=50) document.getElementById("breeding_img2").innerHTML = str;
+  else document.getElementById("breeding_img2").innerHTML = "";
+  if(play_time>=25) document.getElementById("breeding_img3").innerHTML = str;
+  else document.getElementById("breeding_img3").innerHTML = "";
+}
+
+// 프로그레스 바 그리기
+function drawProgressBar(){
+  var obj = document.getElementById("progress_div");
+  obj.innerHTML="<progress id='progress' value='100' min='0' max='100'></progress>";
 }
 
 //main
 function draw() {
+  drawProgressBar();
+  Timer(); 
+
+  // 게임시간이 0 이되면 게임종료.
+  if(play_time<0){ 
+    alert("GAME OVER");
+    document.location.reload();
+    return;
+  }
+
+  // breeding bgm, breeding 5초 전에 play
+  if(Math.floor(play_time) == 80 || Math.floor(play_time) == 55 || Math.floor(play_time) == 30 || Math.floor(play_time) == 5){
+    audio_breeding.play();
+  }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBricks();
   drawBall();
   drawPaddle();
   drawScore();
   drawLives();
+  drawTimerImg()
+  drawBreedingImg();
   collisionDetection();
+  
   //캔버스 좌우에 공이 닿을 때
   if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
     dx = -dx;
@@ -301,11 +395,18 @@ function menu() {
         window.resizeTo(window.screen.availWidth / 2, window.screen.availWHeight / 2);
       }
     } else if (cx >= canvas.width * 3 / 8 && cx <= canvas.width * 5 / 8){
-      if (cy >= canvas.height * 3 / 7 && cy <= canvas.width * 4 / 7)
+      if (cy >= canvas.height * 3 / 7 && cy <= canvas.width * 4 / 7){
+        // 스테이지 바뀔 떄
+        start_time = new Date().getTime();
+        setInterval(breeding, 25000);  //번식 타이머 작동
         draw();
+      }
+        
+        
       else if(cy >= canvas.height * 5 / 7 && cy <= canvas.width * 6 / 7)
         setting();
     }
   }
 }
+
 menu();

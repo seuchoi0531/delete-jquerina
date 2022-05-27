@@ -4,6 +4,85 @@
   border: 0;
   font-size: 100%;
 }
+
 canvas{
   background: #eee;
+  position: relative;
+}
+
+#info{
+position: relative;
+background-color: rgb(201, 201, 201);
+width: 850px;
+height: 60px;
+}
+
+#timer{
+  position: absolute;
+  top: 10px;
+  left : 390px;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+#timer_img_div{
+  position: absolute;
+  top: 10px;
+  left: 15px;
+}
+
+#progress{
+  width: 300px;
+  height: 25px;
+  position: absolute;
+  top: 18px;
+  left: 65px;
+}
+
+#score_div{
+  position: absolute;
+  font-size: 32px;
+  top: 7px;
+  left: 600px;
+  font-weight: bold;
+}
+
+#lives_div{
+  position: absolute;
+  font-size: 32px;
+  top: 7px;
+  left: 770px;
+  font-weight: bold;
+}
+
+#progress {
+  appearance: none;
+}
+
+#progress::-webkit-progress-bar {
+  background:white;
+  border-radius:12px;
+}
+
+#progress::-webkit-progress-value {
+  border-radius:12px;
+  background: #601473;
+}
+
+#breeding_img1{
+  position: absolute;
+  left: 277px;
+  top: 18px;
+}
+
+#breeding_img2{
+  position: absolute;
+  left: 202px;
+  top: 18px;
+}
+
+#breeding_img3{
+  position: absolute;
+  left: 127px;
+  top: 18px;
 }
