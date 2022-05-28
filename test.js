@@ -154,7 +154,7 @@ $(document).ready(function () {
 
   //폐로가는 애니메이트
   $("#box1").click(function(){
-    $("#box1").text("")
+    $(".clickInfo").hide();
     $("#box1").animate({height:40, width:40, top:168, left:250})
     $("#oval1").fadeIn('slow');
     $("#rect1").fadeOut(2000);
@@ -166,7 +166,7 @@ $(document).ready(function () {
   })
 
   $("#box2").click(function(){
-    $("#box2").text("")
+    $(".clickInfo").hide();
     $("#box2").animate({height:40, width:40, top:290, left:213})
     $("#oval2").fadeIn('slow');
     $("#rect2").fadeOut(2000);
@@ -178,7 +178,7 @@ $(document).ready(function () {
   })
 
   $("#box3").click(function(){
-    $("#box3").text("")
+    $(".clickInfo").hide();
     $("#box3").animate({height:40, width:40, top:322, left:268})
     $("#oval3").fadeIn('slow');
     $("#rect3").fadeOut(2000);
@@ -313,8 +313,8 @@ $(document).ready(function () {
 
   //마우스를 움직일 때 작동
   function mouseMoveHandler(e) {
-    var relativeX = e.clientX;
-    if (relativeX >0 && relativeX < canvas.width) {
+    var relativeX = e.clientX- canvas.offsetLeft;
+    if (relativeX > 0 && relativeX < canvas.width) {
       paddleX = relativeX - paddleWidth * 1 / 2;
     }
   }
@@ -499,7 +499,7 @@ $(document).ready(function () {
 
   //점수 그리기
   function drawScore() {
-    var str = score + "point";
+    var str = score + " point";
     document.getElementById("score_div").innerText = str;
   }
 
