@@ -447,18 +447,18 @@ particle {
 }
 canvas{
   background: #eee;
-  position: absolute;
+  /* position: absolute;
   top: 60px;
   left: 50%;
-  transform: translate(-50%, 0%);
+  transform: translate(-50%, 0%); */
   display: none;
 }
 
 #info{
-  position: absolute;
+  /* position: absolute;
   top: 0;
   left: 50%;
-  transform: translate(-50%, 0%);
+  transform: translate(-50%, 0%); */
   background-color: rgb(201, 201, 201);
   width: 850px;
   height: 60px;

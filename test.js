@@ -214,19 +214,19 @@ $(document).ready(function () {
   var ctx = canvas.getContext("2d"); //캔버스컨텍트
 
   //캔버스 기준으로 좌표설정됨.
-  var ballRadius = (1 / 32) * canvas.height;
+  var ballRadius = 25;
   var x = canvas.width / 2;
   var y = (15 / 16) * canvas.height;
   var vel = 13;
   var dx = 0;
   var dy = vel;
-  var paddleHeight = (1 / 32) * canvas.height;
-  var paddleWidth = (10 / 32) * canvas.width;
+  var paddleHeight = 20;
+  var paddleWidth = 350;
   var paddleX = (canvas.width - paddleWidth) / 2;
-  var brickWidth = (5 / 32) * canvas.width;
-  var brickHeight = (1 / 16) * canvas.height;
-  var brickUDPadding = (1 / 48) * canvas.height;
-  var brickRLPadding = (1 / 32) * canvas.width;
+  var brickWidth = 135;
+  var brickHeight = 55;
+  var brickUDPadding = (1 / 48) * canvas.height; // 바이러스 간의 위아래 간격
+  var brickRLPadding = (1 / 32) * canvas.width; // 좌우 간격
   var brickOffsetTop = (3 / 32) * canvas.height;
   var brickOffsetLeft = (1 / 16) * canvas.width;
   var rightPressed = false; //오른쪽 방향키
@@ -314,7 +314,7 @@ $(document).ready(function () {
   //마우스를 움직일 때 작동
   function mouseMoveHandler(e) {
     var relativeX = e.clientX;
-    if (relativeX > window.innerWidth / 2 - canvas.width / 2 && relativeX < window.innerWidth / 2 + canvas.width / 2) {
+    if (relativeX >0 && relativeX < canvas.width) {
       paddleX = relativeX - paddleWidth * 1 / 2;
     }
   }
@@ -340,7 +340,7 @@ $(document).ready(function () {
     }else{
       if(bosslives > 0){
         if(collision(x, y, ballRadius, bossX, bossY, bossWidth, bossHeight)){
-          bosslives--;
+          // bosslives--;
           score++;
           if(score == 10){
             alert("YOU WIN, CONGRATS!");
@@ -549,13 +549,15 @@ $(document).ready(function () {
     }
 
     // breeding bgm, breeding 5초 전에 play
-    if (
-      Math.floor(play_time) == 80 ||
-      Math.floor(play_time) == 55 ||
-      Math.floor(play_time) == 30 ||
-      Math.floor(play_time) == 5
-    ) {
-      audio_breeding.play();
+    if(stage!==3) {
+      if (
+        Math.floor(play_time) == 80 ||
+        Math.floor(play_time) == 55 ||
+        Math.floor(play_time) == 30 ||
+        Math.floor(play_time) == 5
+      ) {
+        audio_breeding.play();
+      }
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (stage != 3)
@@ -567,7 +569,8 @@ $(document).ready(function () {
     drawScore();
     drawLives();
     drawTimerImg();
-    drawBreedingImg();
+    if (stage !==3)
+      drawBreedingImg();
     drawBall();
     collisionDetection();
 
