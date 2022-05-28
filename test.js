@@ -120,7 +120,6 @@ $(document).ready(function () {
         bricks[c] = [];
         for (var r = 0; r < brickRowCount; r++) {
           bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 벽돌목숨
-          console.log(bricks[c][r].status);
           winscore += bricks[c][r].status;
         }
       }
@@ -163,6 +162,7 @@ $(document).ready(function () {
     $('#myCanvas').show();
     $("#info").fadeIn(2000);
     setTimeout(draw, 2000);
+    setInterval(breeding, 25000);
   })
 
   $("#box2").click(function(){
@@ -174,6 +174,7 @@ $(document).ready(function () {
     $('#myCanvas').fadeIn(2000);
     $("#info").fadeIn(2000);
     setTimeout(draw, 2000);
+    setInterval(breeding, 25000);
   })
 
   $("#box3").click(function(){
@@ -185,6 +186,7 @@ $(document).ready(function () {
     $('#myCanvas').fadeIn(2000);
     $("#info").fadeIn(2000);
     setTimeout(draw, 2000);
+    setInterval(breeding, 25000);
   })
 
   function canvasOn(){
@@ -215,7 +217,7 @@ $(document).ready(function () {
   var ballRadius = (1 / 32) * canvas.height;
   var x = canvas.width / 2;
   var y = (15 / 16) * canvas.height;
-  var vel = 20;
+  var vel = 13;
   var dx = 0;
   var dy = vel;
   var paddleHeight = (1 / 32) * canvas.height;
@@ -233,7 +235,7 @@ $(document).ready(function () {
   var brickColumnCount = 2; //벽돌 행개수
   var score = 0; //점수
   var lives = 3; //목숨
-  var winscore = 10; //승리점수
+  var winscore = 0; //승리점수
   var breeding_level = 0; // 번식 횟수
   var bosslives = 10; //보스 체력
   var bdx = 5; //보스 속도
@@ -457,8 +459,7 @@ $(document).ready(function () {
           var breeding_status;
           var random_status = Math.floor(Math.random() * 10); // 0~9
           if (random_status == 0 || random_status >= 7) breeding_status = 0;
-          else if (random_status >= 5) breeding_status = 3;
-          else if (random_status >= 3) breeding_status = 2;
+          else if (random_status >= 4) breeding_status = 2;
           else breeding_status = 1;
           bricks[c][r].status = breeding_status;
           winscore += bricks[c][r].status;
@@ -620,9 +621,9 @@ $(document).ready(function () {
       bdx = -bdx;
 
     if (rightPressed && paddleX < canvas.width - paddleWidth) {
-      paddleX += 7;
+      paddleX += 20;
     } else if (leftPressed && paddleX > 0) {
-      paddleX -= 7;
+      paddleX -= 20;
     }
 
     x += dx;
