@@ -111,6 +111,21 @@ $(document).ready(function () {
     // stage에 맞는 게임을 실행시켜주시면 됩니다. 임시로 마지막 장면이랑 연결시켰습니다.
     if ($("input[name=stage]").is(":checked")) {
       stage = parseInt($("input[name=stage]:checked").val());
+      if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+      else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
+      else {
+      } //보스 스테이지
+      shuffle_list = shuffle(shuffle_list);
+      for (var c = 0; c < brickColumnCount; c++) {
+        bricks[c] = [];
+        for (var r = 0; r < brickRowCount; r++) {
+          bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 벽돌목숨
+          console.log(bricks[c][r].status);
+          winscore += bricks[c][r].status;
+        }
+      }
+      if(stage == 3)
+        winscore = 10;
       $("#scene7").hide();
       //목으로 가는 이미지
       if(stage==1){
@@ -255,21 +270,22 @@ $(document).ready(function () {
   var s_index = 0;
   var bricks = []; //벽돌 배열
   var shuffle_list = [];
-  if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-  else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
-  else {
-  } //보스 스테이지
-  shuffle_list = shuffle(shuffle_list);
+  //if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+  //else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
+  //else {
+  //} //보스 스테이지
+  //shuffle_list = shuffle(shuffle_list);
 
-  for (var c = 0; c < brickColumnCount; c++) {
-    bricks[c] = [];
-    for (var r = 0; r < brickRowCount; r++) {
-      bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 벽돌목숨
-      winscore += bricks[c][r].status;
-    }
-  }
-  if(stage == 3)
-    winscore = 10;
+  //for (var c = 0; c < brickColumnCount; c++) {
+  //  bricks[c] = [];
+  //  for (var r = 0; r < brickRowCount; r++) {
+  //    bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 벽돌목숨
+  //    console.log(bricks[c][r].status);
+  //    winscore += bricks[c][r].status;
+  //  }
+  //}
+  //if(stage == 3)
+  //  winscore = 10;
 
   document.addEventListener("keydown", keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
@@ -297,7 +313,7 @@ $(document).ready(function () {
   function mouseMoveHandler(e) {
     var relativeX = e.clientX;
     if (relativeX > window.innerWidth / 2 - canvas.width / 2 && relativeX < window.innerWidth / 2 + canvas.width / 2) {
-      paddleX = relativeX - paddleWidth * 3 / 2;
+      paddleX = relativeX - paddleWidth * 1 / 2;
     }
   }
 
