@@ -265,18 +265,18 @@ $(document).ready(function () {
   var bossHeight = 147; //보스 세로길이
 
   // bgm
-  var audio_breeding = new Audio("breeding_bgm.mp3"); // 번식 이펙트 -> 번식 5초전에 경고.
-  var wall_bgm = new Audio("wall_bgm.mp3");
-  var background1 = new Audio("background1.mp3");
-  var background2 = new Audio("background2.mp3");
-  var background3 = new Audio("background3.wav");
-  var brick_hit1 = new Audio("brick_hit1.wav");
-  var brick_hit2 = new Audio("brick_hit2.wav");
-  var brick_hit3 = new Audio("brick_hit3.wav");
-  var doctor_bgm = new Audio("doctor_bgm.mp3");
-  var setting_bgm = new Audio("setting_bgm.wav");
-  var challenge1 = new Audio("challenge1.mp3")
-  var button = new Audio("button.wav");
+  var audio_breeding = new Audio("audio/breeding_bgm.mp3"); // 번식 이펙트 -> 번식 5초전에 경고.
+  var wall_bgm = new Audio("audio/wall_bgm.mp3");
+  var background1 = new Audio("audio/background1.mp3");
+  var background2 = new Audio("audio/background2.mp3");
+  var background3 = new Audio("audio/background3.wav");
+  var brick_hit1 = new Audio("audio/brick_hit1.wav");
+  var brick_hit2 = new Audio("audio/brick_hit2.wav");
+  var brick_hit3 = new Audio("audio/brick_hit3.wav");
+  var doctor_bgm = new Audio("audio/doctor_bgm.mp3");
+  var setting_bgm = new Audio("audio/setting_bgm.wav");
+  var challenge1 = new Audio("audio/challenge1.mp3")
+  var button = new Audio("audio/button.wav");
 
   // 타이머
   function Timer() {
