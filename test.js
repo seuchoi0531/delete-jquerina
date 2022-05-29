@@ -60,32 +60,42 @@ $(document).ready(function () {
 
   // scene 변경
   $("#scene1Btn1").click(function () {
+    button.play();
     $("#scene1").hide();
     $("#scene2").show();
+    doctor_bgm.play();
   });
   $("#scene1Btn2").click(function () {
+    button.play();
     $("#scene1").hide();
     $("#settingScene").show();
+    setting_bgm.play();
   });
   $("#settingSaveBtn").click(function () {
+    button.play();
     $("#settingScene").hide();
+    setting_bgm.pause();
     $("#scene1").show();
     bgm = parseInt($("input[name=bgm]:checked").val());
   });
   $("#scene2Btn1").click(function () {
+    button.play();
     $("#scene2").hide();
     $("#scene3").show();
   });
   $("#scene3Btn1").click(function () {
+    button.play();
     $("#scene3").hide();
     $("#scene4").show();
   });
   $("#scene4Btn1").click(function () {
+    button.play();
     $("#scene4").hide();
     $("#scene5").show();
     character = $("input[name=character]:checked").val();
   });
   $("#scene5Btn1").click(function () {
+    button.play();
     $("#scene5").hide();
     $("#scene6").show();
     paddle = $("input[name=paddle]:checked").val();
@@ -93,6 +103,7 @@ $(document).ready(function () {
   // scene6에서 대사 변경 후 scene7로 이동
   var activeScene7 = false;
   $("#scene6Btn1").click(function () {
+    button.play();
     if (activeScene7) {
       $("#scene6").hide();
       $("#scene7").show();
@@ -107,6 +118,8 @@ $(document).ready(function () {
     $("#startBtn").removeClass("disableStartBtn");
   });
   $("#startBtn").click(function () {
+    button.play();
+    doctor_bgm.pause();
     // 선택한 stage로 이동
     // stage에 맞는 게임을 실행시켜주시면 됩니다. 임시로 마지막 장면이랑 연결시켰습니다.
     if ($("input[name=stage]").is(":checked")) {
@@ -127,6 +140,7 @@ $(document).ready(function () {
         winscore = 10;
       $("#scene7").hide();
       //목으로 가는 이미지
+      challenge1.play();
       if(stage==1){
         $("#rect1").show();
       }
@@ -154,6 +168,7 @@ $(document).ready(function () {
 
   //폐로가는 애니메이트
   $("#box1").click(function(){
+    button.play();
     $(".clickInfo").hide();
     $("#box1").animate({height:40, width:40, top:168, left:250})
     $("#oval1").fadeIn('slow');
@@ -161,11 +176,13 @@ $(document).ready(function () {
     start_time = new Date().getTime();
     $('#myCanvas').show();
     $("#info").fadeIn(2000);
+    challenge1.pause();
     setTimeout(draw, 2000);
     setInterval(breeding, 25000);
   })
 
   $("#box2").click(function(){
+    button.play();
     $(".clickInfo").hide();
     $("#box2").animate({height:40, width:40, top:290, left:213})
     $("#oval2").fadeIn('slow');
@@ -173,11 +190,13 @@ $(document).ready(function () {
     start_time = new Date().getTime();
     $('#myCanvas').fadeIn(2000);
     $("#info").fadeIn(2000);
+    challenge1.pause();
     setTimeout(draw, 2000);
     setInterval(breeding, 25000);
   })
 
   $("#box3").click(function(){
+    button.play();
     $(".clickInfo").hide();
     $("#box3").animate({height:40, width:40, top:322, left:268})
     $("#oval3").fadeIn('slow');
@@ -185,6 +204,7 @@ $(document).ready(function () {
     start_time = new Date().getTime();
     $('#myCanvas').fadeIn(2000);
     $("#info").fadeIn(2000);
+    challenge1.pause();
     setTimeout(draw, 2000);
     setInterval(breeding, 25000);
   })
@@ -246,6 +266,17 @@ $(document).ready(function () {
 
   // bgm
   var audio_breeding = new Audio("breeding_bgm.mp3"); // 번식 이펙트 -> 번식 5초전에 경고.
+  var wall_bgm = new Audio("wall_bgm.mp3");
+  var background1 = new Audio("background1.mp3");
+  var background2 = new Audio("background2.mp3");
+  var background3 = new Audio("background3.wav");
+  var brick_hit1 = new Audio("brick_hit1.wav");
+  var brick_hit2 = new Audio("brick_hit2.wav");
+  var brick_hit3 = new Audio("brick_hit3.wav");
+  var doctor_bgm = new Audio("doctor_bgm.mp3");
+  var setting_bgm = new Audio("setting_bgm.wav");
+  var challenge1 = new Audio("challenge1.mp3")
+  var button = new Audio("button.wav");
 
   // 타이머
   function Timer() {
@@ -328,6 +359,10 @@ $(document).ready(function () {
           if(b.status > 0) {
             if(collision(x, y, ballRadius, bricks[c][r].x, bricks[c][r].y, brickWidth, brickHeight)){
               b.status--; //벽돌 목숨 감소
+
+              if(stage == 1) brick_hit1.play();
+              else brick_hit2.play();
+
               score++; //점수 증가
               if(score == winscore) { //벽돌이 다 부서지면
                 alert("YOU WIN, CONGRATS!");
@@ -340,6 +375,7 @@ $(document).ready(function () {
     }else{
       if(bosslives > 0){
         if(collision(x, y, ballRadius, bossX, bossY, bossWidth, bossHeight)){
+          brick_hit3.play();
           // bosslives--;
           score++;
           if(score == 10){
@@ -538,6 +574,9 @@ $(document).ready(function () {
 
   //main
   function draw() {
+    if(bgm == 1) background1.play();
+    if(bgm == 2) background2.play();
+    if(bgm == 3) background3.play();
     drawProgressBar();
     Timer();
 
@@ -576,13 +615,16 @@ $(document).ready(function () {
 
     //캔버스 좌우에 공이 닿을 때
     if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+      wall_bgm.play();
       dx = -dx;
     }
     //캔버스 위에 공이 닿을 때
     if (y + dy < ballRadius) {
+      wall_bgm.play();
       dy = -dy;
     } else if (y + dy > canvas.height - ballRadius - paddleHeight) {
       // 캔버스 아래에 공이 닿을 때
+      wall_bgm.play();
       if (x > paddleX && x < paddleX + paddleWidth) {
         // 패들위치라면
         var signX;
