@@ -531,6 +531,9 @@ $(document).ready(function () {
     boss.src = "images/boss.png";
     if (bosslives > 0)
       ctx.drawImage(boss, bossX, bossY, bossWidth, bossHeight);
+      ctx.font = "32px neodgm";
+      ctx.fillStyle = "black";
+      ctx.fillText(10 - score, bossX + bossWidth / 2 - 5, bossY - 20);
   }
 
   //점수 그리기
@@ -605,10 +608,11 @@ $(document).ready(function () {
       drawBoss();
     drawBall();
     drawPaddle();
-    drawScore();
+    if (stage != 3)
+      drawScore();
     drawLives();
     drawTimerImg();
-    if (stage !==3)
+    if (stage != 3)
       drawBreedingImg();
     drawBall();
     collisionDetection();
