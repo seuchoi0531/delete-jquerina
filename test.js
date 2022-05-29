@@ -70,10 +70,52 @@ $(document).ready(function () {
     $("#scene1").hide();
     $("#settingScene").show();
     setting_bgm.play();
+
+    $("#bgm1").click(function (){
+      if(!setting_bgm.paused)setting_bgm.pause();
+      if(!background2.paused)background2.pause();
+      if(!background3.paused)background3.pause();
+      background1.load();
+      background1.play();
+    })
+
+    $("#bgm2").click(function (){
+      if(!setting_bgm.paused)setting_bgm.pause();
+      if(!background1.paused) background1.pause();
+      if(!background3.paused) background3.pause();
+      background2.load();
+      background2.play();
+    })
+
+    $("#bgm3").click(function (){
+      if(!setting_bgm.paused)setting_bgm.pause();
+      if(!background1.paused) background1.pause();
+      if(!background2.paused) background2.pause();
+      background3.load();
+      background3.play();
+    })
+
   });
   $("#settingSaveBtn").click(function () {
     button.play();
     $("#settingScene").hide();
+
+    if(!setting_bgm.paused){
+      setting_bgm.pause();
+      setting_bgm.load();
+    }
+    if(!background1.paused) {
+      background1.pause();
+      background1.load();
+    }
+    if(!background2.paused) {
+      background2.pause();
+      background2.load();
+    }
+    if(!background3.paused) {
+      background3.pause();
+      background3.load();
+    }
     setting_bgm.pause();
     $("#scene1").show();
     bgm = parseInt($("input[name=bgm]:checked").val());
@@ -468,11 +510,11 @@ $(document).ready(function () {
     else if(paddle == "blue")
       paddletype.src = "images/paddle3.png";
     ctx.drawImage(
-      paddletype,
-      paddleX,
-      canvas.height - paddleHeight,
-      paddleWidth,
-      paddleHeight
+        paddletype,
+        paddleX,
+        canvas.height - paddleHeight,
+        paddleWidth,
+        paddleHeight
     );
     //ctx.fillStyle = "#0095DD";
     //ctx.fillRect(
