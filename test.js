@@ -591,7 +591,7 @@ $(document).ready(function () {
     }
 
     // breeding bgm, breeding 5초 전에 play
-    if(stage!==3) {
+    if(stage != 3) {
       if (
         Math.floor(play_time) == 80 ||
         Math.floor(play_time) == 55 ||
@@ -602,6 +602,16 @@ $(document).ready(function () {
       }
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (stage == 1){
+      canvas.style.background = "#ff9797";
+      document.getElementById("info").style.background = "#ff9797";
+    } else if(stage == 2) {
+      canvas.style.background = "#6f74ce";
+      document.getElementById("info").style.background = "#6f74ce";
+    } else if(stage == 3) {
+      canvas.style.background = "#f6c03e";
+      document.getElementById("info").style.background = "#f6c03e";
+    }
     if (stage != 3)
       drawBricks();
     else
