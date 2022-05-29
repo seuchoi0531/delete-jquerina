@@ -184,13 +184,6 @@ li {
 }
 
 
-
-
-
-
-
-
-
 #container {
   display: flex;
   justify-content: center;
@@ -453,20 +446,84 @@ particle {
   height: 30px;
   box-shadow: 1px 1px 4px #eb6383;
 }
-canvas{
-  background: #eee;
+/* next stage scene */
+.rect{
   position: absolute;
-  top: 60px;
+  top: 0%;
   left: 50%;
   transform: translate(-50%, 0%);
+  width: 850px;
+  height: 800px;
+  background-color: #f5f5f5;
+  display: none;
+  z-index: 1;
+  text-align: center;
+}
+.clickInfo {
+  font-size: 32px;
+  font-family: 'neodgm';
+  margin-top: 133px;
+}
+.organ{
+  position: absolute;
+  width:550px;
+  height:517px;
+  top :283px;
+  left :150px;
+  background: url(organs.png);
+}
+.oval{
+  position: relative;
+  width: 424px;
+  height: 172px;
+  background: url(Ellipse.png);
+  top: 91px;
+  left: 213px;
+  display: none;
+}
+.message{
+  position: relative;
+  width: 160px;
+  height: 58px;
+  font-size: 32px;
+  font-family: 'neodgm';
+  line-height: 58px;
+  text-align: center;
+  color: #000000;
+  top: 57px;
+  left: 132px;
+}
+.box {
+  width:40px;
+  height:40px;
+  background: #44FFE9;
+  cursor: pointer;
+}
+#box1{
+  position: relative;
+  top :150px;
+  left :350px;
+}
+#box2{
+  position: relative;
+  top :168px;
+  left :250px;
+}
+#box3{
+  position: relative;
+  top :290px;
+  left :213px;
+}
+/* canvas */
+canvas{
+  background: #eee;
+  margin: 0 auto;
   display: none;
 }
 
 #info{
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, 0%);
+  margin: 0 auto;
+  position: relative;
   background-color: rgb(201, 201, 201);
   width: 850px;
   height: 60px;
@@ -475,10 +532,10 @@ canvas{
 
 #timer{
   position: absolute;
-  top: 10px;
+  top: 15px;
   left : 390px;
-  font-size: 30px;
-  font-weight: bold;
+  font-size: 32px;
+  font-family: 'neodgm';
 }
 
 #timer_img_div{
@@ -498,17 +555,17 @@ canvas{
 #score_div{
   position: absolute;
   font-size: 32px;
-  top: 7px;
+  top: 15px;
   left: 600px;
-  font-weight: bold;
+  font-family: 'neodgm';
 }
 
 #lives_div{
   position: absolute;
   font-size: 32px;
-  top: 7px;
+  top: 15px;
   left: 770px;
-  font-weight: bold;
+  font-family: 'neodgm';
 }
 
 #progress {
