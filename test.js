@@ -263,8 +263,7 @@ $(document).ready(function () {
     dx = 0;
     dy = vel;
     s_index = 0;
-    shuffle_list2 = [1,0,0,0,0,0,0,0,0,0];
-    //shuffle_list2 = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
+    shuffle_list2 = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
     shuffle_list = shuffle(shuffle_list2);
     for (var c = 0; c < brickColumnCount; c++) {
       bricks[c] = [];
