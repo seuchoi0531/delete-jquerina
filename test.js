@@ -1,12 +1,64 @@
-var character; // 선택된 캐릭터 종류. brave, smart, bully.
-var paddle; // 선택된 패들 종류. green, pink, blue.
-var stage = 1; // 스테이지 단계. 1,2,3.
-var bgm; // 배경음악 종류. 1,2,3.
-var start_time; // start 버튼을 누른 시간
-var time_limit = 100; //타임 리미트
-var play_time = -1; // 남은 게임 시간
-
 $(document).ready(function () {
+  var character; // 선택된 캐릭터 종류. brave, smart, bully.
+  var paddle; // 선택된 패들 종류. green, pink, blue.
+  var stage = 1; // 스테이지 단계. 1,2,3.
+  var bgm; // 배경음악 종류. 1,2,3.
+  var start_time; // start 버튼을 누른 시간
+  var time_limit = 100; //타임 리미트
+  var play_time = -1; // 남은 게임 시간
+
+  var canvasWidth = 850; // 캔버스 폭
+  var canvasHeight = 740; // 캔버스 높이
+  var canvas = document.getElementById("myCanvas"); //캔버스
+  var ctx = canvas.getContext("2d"); //캔버스컨텍트
+  document.body.style.overflow = "hidden"; //스크롤바 제거
+  document.getElementById("myCanvas").width = canvasWidth;
+  document.getElementById("myCanvas").height = canvasHeight;
+
+  //캔버스 기준으로 좌표설정됨.
+  var ballRadius = 25;
+  var x = canvas.width / 2;
+  var y = canvas.height - 400;
+  var vel = 13;
+  var dx = 0;
+  var dy = vel;
+  var paddleHeight = 20;
+  var paddleWidth = 350;
+  var paddleX = (canvas.width - paddleWidth) / 2;
+  var brickWidth = 135;
+  var brickHeight = 55;
+  var brickUDPadding = (1 / 48) * canvas.height; // 바이러스 간의 위아래 간격
+  var brickRLPadding = (1 / 32) * canvas.width; // 좌우 간격
+  var brickOffsetTop = (3 / 32) * canvas.height;
+  var brickOffsetLeft = (1 / 16) * canvas.width;
+  var rightPressed = false; //오른쪽 방향키
+  var leftPressed = false; //왼쪽 방향키
+  var brickRowCount = 5; //벽돌 열개수
+  var brickColumnCount = 2; //벽돌 행개수
+  var score = 0; //점수
+  var lives = 3; //목숨
+  var winscore = 0; //승리점수
+  var bosslives = 10; //보스 체력
+  var bdx = 5; //보스 속도
+  var bossX = canvas.width / 2 - 80; //보스 x좌표
+  var bossY = 50; //보스 y좌표
+  var bossWidth = 160; //보스 가로길이
+  var bossHeight = 147; //보스 세로길이
+
+  // bgm
+  var audio_breeding = new Audio("audio/breeding_bgm.mp3"); // 번식 이펙트 -> 번식 5초전에 경고.
+  var wall_bgm = new Audio("audio/wall_bgm.mp3");
+  var background1 = new Audio("audio/background1.mp3");
+  var background2 = new Audio("audio/background2.mp3");
+  var background3 = new Audio("audio/background3.wav");
+  var brick_hit1 = new Audio("audio/brick_hit1.wav");
+  var brick_hit2 = new Audio("audio/brick_hit2.wav");
+  var brick_hit3 = new Audio("audio/brick_hit3.wav");
+  var doctor_bgm = new Audio("audio/doctor_bgm.mp3");
+  var setting_bgm = new Audio("audio/setting_bgm.wav");
+  var challenge1 = new Audio("audio/challenge1.mp3");
+  var button = new Audio("audio/button.wav");
+
   $("#scene1").show();
 
   // title 색 변경 함수
@@ -71,48 +123,47 @@ $(document).ready(function () {
     $("#settingScene").show();
     setting_bgm.play();
 
-    $("#bgm1").click(function (){
-      if(!setting_bgm.paused)setting_bgm.pause();
-      if(!background2.paused)background2.pause();
-      if(!background3.paused)background3.pause();
+    $("#bgm1").click(function () {
+      if (!setting_bgm.paused) setting_bgm.pause();
+      if (!background2.paused) background2.pause();
+      if (!background3.paused) background3.pause();
       background1.load();
       background1.play();
-    })
+    });
 
-    $("#bgm2").click(function (){
-      if(!setting_bgm.paused)setting_bgm.pause();
-      if(!background1.paused) background1.pause();
-      if(!background3.paused) background3.pause();
+    $("#bgm2").click(function () {
+      if (!setting_bgm.paused) setting_bgm.pause();
+      if (!background1.paused) background1.pause();
+      if (!background3.paused) background3.pause();
       background2.load();
       background2.play();
-    })
+    });
 
-    $("#bgm3").click(function (){
-      if(!setting_bgm.paused)setting_bgm.pause();
-      if(!background1.paused) background1.pause();
-      if(!background2.paused) background2.pause();
+    $("#bgm3").click(function () {
+      if (!setting_bgm.paused) setting_bgm.pause();
+      if (!background1.paused) background1.pause();
+      if (!background2.paused) background2.pause();
       background3.load();
       background3.play();
-    })
-
+    });
   });
   $("#settingSaveBtn").click(function () {
     button.play();
     $("#settingScene").hide();
 
-    if(!setting_bgm.paused){
+    if (!setting_bgm.paused) {
       setting_bgm.pause();
       setting_bgm.load();
     }
-    if(!background1.paused) {
+    if (!background1.paused) {
       background1.pause();
       background1.load();
     }
-    if(!background2.paused) {
+    if (!background2.paused) {
       background2.pause();
       background2.load();
     }
-    if(!background3.paused) {
+    if (!background3.paused) {
       background3.pause();
       background3.load();
     }
@@ -164,18 +215,26 @@ $(document).ready(function () {
   var s_index = 0;
   var bricks = []; //벽돌 배열
   var shuffle_list = [];
+  // 셔플
+  function shuffle(a) {
+    var j, x, i;
+    for (i = a.length; i; i -= 1) {
+      j = Math.floor(Math.random() * i);
+      x = a[i - 1];
+      a[i - 1] = a[j];
+      a[j] = x;
+    }
+    return a;
+  }
 
   $("#startBtn").click(function () {
     button.play();
     doctor_bgm.pause();
     // 선택한 stage로 이동
-    // stage에 맞는 게임을 실행시켜주시면 됩니다. 임시로 마지막 장면이랑 연결시켰습니다.
     if ($("input[name=stage]").is(":checked")) {
       stage = parseInt($("input[name=stage]:checked").val());
-      if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-      else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
-      else {
-      } //보스 스테이지
+      if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // stage 1
+      else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2]; //stage 2
       shuffle_list = shuffle(shuffle_list);
       for (var c = 0; c < brickColumnCount; c++) {
         bricks[c] = [];
@@ -184,22 +243,21 @@ $(document).ready(function () {
           winscore += bricks[c][r].status;
         }
       }
-      if(stage == 3)
-        winscore = 10;
+      // boss stage
+      if (stage == 3) winscore = 10;
+
       $("#scene7").hide();
       //목으로 가는 이미지
       challenge1.play();
-      if(stage==1){
+      if (stage == 1) {
         $("#rect1").show();
       }
-
       //폐로 가는 이미지
-      if(stage==2){
+      if (stage == 2) {
         $("#rect2").show();
       }
-
       //심장으로 가는 이미지
-      if(stage==3){
+      if (stage == 3) {
         $("#rect3").show();
       }
 
@@ -214,116 +272,48 @@ $(document).ready(function () {
     }
   });
 
-  //폐로가는 애니메이트
-  $("#box1").click(function(){
+  // 스테이지 이동 화면
+  $("#box1").click(function () {
     button.play();
     $(".clickInfo").hide();
-    $("#box1").animate({height:40, width:40, top:168, left:250})
-    $("#oval1").fadeIn('slow');
+    $("#box1").animate({ height: 40, width: 40, top: 168, left: 250 });
+    $("#oval1").fadeIn("slow");
     $("#rect1").fadeOut(2000);
     start_time = new Date().getTime();
-    $('#myCanvas').show();
+    $("#myCanvas").show();
     $("#info").fadeIn(2000);
     challenge1.pause();
     setTimeout(draw, 2000);
     setInterval(breeding, 25000);
-  })
+  });
 
-  $("#box2").click(function(){
+  $("#box2").click(function () {
     button.play();
     $(".clickInfo").hide();
-    $("#box2").animate({height:40, width:40, top:290, left:213})
-    $("#oval2").fadeIn('slow');
+    $("#box2").animate({ height: 40, width: 40, top: 290, left: 213 });
+    $("#oval2").fadeIn("slow");
     $("#rect2").fadeOut(2000);
     start_time = new Date().getTime();
-    $('#myCanvas').fadeIn(2000);
+    $("#myCanvas").fadeIn(2000);
     $("#info").fadeIn(2000);
     challenge1.pause();
     setTimeout(draw, 2000);
     setInterval(breeding, 25000);
-  })
+  });
 
-  $("#box3").click(function(){
+  $("#box3").click(function () {
     button.play();
     $(".clickInfo").hide();
-    $("#box3").animate({height:40, width:40, top:322, left:268})
-    $("#oval3").fadeIn('slow');
+    $("#box3").animate({ height: 40, width: 40, top: 322, left: 268 });
+    $("#oval3").fadeIn("slow");
     $("#rect3").fadeOut(2000);
     start_time = new Date().getTime();
-    $('#myCanvas').fadeIn(2000);
+    $("#myCanvas").fadeIn(2000);
     $("#info").fadeIn(2000);
     challenge1.pause();
     setTimeout(draw, 2000);
     setInterval(breeding, 25000);
-  })
-
-  function canvasOn(){
-    document.getElementById("container").style.display = "none";
-    document.getElementById("info").style.display = "block";
-    document.getElementById("myCanvas").style.display = "block";
-  }
-  function containerOn(){
-    document.getElementById("container").style.display = "flex";
-    document.getElementById("info").style.display = "none";
-    document.getElementById("myCanvas").style.display = "none";
-  }
-  // 여기서부터 준원님 코드입니다
-  document.body.style.overflow = "hidden"; //스크롤바 제거
-  var canvasWidth = 850; // 캔버스 폭
-  var canvasHeight = 740; // 캔버스 높이
-  //window.onresize = function (event) {
-    //창 크기 변경하면 작동하는 함수, 작동안됨
-  //  canvasWidth = window.innerWidth;
-  //  canvasHeight = window.innerHeight;
-  //};
-  document.getElementById("myCanvas").width = canvasWidth;
-  document.getElementById("myCanvas").height = canvasHeight;
-  var canvas = document.getElementById("myCanvas"); //캔버스
-  var ctx = canvas.getContext("2d"); //캔버스컨텍트
-
-  //캔버스 기준으로 좌표설정됨.
-  var ballRadius = 25;
-  var x = canvas.width / 2;
-  var y = canvas.height - 400;
-  var vel = 13;
-  var dx = 0;
-  var dy = vel;
-  var paddleHeight = 20;
-  var paddleWidth = 350;
-  var paddleX = (canvas.width - paddleWidth) / 2;
-  var brickWidth = 135;
-  var brickHeight = 55;
-  var brickUDPadding = (1 / 48) * canvas.height; // 바이러스 간의 위아래 간격
-  var brickRLPadding = (1 / 32) * canvas.width; // 좌우 간격
-  var brickOffsetTop = (3 / 32) * canvas.height;
-  var brickOffsetLeft = (1 / 16) * canvas.width;
-  var rightPressed = false; //오른쪽 방향키
-  var leftPressed = false; //왼쪽 방향키
-  var brickRowCount = 5; //벽돌 열개수
-  var brickColumnCount = 2; //벽돌 행개수
-  var score = 0; //점수
-  var lives = 3; //목숨
-  var winscore = 0; //승리점수
-  var bosslives = 10; //보스 체력
-  var bdx = 5; //보스 속도
-  var bossX = canvas.width / 2 - 80; //보스 x좌표
-  var bossY = 50; //보스 y좌표
-  var bossWidth = 160; //보스 가로길이
-  var bossHeight = 147; //보스 세로길이
-
-  // bgm
-  var audio_breeding = new Audio("audio/breeding_bgm.mp3"); // 번식 이펙트 -> 번식 5초전에 경고.
-  var wall_bgm = new Audio("audio/wall_bgm.mp3");
-  var background1 = new Audio("audio/background1.mp3");
-  var background2 = new Audio("audio/background2.mp3");
-  var background3 = new Audio("audio/background3.wav");
-  var brick_hit1 = new Audio("audio/brick_hit1.wav");
-  var brick_hit2 = new Audio("audio/brick_hit2.wav");
-  var brick_hit3 = new Audio("audio/brick_hit3.wav");
-  var doctor_bgm = new Audio("audio/doctor_bgm.mp3");
-  var setting_bgm = new Audio("audio/setting_bgm.wav");
-  var challenge1 = new Audio("audio/challenge1.mp3")
-  var button = new Audio("audio/button.wav");
+  });
 
   // 타이머
   function Timer() {
@@ -332,18 +322,6 @@ $(document).ready(function () {
     play_time = parseFloat(interval / 1000 + time_limit);
     document.getElementById("timer").innerText = play_time.toFixed(3);
     document.getElementById("progress").value = play_time.toFixed(3);
-  }
-
-  // 셔플
-  function shuffle(a) {
-    var j, x, i;
-    for (i = a.length; i; i -= 1) {
-      j = Math.floor(Math.random() * i);
-      x = a[i - 1];
-      a[i - 1] = a[j];
-      a[j] = x;
-    }
-    return a;
   }
 
   document.addEventListener("keydown", keyDownHandler, false);
@@ -370,27 +348,38 @@ $(document).ready(function () {
 
   //마우스를 움직일 때 작동
   function mouseMoveHandler(e) {
-    var relativeX = e.clientX- canvas.offsetLeft;
+    var relativeX = e.clientX - canvas.offsetLeft;
     if (relativeX > 0 && relativeX < canvas.width) {
-      paddleX = relativeX - paddleWidth * 1 / 2;
+      paddleX = relativeX - (paddleWidth * 1) / 2;
     }
   }
 
   //공이 벽돌에 닿을 때 작동
   function collisionDetection() {
-    if(stage != 3){
-      for(var c = 0; c < brickColumnCount; c++) {
-        for(var r = 0; r < brickRowCount; r++) {
+    if (stage != 3) {
+      for (var c = 0; c < brickColumnCount; c++) {
+        for (var r = 0; r < brickRowCount; r++) {
           var b = bricks[c][r];
-          if(b.status > 0) {
-            if(collision(x, y, ballRadius, bricks[c][r].x, bricks[c][r].y, brickWidth, brickHeight)){
+          if (b.status > 0) {
+            if (
+              collision(
+                x,
+                y,
+                ballRadius,
+                bricks[c][r].x,
+                bricks[c][r].y,
+                brickWidth,
+                brickHeight
+              )
+            ) {
               b.status--; //벽돌 목숨 감소
 
-              if(stage == 1) brick_hit1.play();
+              if (stage == 1) brick_hit1.play();
               else brick_hit2.play();
 
               score++; //점수 증가
-              if(score == winscore) { //벽돌이 다 부서지면
+              if (score == winscore) {
+                //벽돌이 다 부서지면
                 alert("YOU WIN, CONGRATS!");
                 document.location.reload();
               }
@@ -398,13 +387,13 @@ $(document).ready(function () {
           }
         }
       }
-    }else{
-      if(bosslives > 0){
-        if(collision(x, y, ballRadius, bossX, bossY, bossWidth, bossHeight)){
+    } else {
+      if (bosslives > 0) {
+        if (collision(x, y, ballRadius, bossX, bossY, bossWidth, bossHeight)) {
           brick_hit3.play();
           bosslives--;
           score++;
-          if(score == 10){
+          if (score == 10) {
             alert("YOU WIN, CONGRATS!");
             document.location.reload();
           }
@@ -415,41 +404,36 @@ $(document).ready(function () {
 
   //충돌 여부
   function collision(x, y, r, bx, by, bw, bh) {
-    if(x > bx && x < bx + bw && y > by - r && y < by + bh + r){
+    if (x > bx && x < bx + bw && y > by - r && y < by + bh + r) {
       dy *= -1;
       return true;
-    } else if(y > by && y < by + bh && x > bx - r && x < bx + bw + r){
-      if(bdx * dx < 0)
-        bdx *= -1;
+    } else if (y > by && y < by + bh && x > bx - r && x < bx + bw + r) {
+      if (bdx * dx < 0) bdx *= -1;
       dx *= -1;
       return true;
-    } else if(distance(x, y, bx, by) <= r){
-      if(bdx * dx < 0)
-        bdx *= -1;
+    } else if (distance(x, y, bx, by) <= r) {
+      if (bdx * dx < 0) bdx *= -1;
       var temp = dx;
-      dx = dy * (-1);
-      dy = temp * (-1);
+      dx = dy * -1;
+      dy = temp * -1;
       return true;
-    } else if(distance(x, y, bx + bw, by) <= r){
-      if(bdx * dx < 0)
-        bdx *= -1;
+    } else if (distance(x, y, bx + bw, by) <= r) {
+      if (bdx * dx < 0) bdx *= -1;
       var temp = dx;
       dx = dy;
       dy = temp;
       return true;
-    } else if(distance(x, y, bx, by + bh) <= r){
-      if(bdx * dx < 0)
-        bdx *= -1;
+    } else if (distance(x, y, bx, by + bh) <= r) {
+      if (bdx * dx < 0) bdx *= -1;
       var temp = dx;
       dx = dy;
       dy = temp;
       return true;
-    } else if(distance(x, y, bx + bw, by + bh) <= r){
-      if(bdx * dx < 0)
-        bdx *= -1;
+    } else if (distance(x, y, bx + bw, by + bh) <= r) {
+      if (bdx * dx < 0) bdx *= -1;
       var temp = dx;
-      dx = dy * (-1);
-      dy = temp * (-1);
+      dx = dy * -1;
+      dy = temp * -1;
       return true;
     }
     return false;
@@ -462,12 +446,9 @@ $(document).ready(function () {
   //공 그리기
   function drawBall() {
     var ballimg = new Image();
-    if(character == "brave")
-      ballimg.src = "images/ball1.png";
-    else if(character == "smart")
-      ballimg.src = "images/ball2.png";
-    else if(character == "bully")
-      ballimg.src = "images/ball3.png";
+    if (character == "brave") ballimg.src = "images/ball1.png";
+    else if (character == "smart") ballimg.src = "images/ball2.png";
+    else if (character == "bully") ballimg.src = "images/ball3.png";
     ctx.drawImage(
       ballimg,
       x - ballRadius,
@@ -475,11 +456,6 @@ $(document).ready(function () {
       ballRadius * 2,
       ballRadius * 2
     );
-    //ctx.beginPath();
-    //ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-    //ctx.fillStyle = "red";
-    //ctx.fill();
-    //ctx.closePath();
   }
 
   //패들 그리기
@@ -487,26 +463,16 @@ $(document).ready(function () {
     ctx.fillStyle = "white";
     ctx.fillRect(0, canvas.height - paddleHeight, canvas.width, paddleHeight);
     var paddletype = new Image();
-    if(paddle == "green")
-      paddletype.src = "images/paddle1.png";
-    else if(paddle == "pink")
-      paddletype.src = "images/paddle2.png";
-    else if(paddle == "blue")
-      paddletype.src = "images/paddle3.png";
+    if (paddle == "green") paddletype.src = "images/paddle1.png";
+    else if (paddle == "pink") paddletype.src = "images/paddle2.png";
+    else if (paddle == "blue") paddletype.src = "images/paddle3.png";
     ctx.drawImage(
-        paddletype,
-        paddleX,
-        canvas.height - paddleHeight,
-        paddleWidth,
-        paddleHeight
+      paddletype,
+      paddleX,
+      canvas.height - paddleHeight,
+      paddleWidth,
+      paddleHeight
     );
-    //ctx.fillStyle = "#0095DD";
-    //ctx.fillRect(
-    //  paddleX,
-    //  canvas.height - paddleHeight,
-    //  paddleWidth,
-    //  paddleHeight
-    //);
   }
 
   // 번식
@@ -516,7 +482,7 @@ $(document).ready(function () {
       for (var r = 0; r < brickRowCount; r++) {
         if (bricks[c][r].status == 0) {
           var breeding_status;
-          if(bred != 0){
+          if (bred != 0) {
             var random_status = Math.floor(Math.random() * 10); // 0~9
             if (random_status >= 4) breeding_status = 0;
             else if (random_status == 3) breeding_status = 2;
@@ -545,23 +511,23 @@ $(document).ready(function () {
           var brickY = c * (brickHeight + brickUDPadding) + brickOffsetTop;
           bricks[c][r].x = brickX;
           bricks[c][r].y = brickY;
-          if (bricks[c][r].status == 1) ctx.drawImage(virus1, brickX, brickY, brickWidth, brickHeight);
-          else if (bricks[c][r].status == 2) ctx.drawImage(virus2, brickX, brickY, brickWidth, brickHeight);
+          if (bricks[c][r].status == 1)
+            ctx.drawImage(virus1, brickX, brickY, brickWidth, brickHeight);
+          else if (bricks[c][r].status == 2)
+            ctx.drawImage(virus2, brickX, brickY, brickWidth, brickHeight);
         }
       }
     }
   }
 
-
   //보스 그리기
-  function drawBoss(){
+  function drawBoss() {
     var boss = new Image();
     boss.src = "images/boss.png";
-    if (bosslives > 0)
-      ctx.drawImage(boss, bossX, bossY, bossWidth, bossHeight);
-      ctx.font = "32px neodgm";
-      ctx.fillStyle = "black";
-      ctx.fillText(10 - score, bossX + bossWidth / 2 - 5, bossY - 20);
+    if (bosslives > 0) ctx.drawImage(boss, bossX, bossY, bossWidth, bossHeight);
+    ctx.font = "32px neodgm";
+    ctx.fillStyle = "black";
+    ctx.fillText(winscore - score, bossX + bossWidth / 2 - 5, bossY - 20);
   }
 
   //점수 그리기
@@ -605,9 +571,9 @@ $(document).ready(function () {
 
   //main
   function draw() {
-    if(bgm == 1) background1.play();
-    if(bgm == 2) background2.play();
-    if(bgm == 3) background3.play();
+    if (bgm == 1) background1.play();
+    if (bgm == 2) background2.play();
+    if (bgm == 3) background3.play();
     drawProgressBar();
     Timer();
 
@@ -619,7 +585,7 @@ $(document).ready(function () {
     }
 
     // breeding bgm, breeding 5초 전에 play
-    if(stage != 3) {
+    if (stage != 3) {
       if (
         Math.floor(play_time) == 80 ||
         Math.floor(play_time) == 55 ||
@@ -630,28 +596,24 @@ $(document).ready(function () {
       }
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (stage == 1){
+    if (stage == 1) {
       canvas.style.background = "#ff9797";
       document.getElementById("info").style.background = "#ff9797";
-    } else if(stage == 2) {
+    } else if (stage == 2) {
       canvas.style.background = "#6f74ce";
       document.getElementById("info").style.background = "#6f74ce";
-    } else if(stage == 3) {
+    } else if (stage == 3) {
       canvas.style.background = "#f6c03e";
       document.getElementById("info").style.background = "#f6c03e";
     }
-    if (stage != 3)
-      drawBricks();
-    else
-      drawBoss();
+    if (stage != 3) drawBricks();
+    else drawBoss();
     drawBall();
     drawPaddle();
-    if (stage != 3)
-      drawScore();
+    if (stage != 3) drawScore();
     drawLives();
     drawTimerImg();
-    if (stage != 3)
-      drawBreedingImg();
+    if (stage != 3) drawBreedingImg();
     drawBall();
     collisionDetection();
 
@@ -704,8 +666,7 @@ $(document).ready(function () {
       }
     }
 
-    if(bossX + bdx > canvas.width - bossWidth || bossX + bdx < 0)
-      bdx = -bdx;
+    if (bossX + bdx > canvas.width - bossWidth || bossX + bdx < 0) bdx = -bdx;
 
     if (rightPressed && paddleX < canvas.width - paddleWidth) {
       paddleX += 20;
@@ -715,8 +676,7 @@ $(document).ready(function () {
 
     x += dx;
     y += dy;
-    if(stage == 3)
-      bossX += bdx;
+    if (stage == 3) bossX += bdx;
     requestAnimationFrame(draw);
   }
 });
