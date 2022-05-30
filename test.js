@@ -20,6 +20,120 @@ var isPlayed = 0;
 
 $(document).ready(function () {
   $("#scene1").show();
+  //for(var n = 0; n <= 5; n++){
+  //  setInterval(function(){
+  //    setTimeout(function(){
+  //      document.getElementsByClassName("closeddoctor")[n].style.display = "block";
+  //      setTimeout(function(){
+  //        document.getElementsByClassName("closeddoctor")[n].style.display = "none";
+  //        setTimeout(function(){
+  //          document.getElementsByClassName("closeddoctor")[n].style.display = "block";
+  //          setTimeout(function(){
+  //            document.getElementsByClassName("closeddoctor")[n].style.display = "none";
+  //          },500)
+  //        },200)
+  //      },500)
+  //    },0)
+  //  },3000)
+  //}
+  setInterval(function(){
+    setTimeout(function(){
+      document.getElementById("closeddoctor2").style.display = "block";
+      setTimeout(function(){
+        document.getElementById("closeddoctor2").style.display = "none";
+        setTimeout(function(){
+          document.getElementById("closeddoctor2").style.display = "block";
+          setTimeout(function(){
+            document.getElementById("closeddoctor2").style.display = "none";
+          },500)
+        },200)
+      },500)
+    },0)
+  },3000)
+  setInterval(function(){
+    setTimeout(function(){
+      document.getElementById("closeddoctor3").style.display = "block";
+      setTimeout(function(){
+        document.getElementById("closeddoctor3").style.display = "none";
+        setTimeout(function(){
+          document.getElementById("closeddoctor3").style.display = "block";
+          setTimeout(function(){
+            document.getElementById("closeddoctor3").style.display = "none";
+          },500)
+        },200)
+      },500)
+    },0)
+  },3000)
+  setInterval(function(){
+    setTimeout(function(){
+      document.getElementById("closeddoctor4").style.display = "block";
+      setTimeout(function(){
+        document.getElementById("closeddoctor4").style.display = "none";
+        setTimeout(function(){
+          document.getElementById("closeddoctor4").style.display = "block";
+          setTimeout(function(){
+            document.getElementById("closeddoctor4").style.display = "none";
+          },500)
+        },200)
+      },500)
+    },0)
+  },3000)
+  setInterval(function(){
+    setTimeout(function(){
+      document.getElementById("closeddoctor5").style.display = "block";
+      setTimeout(function(){
+        document.getElementById("closeddoctor5").style.display = "none";
+        setTimeout(function(){
+          document.getElementById("closeddoctor5").style.display = "block";
+          setTimeout(function(){
+            document.getElementById("closeddoctor5").style.display = "none";
+          },500)
+        },200)
+      },500)
+    },0)
+  },3000)
+  setInterval(function(){
+    setTimeout(function(){
+      document.getElementById("closeddoctor6").style.display = "block";
+      setTimeout(function(){
+        document.getElementById("closeddoctor6").style.display = "none";
+        setTimeout(function(){
+          document.getElementById("closeddoctor6").style.display = "block";
+          setTimeout(function(){
+            document.getElementById("closeddoctor6").style.display = "none";
+          },500)
+        },200)
+      },500)
+    },0)
+  },3000)
+  setInterval(function(){
+    setTimeout(function(){
+      document.getElementById("closeddoctor7").style.display = "block";
+      setTimeout(function(){
+        document.getElementById("closeddoctor7").style.display = "none";
+        setTimeout(function(){
+          document.getElementById("closeddoctor7").style.display = "block";
+          setTimeout(function(){
+            document.getElementById("closeddoctor7").style.display = "none";
+          },500)
+        },200)
+      },500)
+    },0)
+  },3000)
+  setInterval(function(){
+    setTimeout(function(){
+      document.getElementById("closeddoctor8").style.display = "block";
+      setTimeout(function(){
+        document.getElementById("closeddoctor8").style.display = "none";
+        setTimeout(function(){
+          document.getElementById("closeddoctor8").style.display = "block";
+          setTimeout(function(){
+            document.getElementById("closeddoctor8").style.display = "none";
+          },500)
+        },200)
+      },500)
+    },0)
+  },3000)
 
   // title 색 변경 함수
   var titleColorIndex = 0;
@@ -698,7 +812,7 @@ $(document).ready(function () {
       }
     }
     //빈 공간은 있지만 번식이 안된 경우, 최소 1개는 번식.
-    if(empty_cnt > 0 && cnt == 0){ 
+    if(empty_cnt > 0 && cnt == 0){
       empty = shuffle(empty);
       var locate_c = parseInt(empty[0]/1000);
       var locate_r = parseInt(empty[0])%1000;
