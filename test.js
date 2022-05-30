@@ -224,6 +224,7 @@ $(document).ready(function () {
       // 마지막 장면에서 welcome!을 클릭하면 커서 모양이 변하고 폭죽이 다시 터집니다.
     }
   });
+  $("#resetBtn").click(function(){document.location.reload();});
   //폐로가는 애니메이트
   $("#box1").click(function(){
     x = canvasWidth / 2;
@@ -459,9 +460,6 @@ $(document).ready(function () {
                 $("#info").fadeOut(2000);
                 stage++;
                 setTimeout(function(){$("#rect" + stage).fadeIn(2000)}, 2000);
-                //$("#rect" + stage++).fadeIn(2000);
-                //alert("YOU WIN, CONGRATS!");
-                //document.location.reload();
               }
             }
           }
@@ -475,6 +473,10 @@ $(document).ready(function () {
           score++;
           if(score == winscore){
             start = 0;
+            canvas.style.display = "none";
+            document.getElementById("info").style.display = "none";
+            $("#container").show();
+            $("#lastScene").show();
             makeParticle();
             window.setTimeout(render, 200);
             $("#lastScene .titleBox").css("cursor", "pointer");
@@ -583,6 +585,7 @@ $(document).ready(function () {
 
   // 번식
   function breeding() {
+    if(stage !=3){
     var bred = 0;
     for (var c = 0; c < brickColumnCount; c++) {
       for (var r = 0; r < brickRowCount; r++) {
@@ -602,6 +605,7 @@ $(document).ready(function () {
         }
       }
     }
+  }
   }
 
   //벽돌 그리기
