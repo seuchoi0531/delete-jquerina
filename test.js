@@ -5,6 +5,7 @@ var bgm; // 배경음악 종류. 1,2,3.
 var start_time; // start 버튼을 누른 시간
 var time_limit = 100; //타임 리미트
 var play_time = -1; // 남은 게임 시간
+var start = 0;
 
 $(document).ready(function () {
   $("#scene1").show();
@@ -172,20 +173,20 @@ $(document).ready(function () {
     // stage에 맞는 게임을 실행시켜주시면 됩니다. 임시로 마지막 장면이랑 연결시켰습니다.
     if ($("input[name=stage]").is(":checked")) {
       stage = parseInt($("input[name=stage]:checked").val());
-      if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-      else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
-      else {
-      } //보스 스테이지
-      shuffle_list = shuffle(shuffle_list);
-      for (var c = 0; c < brickColumnCount; c++) {
-        bricks[c] = [];
-        for (var r = 0; r < brickRowCount; r++) {
-          bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 벽돌목숨
-          winscore += bricks[c][r].status;
-        }
-      }
-      if(stage == 3)
-        winscore = 10;
+      //if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+      //else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
+      //else {
+      //} //보스 스테이지
+      //shuffle_list = shuffle(shuffle_list);
+      //for (var c = 0; c < brickColumnCount; c++) {
+      //  bricks[c] = [];
+      //  for (var r = 0; r < brickRowCount; r++) {
+      //    bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 벽돌목숨
+      //    winscore += bricks[c][r].status;
+      //  }
+      //}
+      //if(stage == 3)
+      //  winscore = 10;
       $("#scene7").hide();
       //목으로 가는 이미지
       challenge1.play();
@@ -216,6 +217,21 @@ $(document).ready(function () {
 
   //폐로가는 애니메이트
   $("#box1").click(function(){
+    score = 0;
+    if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+    else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
+    else {
+    } //보스 스테이지
+    shuffle_list = shuffle(shuffle_list);
+    for (var c = 0; c < brickColumnCount; c++) {
+      bricks[c] = [];
+      for (var r = 0; r < brickRowCount; r++) {
+        bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 벽돌목숨
+        winscore += bricks[c][r].status;
+      }
+    }
+    if(stage == 3)
+      winscore = 10;
     button.play();
     $(".clickInfo").hide();
     $("#box1").animate({height:40, width:40, top:168, left:250})
@@ -225,11 +241,32 @@ $(document).ready(function () {
     $('#myCanvas').show();
     $("#info").fadeIn(2000);
     challenge1.pause();
+    start = 1;
     setTimeout(draw, 2000);
     setInterval(breeding, 25000);
   })
 
   $("#box2").click(function(){
+    score = 0;
+    if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+    else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
+    else {
+    } //보스 스테이지
+    shuffle_list = shuffle(shuffle_list);
+    for (var c = 0; c < brickColumnCount; c++) {
+      bricks[c] = [];
+      for (var r = 0; r < brickRowCount; r++) {
+        bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 벽돌목숨
+        winscore += bricks[c][r].status;
+      }
+    }
+    if(stage == 3)
+      winscore = 10;
+    for (var c = 0; c < brickColumnCount; c++) {
+      for (var r = 0; r < brickRowCount; r++) {
+        console.log(c + " " + r + " " + bricks[c][r].status);
+      }
+    }
     button.play();
     $(".clickInfo").hide();
     $("#box2").animate({height:40, width:40, top:290, left:213})
@@ -239,11 +276,27 @@ $(document).ready(function () {
     $('#myCanvas').fadeIn(2000);
     $("#info").fadeIn(2000);
     challenge1.pause();
+    start = 1;
     setTimeout(draw, 2000);
     setInterval(breeding, 25000);
   })
 
   $("#box3").click(function(){
+    score = 0;
+    if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+    else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
+    else {
+    } //보스 스테이지
+    shuffle_list = shuffle(shuffle_list);
+    for (var c = 0; c < brickColumnCount; c++) {
+      bricks[c] = [];
+      for (var r = 0; r < brickRowCount; r++) {
+        bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 벽돌목숨
+        winscore += bricks[c][r].status;
+      }
+    }
+    if(stage == 3)
+      winscore = 10;
     button.play();
     $(".clickInfo").hide();
     $("#box3").animate({height:40, width:40, top:322, left:268})
@@ -253,6 +306,7 @@ $(document).ready(function () {
     $('#myCanvas').fadeIn(2000);
     $("#info").fadeIn(2000);
     challenge1.pause();
+    start = 1;
     setTimeout(draw, 2000);
     setInterval(breeding, 25000);
   })
@@ -391,8 +445,14 @@ $(document).ready(function () {
 
               score++; //점수 증가
               if(score == winscore) { //벽돌이 다 부서지면
-                alert("YOU WIN, CONGRATS!");
-                document.location.reload();
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                start = 0;
+                $('#myCanvas').fadeOut(2000);
+                $("#info").fadeOut(2000);
+                setTimeout(function(){$("#rect" + stage++).fadeIn(2000)}, 2000);
+                //$("#rect" + stage++).fadeIn(2000);
+                //alert("YOU WIN, CONGRATS!");
+                //document.location.reload();
               }
             }
           }
@@ -561,7 +621,7 @@ $(document).ready(function () {
       ctx.drawImage(boss, bossX, bossY, bossWidth, bossHeight);
       ctx.font = "32px neodgm";
       ctx.fillStyle = "black";
-      ctx.fillText(10 - score, bossX + bossWidth / 2 - 5, bossY - 20);
+      ctx.fillText(bosslives, bossX + bossWidth / 2 - 5, bossY - 20);
   }
 
   //점수 그리기
@@ -613,8 +673,7 @@ $(document).ready(function () {
 
     // 게임시간이 0 이되면 게임종료.
     if (play_time < 0) {
-      alert("GAME OVER, time out");
-      document.location.reload();
+      start = 0;
       return;
     }
 
@@ -692,8 +751,7 @@ $(document).ready(function () {
       } else {
         lives--;
         if (!lives) {
-          alert("GAME OVER, lifeless");
-          document.location.reload();
+          start = 0;
         } else {
           x = canvas.width / 2;
           y = canvas.height - 400;
@@ -717,6 +775,7 @@ $(document).ready(function () {
     y += dy;
     if(stage == 3)
       bossX += bdx;
-    requestAnimationFrame(draw);
+    if(start == 1)
+      requestAnimationFrame(draw);
   }
 });
