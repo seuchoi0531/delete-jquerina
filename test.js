@@ -1,7 +1,7 @@
-var character; // 선택된 캐릭터 종류. brave, smart, bully.
-var paddle; // 선택된 패들 종류. green, pink, blue.
+var character = "brave"; // 선택된 캐릭터 종류. brave, smart, bully.
+var paddle = "green"; // 선택된 패들 종류. green, pink, blue.
 var stage = 1; // 스테이지 단계. 1,2,3.
-var bgm; // 배경음악 종류. 1,2,3.
+var bgm = 1; // 배경음악 종류. 1,2,3.
 var start_time; // start 버튼을 누른 시간
 var time_limit = 100; //타임 리미트
 var play_time = -1; // 남은 게임 시간
@@ -131,15 +131,45 @@ $(document).ready(function () {
     $("#scene1").show();
     bgm = parseInt($("input[name=bgm]:checked").val());
   });
+  $("#skipBtn2").click(function () {
+    button.play();
+    $("#scene2").hide();
+    $("#scene7").show();
+    activeScene7 = true;
+  });
   $("#scene2Btn1").click(function () {
     button.play();
     $("#scene2").hide();
     $("#scene3").show();
   });
+  $("#scene2Btn2").click(function () {
+    button.play();
+    $("#scene2").hide();
+    $("#scene1").show();
+    doctor_bgm.pause();
+    doctor_bgm.currentTime = 0;
+  });
+  $("#skipBtn3").click(function () {
+    button.play();
+    $("#scene3").hide();
+    $("#scene7").show();
+    activeScene7 = true;
+  });
   $("#scene3Btn1").click(function () {
     button.play();
     $("#scene3").hide();
     $("#scene4").show();
+  });
+  $("#scene3Btn2").click(function () {
+    button.play();
+    $("#scene3").hide();
+    $("#scene2").show();
+  });
+  $("#skipBtn4").click(function () {
+    button.play();
+    $("#scene4").hide();
+    $("#scene7").show();
+    activeScene7 = true;
   });
   $("#scene4Btn1").click(function () {
     button.play();
@@ -147,11 +177,27 @@ $(document).ready(function () {
     $("#scene5").show();
     character = $("input[name=character]:checked").val();
   });
+  $("#scene4Btn2").click(function () {
+    button.play();
+    $("#scene4").hide();
+    $("#scene3").show();
+  });
+  $("#skipBtn5").click(function () {
+    button.play();
+    $("#scene5").hide();
+    $("#scene7").show();
+    activeScene7 = true;
+  });
   $("#scene5Btn1").click(function () {
     button.play();
     $("#scene5").hide();
     $("#scene6").show();
     paddle = $("input[name=paddle]:checked").val();
+  });
+  $("#scene5Btn2").click(function () {
+    button.play();
+    $("#scene5").hide();
+    $("#scene4").show();
   });
   // scene6에서 대사 변경 후 scene7로 이동
   var activeScene7 = false;
@@ -166,11 +212,26 @@ $(document).ready(function () {
       "심장에 가장 가까운 바이러스를 없애면 그 외의 모든 바이러스가 사라져 빨리<br>돌아올 수 있지만, 그만큼 강하니 조심하게나.<br>그럼 행운을 빌지..!"
     );
   });
+  $("#scene6Btn2").click(function () {
+    button.play();
+    if (!activeScene7) {
+      $("#scene6").hide();
+      $("#scene5").show();
+    }
+    activeScene7 = false;
+    $("#scene6 .speach").html(
+      "이제 준비는 다 되었군. 이것이 자네가 없애야 할 바이러스의 모습이네.<br>각각 항생 물질을 1번, 2번, 10번 맞아야 사라지고 심장에 가까워질수록 강해지지..."
+    );
+  });
   // stage 선택 시 시작 버튼 활성화
   $("input[name=stage]").change(function () {
     $("#startBtn").removeClass("disableStartBtn");
   });
-
+  $("#scene7Btn2").click(function () {
+    button.play();
+    $("#scene7").hide();
+    $("#scene6").show();
+  });
   // 난이도에 따른 벽돌 체력 설정
   var s_index = 0;
   var bricks = []; //벽돌 배열
@@ -449,7 +510,7 @@ $(document).ready(function () {
             if(collision(x, y, ballRadius, bricks[c][r].x, bricks[c][r].y, brickWidth, brickHeight)){
               b.status--; //벽돌 목숨 감소
 
-              if(stage == 1) brick_hit1.play();
+              if(b.status == 0) brick_hit1.play();
               else brick_hit2.play();
 
               score++; //점수 증가
