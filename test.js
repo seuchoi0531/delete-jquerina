@@ -511,13 +511,20 @@ $(document).ready(function () {
 
   // 번식
   function breeding() {
+    var bred = 0;
     for (var c = 0; c < brickColumnCount; c++) {
       for (var r = 0; r < brickRowCount; r++) {
         if (bricks[c][r].status == 0) {
           var breeding_status;
-          var random_status = Math.floor(Math.random() * 10); // 0~9
-          if (random_status <= 9) breeding_status = 1;
-          else breeding_status = 2;
+          if(bred != 0){
+            var random_status = Math.floor(Math.random() * 10); // 0~9
+            if (random_status >= 4) breeding_status = 0;
+            else if (random_status == 3) breeding_status = 2;
+            else breeding_status = 1;
+          } else {
+            breeding_status = 1;
+            bred = 1;
+          }
           bricks[c][r].status = breeding_status;
           winscore += bricks[c][r].status;
         }
