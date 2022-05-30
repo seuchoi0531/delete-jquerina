@@ -246,14 +246,14 @@ $(document).ready(function () {
     $("#box1").animate({height:40, width:40, top:168, left:250})
     $("#oval1").fadeIn('slow');
     $("#rect1").fadeOut(2000);
-    start_time = new Date().getTime();
     $('#myCanvas').show();
     $("#info").fadeIn(2000);
     challenge1.pause();
     start = 1;
     console.log("score : " + score);
     console.log("winscore : " + winscore);
-    setTimeout(draw, 2000);
+    setTimeout(function(){
+      start_time = new Date().getTime(); draw();}, 2000);
     bdinterval1 = setInterval(breeding, 25000);
   })
 
@@ -263,7 +263,8 @@ $(document).ready(function () {
     dx = 0;
     dy = vel;
     s_index = 0;
-    shuffle_list2 = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
+    shuffle_list2 = [1,0,0,0,0,0,0,0,0,0];
+    //shuffle_list2 = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
     shuffle_list = shuffle(shuffle_list2);
     for (var c = 0; c < brickColumnCount; c++) {
       bricks[c] = [];
@@ -282,14 +283,14 @@ $(document).ready(function () {
     $("#box2").animate({height:40, width:40, top:290, left:213})
     $("#oval2").fadeIn('slow');
     $("#rect2").fadeOut(2000);
-    start_time = new Date().getTime();
     $('#myCanvas').fadeIn(2000);
     $("#info").fadeIn(2000);
     challenge1.pause();
     start = 1;
     console.log("score : " + score);
     console.log("winscore : " + winscore);
-    setTimeout(draw, 2000);
+    setTimeout(function(){
+      start_time = new Date().getTime(); draw();}, 2000);
     bdinterval1 = setInterval(breeding, 25000);
   })
 
@@ -304,14 +305,17 @@ $(document).ready(function () {
     $("#box3").animate({height:40, width:40, top:322, left:268})
     $("#oval3").fadeIn('slow');
     $("#rect3").fadeOut(2000);
-    start_time = new Date().getTime();
     $('#myCanvas').fadeIn(2000);
     $("#info").fadeIn(2000);
+    document.getElementsByClassName("breedingimgs")[0].style.display = "none";
+    document.getElementsByClassName("breedingimgs")[1].style.display = "none";
+    document.getElementsByClassName("breedingimgs")[2].style.display = "none";
     challenge1.pause();
     start = 1;
     console.log("score : " + score);
     console.log("winscore : " + winscore);
-    setTimeout(draw, 2000);
+    setTimeout(function(){
+      start_time = new Date().getTime(); draw();}, 2000);
   })
 
   function canvasOn(){
