@@ -516,7 +516,6 @@ particle {
 }
 /* canvas */
 canvas{
-  background: #eee;
   margin: 0 auto;
   display: none;
 }
@@ -524,7 +523,6 @@ canvas{
 #info{
   margin: 0 auto;
   position: relative;
-  background-color: rgb(201, 201, 201);
   width: 850px;
   height: 60px;
   display: none;
