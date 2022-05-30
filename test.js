@@ -159,6 +159,12 @@ $(document).ready(function () {
   $("input[name=stage]").change(function () {
     $("#startBtn").removeClass("disableStartBtn");
   });
+
+  // 난이도에 따른 벽돌 체력 설정
+  var s_index = 0;
+  var bricks = []; //벽돌 배열
+  var shuffle_list = [];
+
   $("#startBtn").click(function () {
     button.play();
     doctor_bgm.pause();
@@ -278,7 +284,7 @@ $(document).ready(function () {
   //캔버스 기준으로 좌표설정됨.
   var ballRadius = 25;
   var x = canvas.width / 2;
-  var y = (15 / 16) * canvas.height;
+  var y = canvas.height - 400;
   var vel = 13;
   var dx = 0;
   var dy = vel;
@@ -298,7 +304,6 @@ $(document).ready(function () {
   var score = 0; //점수
   var lives = 3; //목숨
   var winscore = 0; //승리점수
-  var breeding_level = 0; // 번식 횟수
   var bosslives = 10; //보스 체력
   var bdx = 5; //보스 속도
   var bossX = canvas.width / 2 - 80; //보스 x좌표
@@ -340,27 +345,6 @@ $(document).ready(function () {
     }
     return a;
   }
-
-  // 난이도에 따른 벽돌 체력 설정
-  var s_index = 0;
-  var bricks = []; //벽돌 배열
-  var shuffle_list = [];
-  //if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-  //else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
-  //else {
-  //} //보스 스테이지
-  //shuffle_list = shuffle(shuffle_list);
-
-  //for (var c = 0; c < brickColumnCount; c++) {
-  //  bricks[c] = [];
-  //  for (var r = 0; r < brickRowCount; r++) {
-  //    bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 벽돌목숨
-  //    console.log(bricks[c][r].status);
-  //    winscore += bricks[c][r].status;
-  //  }
-  //}
-  //if(stage == 3)
-  //  winscore = 10;
 
   document.addEventListener("keydown", keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
@@ -418,7 +402,7 @@ $(document).ready(function () {
       if(bosslives > 0){
         if(collision(x, y, ballRadius, bossX, bossY, bossWidth, bossHeight)){
           brick_hit3.play();
-          // bosslives--;
+          bosslives--;
           score++;
           if(score == 10){
             alert("YOU WIN, CONGRATS!");
@@ -527,18 +511,13 @@ $(document).ready(function () {
 
   // 번식
   function breeding() {
-    breeding_level++;
-    // 이펙트 및 효과음 주기. 번식 횟수마다 다르게 하려면 breeding level 활용하기
-    // 추후 논의
-
     for (var c = 0; c < brickColumnCount; c++) {
       for (var r = 0; r < brickRowCount; r++) {
         if (bricks[c][r].status == 0) {
           var breeding_status;
           var random_status = Math.floor(Math.random() * 10); // 0~9
-          if (random_status == 0 || random_status >= 7) breeding_status = 0;
-          else if (random_status >= 4) breeding_status = 2;
-          else breeding_status = 1;
+          if (random_status <= 9) breeding_status = 1;
+          else breeding_status = 2;
           bricks[c][r].status = breeding_status;
           winscore += bricks[c][r].status;
         }
@@ -710,7 +689,7 @@ $(document).ready(function () {
           document.location.reload();
         } else {
           x = canvas.width / 2;
-          y = canvas.height - 100;
+          y = canvas.height - 400;
           dx = 0;
           dy = vel;
           paddleX = (canvas.width - paddleWidth) / 2;
