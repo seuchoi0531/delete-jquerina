@@ -16,6 +16,7 @@ var dx = 0;
 var dy = vel;
 var bdinterval1; // 1스테이지 번식 interval
 var bdinterval2; // 2스테이지 번식 interval
+var isPlayed = 0;
 
 $(document).ready(function () {
   $("#scene1").show();
@@ -344,7 +345,16 @@ $(document).ready(function () {
     $("#box2").animate({height:40, width:40, top:290, left:213})
     $("#oval2").fadeIn('slow');
     $("#rect2").fadeOut(2000);
-    $('#myCanvas').fadeIn(2000);
+    if (isPlayed) {
+      canvas.style.background = "#6f74ce";
+      document.getElementById("info").style.background = "#6f74ce";
+      document.getElementById("progress").value = 100;
+      document.getElementById("timer").innerText = "100.000";
+      document.getElementsByClassName("breedingimgs")[0].style.display = "block";
+      document.getElementsByClassName("breedingimgs")[1].style.display = "block";
+      document.getElementsByClassName("breedingimgs")[2].style.display = "block";
+    }
+    $('#myCanvas').show();
     $("#info").fadeIn(2000);
     challenge1.pause();
     start = 1;
@@ -367,7 +377,13 @@ $(document).ready(function () {
     $("#box3").animate({height:40, width:40, top:322, left:268})
     $("#oval3").fadeIn('slow');
     $("#rect3").fadeOut(2000);
-    $('#myCanvas').fadeIn(2000);
+    if (isPlayed) {
+      canvas.style.background = "#f6c03e";
+      document.getElementById("info").style.background = "#f6c03e";
+      document.getElementById("progress").value = 100;
+      document.getElementById("timer").innerText = "100.000";
+    }
+    $('#myCanvas').show();
     $("#info").fadeIn(2000);
     document.getElementsByClassName("breedingimgs")[0].style.display = "none";
     document.getElementsByClassName("breedingimgs")[1].style.display = "none";
@@ -522,6 +538,7 @@ $(document).ready(function () {
                   clearInterval(bdinterval1);
                 else if (stage == 2)
                   clearInterval(bdinterval2);
+                isPlayed = 1;
                 start = 0;
                 $('#myCanvas').fadeOut(2000);
                 $("#info").fadeOut(2000);
