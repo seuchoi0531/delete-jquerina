@@ -253,8 +253,9 @@ $(document).ready(function () {
     console.log("score : " + score);
     console.log("winscore : " + winscore);
     setTimeout(function(){
-      start_time = new Date().getTime(); draw();}, 2000);
-    bdinterval1 = setInterval(breeding, 25000);
+      start_time = new Date().getTime();
+      draw();
+      bdinterval1 = setInterval(breeding, 25000);}, 2000);
   })
 
   $("#box2").click(function(){
@@ -289,8 +290,9 @@ $(document).ready(function () {
     console.log("score : " + score);
     console.log("winscore : " + winscore);
     setTimeout(function(){
-      start_time = new Date().getTime(); draw();}, 2000);
-    bdinterval1 = setInterval(breeding, 25000);
+      start_time = new Date().getTime();
+      draw();
+      bdinterval2 = setInterval(breeding, 25000);}, 2000);
   })
 
   $("#box3").click(function(){
@@ -477,14 +479,16 @@ $(document).ready(function () {
           score++;
           if(score == winscore){
             start = 0;
-            canvas.style.display = "none";
-            document.getElementById("info").style.display = "none";
-            $("#container").show();
-            $("#lastScene").show();
+            $('#myCanvas').fadeOut(2000);
+            $("#info").fadeOut(2000);
+            setTimeout(function(){
+              $("#container").fadeIn(2000);
+              $("#lastScene").fadeIn(2000);}, 2000);
             makeParticle();
             window.setTimeout(render, 200);
             $("#lastScene .titleBox").css("cursor", "pointer");
             $("#lastScene .titleBox").click(makeParticle);
+            $("#resetBtn").click(function(){document.location.reload();});
           }
         }
       }
@@ -694,6 +698,10 @@ $(document).ready(function () {
     // 게임시간이 0 이되면 게임종료.
     if (play_time < 0) {
       start = 0;
+      $('#myCanvas').fadeOut(2000);
+      $("#info").fadeOut(2000);
+      setTimeout(function(){$("#failedScene").fadeIn(2000);}, 2000);
+      $("#failedScene #resetBtn").click(function(){document.location.reload();});
       return;
     }
 
@@ -704,9 +712,7 @@ $(document).ready(function () {
         Math.floor(play_time) == 55 ||
         Math.floor(play_time) == 30 ||
         Math.floor(play_time) == 5
-      ) {
-        audio_breeding.play();
-      }
+      ) audio_breeding.play();
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (stage == 1){
@@ -771,12 +777,17 @@ $(document).ready(function () {
         lives--;
         if (!lives) {
           start = 0;
+          $('#myCanvas').fadeOut(2000);
+          $("#info").fadeOut(2000);
+          setTimeout(function(){$("#failedScene").fadeIn(2000);}, 2000);
+          $("#failedScene #resetBtn").click(function(){document.location.reload();});
         } else {
           x = canvas.width / 2;
           y = canvas.height - 400;
           dx = 0;
-          dy = vel;
+          dy = 0;
           paddleX = (canvas.width - paddleWidth) / 2;
+          setTimeout(function(){dy = vel}, 1000);
         }
       }
     }
