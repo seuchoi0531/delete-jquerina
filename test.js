@@ -673,27 +673,38 @@ $(document).ready(function () {
 
   // 번식
   function breeding() {
-    if(stage !=3){
-    var bred = 0;
+    var cnt = 0; // 번식된 바이러스의 갯수
+    var empty_cnt = 0; // 체력 0인 바이러스의 갯수
+    var empty = []; // 바이러스가 없는 위치정보
     for (var c = 0; c < brickColumnCount; c++) {
       for (var r = 0; r < brickRowCount; r++) {
         if (bricks[c][r].status == 0) {
+          empty[empty_cnt] = c*1000+r;
+          empty_cnt++;
           var breeding_status;
-          if(bred != 0){
-            var random_status = Math.floor(Math.random() * 10); // 0~9
-            if (random_status >= 4) breeding_status = 0;
-            else if (random_status == 3) breeding_status = 2;
-            else breeding_status = 1;
-          } else {
-            breeding_status = 1;
-            bred = 1;
+          var random_status = Math.floor(Math.random() * 10); // 0~9
+          if (random_status >= 4) breeding_status = 0;  // 60%
+          else if (random_status == 3) {
+            breeding_status = 2; //10%
+            cnt++;
+          }
+          else {
+            breeding_status = 1; //30%
+            cnt++;
           }
           bricks[c][r].status = breeding_status;
           winscore += bricks[c][r].status;
         }
       }
     }
-  }
+    //빈 공간은 있지만 번식이 안된 경우, 최소 1개는 번식.
+    if(empty_cnt > 0 && cnt == 0){ 
+      empty = shuffle(empty);
+      var locate_c = parseInt(empty[0]/1000);
+      var locate_r = parseInt(empty[0])%1000;
+      bricks[locate_c][locate_r].status = 1;
+      winscore += 1;
+    }
   }
 
   //벽돌 그리기
