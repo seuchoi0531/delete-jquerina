@@ -6,6 +6,7 @@ var start_time; // start 버튼을 누른 시간
 var time_limit = 100; //타임 리미트
 var play_time = -1; // 남은 게임 시간
 var start = 0;
+var winscore = 0; //승리점수
 
 $(document).ready(function () {
   $("#scene1").show();
@@ -217,12 +218,9 @@ $(document).ready(function () {
 
   //폐로가는 애니메이트
   $("#box1").click(function(){
-    score = 0;
-    if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-    else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
-    else {
-    } //보스 스테이지
-    shuffle_list = shuffle(shuffle_list);
+    s_index = 0;
+    shuffle_list1 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+    shuffle_list = shuffle(shuffle_list1);
     for (var c = 0; c < brickColumnCount; c++) {
       bricks[c] = [];
       for (var r = 0; r < brickRowCount; r++) {
@@ -230,8 +228,6 @@ $(document).ready(function () {
         winscore += bricks[c][r].status;
       }
     }
-    if(stage == 3)
-      winscore = 10;
     button.play();
     $(".clickInfo").hide();
     $("#box1").animate({height:40, width:40, top:168, left:250})
@@ -242,17 +238,16 @@ $(document).ready(function () {
     $("#info").fadeIn(2000);
     challenge1.pause();
     start = 1;
+    console.log("score : " + score);
+    console.log("winscore : " + winscore);
     setTimeout(draw, 2000);
     setInterval(breeding, 25000);
   })
 
   $("#box2").click(function(){
-    score = 0;
-    if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-    else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
-    else {
-    } //보스 스테이지
-    shuffle_list = shuffle(shuffle_list);
+    s_index = 0;
+    shuffle_list2 = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
+    shuffle_list = shuffle(shuffle_list2);
     for (var c = 0; c < brickColumnCount; c++) {
       bricks[c] = [];
       for (var r = 0; r < brickRowCount; r++) {
@@ -261,7 +256,7 @@ $(document).ready(function () {
       }
     }
     if(stage == 3)
-      winscore = 10;
+      winscore += 10;
     for (var c = 0; c < brickColumnCount; c++) {
       for (var r = 0; r < brickRowCount; r++) {
         console.log(c + " " + r + " " + bricks[c][r].status);
@@ -277,26 +272,14 @@ $(document).ready(function () {
     $("#info").fadeIn(2000);
     challenge1.pause();
     start = 1;
+    console.log("score : " + score);
+    console.log("winscore : " + winscore);
     setTimeout(draw, 2000);
     setInterval(breeding, 25000);
   })
 
   $("#box3").click(function(){
-    score = 0;
-    if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-    else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
-    else {
-    } //보스 스테이지
-    shuffle_list = shuffle(shuffle_list);
-    for (var c = 0; c < brickColumnCount; c++) {
-      bricks[c] = [];
-      for (var r = 0; r < brickRowCount; r++) {
-        bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 벽돌목숨
-        winscore += bricks[c][r].status;
-      }
-    }
-    if(stage == 3)
-      winscore = 10;
+    winscore += 10;
     button.play();
     $(".clickInfo").hide();
     $("#box3").animate({height:40, width:40, top:322, left:268})
@@ -307,6 +290,8 @@ $(document).ready(function () {
     $("#info").fadeIn(2000);
     challenge1.pause();
     start = 1;
+    console.log("score : " + score);
+    console.log("winscore : " + winscore);
     setTimeout(draw, 2000);
     setInterval(breeding, 25000);
   })
@@ -357,7 +342,7 @@ $(document).ready(function () {
   var brickColumnCount = 2; //벽돌 행개수
   var score = 0; //점수
   var lives = 3; //목숨
-  var winscore = 0; //승리점수
+  //var winscore = 0; //승리점수
   var bosslives = 10; //보스 체력
   var bdx = 5; //보스 속도
   var bossX = canvas.width / 2 - 80; //보스 x좌표
@@ -444,12 +429,15 @@ $(document).ready(function () {
               else brick_hit2.play();
 
               score++; //점수 증가
+              console.log("score : " + score);
+              console.log("winscore : " + winscore);
               if(score == winscore) { //벽돌이 다 부서지면
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 start = 0;
                 $('#myCanvas').fadeOut(2000);
                 $("#info").fadeOut(2000);
-                setTimeout(function(){$("#rect" + stage++).fadeIn(2000)}, 2000);
+                stage++;
+                setTimeout(function(){$("#rect" + stage).fadeIn(2000)}, 2000);
                 //$("#rect" + stage++).fadeIn(2000);
                 //alert("YOU WIN, CONGRATS!");
                 //document.location.reload();
@@ -705,8 +693,7 @@ $(document).ready(function () {
       drawBoss();
     drawBall();
     drawPaddle();
-    if (stage != 3)
-      drawScore();
+    drawScore();
     drawLives();
     drawTimerImg();
     if (stage != 3)
