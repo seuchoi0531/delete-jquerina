@@ -271,12 +271,6 @@ $(document).ready(function () {
         winscore += bricks[c][r].status;
       }
     }
-    if(stage == 3)
-    x = canvasWidth / 2;
-    y = canvasHeight - 400;
-    dx = 0;
-    dy = vel;
-      winscore += 10;
     for (var c = 0; c < brickColumnCount; c++) {
       for (var r = 0; r < brickRowCount; r++) {
         console.log(c + " " + r + " " + bricks[c][r].status);
@@ -299,7 +293,11 @@ $(document).ready(function () {
   })
 
   $("#box3").click(function(){
-    winscore += 10;
+    x = canvasWidth / 2;
+    y = canvasHeight - 400;
+    dx = 0;
+    dy = vel;
+    winscore = score + 10;
     button.play();
     $(".clickInfo").hide();
     $("#box3").animate({height:40, width:40, top:322, left:268})
@@ -313,7 +311,6 @@ $(document).ready(function () {
     console.log("score : " + score);
     console.log("winscore : " + winscore);
     setTimeout(draw, 2000);
-    setInterval(breeding, 25000);
   })
 
   function canvasOn(){
@@ -477,6 +474,7 @@ $(document).ready(function () {
           bosslives--;
           score++;
           if(score == winscore){
+            start = 0;
             makeParticle();
             window.setTimeout(render, 200);
             $("#lastScene .titleBox").css("cursor", "pointer");
