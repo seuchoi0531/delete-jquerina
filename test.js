@@ -790,7 +790,11 @@ $(document).ready(function () {
         Math.floor(play_time) == 55 ||
         Math.floor(play_time) == 30 ||
         Math.floor(play_time) == 5
-      ) audio_breeding.play();
+      ) {
+          audio_breeding.play();
+          document.getElementById("timer").style.color = "red";
+          setTimeout(function(){document.getElementById("timer").style.color = "black";}, 5000);
+        }
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (stage == 1){
