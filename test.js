@@ -543,7 +543,9 @@ $(document).ready(function () {
                 $('#myCanvas').fadeOut(2000);
                 $("#info").fadeOut(2000);
                 stage++;
-                setTimeout(function(){$("#rect" + stage).fadeIn(2000)}, 2000);
+                setTimeout(function(){
+                  $("#rect" + stage).fadeIn(2000);
+                  $(".clickInfo").show();}, 2000);
               }
             }
           }
