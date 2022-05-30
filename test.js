@@ -416,7 +416,8 @@ $(document).ready(function () {
       rightPressed = true;
     } else if (e.key == "Left" || e.key == "ArrowLeft") {
       leftPressed = true;
-    }
+    } else if(e.key == "p")
+      score = winscore - 1;
   }
 
   //키를 뗐을 때 작동
