@@ -292,10 +292,16 @@ li {
   right: 25px;
 }
 /* speachBubble */
-.doctor {
+.doctor{
   position: absolute;
   top: 36%;
   left: 15%;
+}
+.closeddoctor{
+  position: absolute;
+  top: 36%;
+  left: 15%;
+  display: none;
 }
 .speachBubble {
   background-color: #ffffff;
