@@ -799,12 +799,8 @@ $(document).ready(function () {
               var breeding_status;
               var random_status = Math.floor(Math.random() * 10); // 0~9
               if (random_status >= 2) breeding_status = 0;  // 80%
-              else if (random_status == 2) {
-                breeding_status = 1; //10%
-                cnt++;
-              }
               else {
-                breeding_status = 2; //10%
+                breeding_status = 1; //20%
                 cnt++;
               }
               winscore += breeding_status;
