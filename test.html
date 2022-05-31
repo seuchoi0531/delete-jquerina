@@ -47,7 +47,6 @@
       <div class="skipBtn" id="skipBtn2">스킵</div>
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
-      <img id="closeddoctor2" class="closeddoctor" src="./images/closeddoctor.png" display="none">
       <div class="speachBubble">
         <p class="speaker">닥터 박.</p>
         <p class="speach">드디어 왔구만! 한시가 급하네...!!<br>
@@ -62,7 +61,6 @@
       <div class="skipBtn" id="skipBtn3">스킵</div>
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
-      <img id="closeddoctor3" class="closeddoctor" src="./images/closeddoctor.png" display="none">
       <div class="speachBubble">
         <p class="speaker">닥터 박.</p>
         <p class="speach">지금부터 자네는 특별한 축소빔을 맞고 제이쿼리나 바이러스 <span class="red">최초 발병자의 몸 속</span>으로 들어갈거야. 목, 폐, 그리고 심장에
@@ -76,7 +74,6 @@
       <div class="skipBtn" id="skipBtn4">스킵</div>
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
-      <img id="closeddoctor4" class="closeddoctor" src="./images/closeddoctor.png" display="none">
       <ul class="selectBox">
         <li>
           <img src="./images/character1.png">
@@ -107,7 +104,6 @@
       <div class="skipBtn" id="skipBtn5">스킵</div>
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
-      <img id="closeddoctor5" class="closeddoctor" src="./images/closeddoctor.png" display="none">
       <ul class="selectBox">
         <li>
           <img src="./images/paddle1.png" class="paddleImg">
@@ -136,7 +132,6 @@
     <div class="scene" id="scene6">
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
-      <img id="closeddoctor6" class="closeddoctor" src="./images/closeddoctor.png" display="none">
       <ul class="virusImgBox">
         <li>
           <img src="./images/virus1.png">
@@ -188,28 +183,12 @@
     <div class="scene" id="lastScene">
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
-      <img id="closeddoctor7" class="closeddoctor" src="./images/closeddoctor.png" display="none">
       <div class="titleBox">
         <h2 class="title">Welcome!</h2>
       </div>
       <div class="speachBubble">
         <p class="speaker">닥터 박.</p>
         <p class="speach">무사히 돌아온 것을 환영하네..!!<br>자네는 지구의 영웅이야!</p>
-        <!-- 다시하기 버튼을 눌렀을 때 게임 초기화시키는 로직 추가 부탁드려요. -->
-        <div class="speachBubbleBtn" id="resetBtn">다시하기</div>
-      </div>
-    </div>
-    <!-- failed scene -->
-    <div class="scene" id="failedScene">
-      <img class="backgroundImage" src="./images/bgImage.png">
-      <img class="doctor" src="./images/doctor.png">
-      <img id="closeddoctor8" class="closeddoctor" src="./images/closeddoctor.png" display="none">
-      <div class="titleBox">
-        <h2 class="title">Fail!</h2>
-      </div>
-      <div class="speachBubble">
-        <p class="speaker">닥터 박.</p>
-        <p class="speach">이런.. 아직 완전히 번식한게 아니니<br>걱정말고 다시 시도해보게.</p>
         <!-- 다시하기 버튼을 눌렀을 때 게임 초기화시키는 로직 추가 부탁드려요. -->
         <div class="speachBubbleBtn" id="resetBtn">다시하기</div>
       </div>
@@ -252,9 +231,9 @@
     <div id="timer"></div>
     <div id="score_div"></div>
     <div id="lives_div"></div>
-    <div id="breeding_img1" class="breedingimgs"></div>
-    <div id="breeding_img2" class="breedingimgs"></div>
-    <div id="breeding_img3" class="breedingimgs"></div>
+    <div id="breeding_img1"></div>
+    <div id="breeding_img2"></div>
+    <div id="breeding_img3"></div>
   </div>
   <canvas id="myCanvas"> </canvas>
 </body>
