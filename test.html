@@ -5,6 +5,7 @@
   <!-- font -->
   <link rel="stylesheet" href="test.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <title>Delete-Jquerina</title>
 </head>
 <body>
   <script type="text/javascript" src="test.js"></script>
@@ -43,31 +44,39 @@
     </div>
     <!-- scene2 -->
     <div class="scene" id="scene2">
+      <div class="skipBtn" id="skipBtn2">스킵</div>
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
+      <img id="closeddoctor2" class="closeddoctor" src="./images/closeddoctor.png" display="none">
       <div class="speachBubble">
         <p class="speaker">닥터 박.</p>
         <p class="speach">드디어 왔구만! 한시가 급하네...!!<br>
           코로나19 바이러스보다 더 무시무시한 신규 바이러스인 <span class="red">제이쿼리나 바이러스</span>를
           지금 당장 없애야 해! </p>
         <div class="speachBubbleBtn" id="scene2Btn1">다음</div>
+        <div class="backBubbleBtn" id="scene2Btn2">뒤로</div>
       </div>
     </div>
     <!-- scene3 -->
     <div class="scene" id="scene3">
+      <div class="skipBtn" id="skipBtn3">스킵</div>
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
+      <img id="closeddoctor3" class="closeddoctor" src="./images/closeddoctor.png" display="none">
       <div class="speachBubble">
         <p class="speaker">닥터 박.</p>
         <p class="speach">지금부터 자네는 특별한 축소빔을 맞고 제이쿼리나 바이러스 <span class="red">최초 발병자의 몸 속</span>으로 들어갈거야. 목, 폐, 그리고 심장에
           퍼져있는 바이러스를 모두 없애고 오게나...<br>그렇지 않으면 지구는 멸망하고 말거야..!</p>
         <div class="speachBubbleBtn" id="scene3Btn1">다음</div>
+        <div class="backBubbleBtn" id="scene3Btn2">뒤로</div>
       </div>
     </div>
     <!-- scene4 -->
     <div class="scene" id="scene4">
+      <div class="skipBtn" id="skipBtn4">스킵</div>
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
+      <img id="closeddoctor4" class="closeddoctor" src="./images/closeddoctor.png" display="none">
       <ul class="selectBox">
         <li>
           <img src="./images/character1.png">
@@ -90,12 +99,15 @@
         <p class="speach">자네가 사용할 항생 물질을 선택하시게.<br>
           모두 내가 열심히 개발한 아이들이지!</p>
         <div class="speachBubbleBtn" id="scene4Btn1">다음</div>
+        <div class="backBubbleBtn" id="scene4Btn2">뒤로</div>
       </div>
     </div>
     <!-- scene5 -->
     <div class="scene" id="scene5">
+      <div class="skipBtn" id="skipBtn5">스킵</div>
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
+      <img id="closeddoctor5" class="closeddoctor" src="./images/closeddoctor.png" display="none">
       <ul class="selectBox">
         <li>
           <img src="./images/paddle1.png" class="paddleImg">
@@ -117,12 +129,14 @@
         <p class="speaker">닥터 박.</p>
         <p class="speach">오호...자네와 잘 어울리는 물질을 골랐군.<br>자, 이제 항생 물질을 보낼 도구를 고르시게..!</p>
         <div class="speachBubbleBtn" id="scene5Btn1">다음</div>
+        <div class="backBubbleBtn" id="scene5Btn2">뒤로</div>
       </div>
     </div>
     <!-- scene6 -->
     <div class="scene" id="scene6">
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
+      <img id="closeddoctor6" class="closeddoctor" src="./images/closeddoctor.png" display="none">
       <ul class="virusImgBox">
         <li>
           <img src="./images/virus1.png">
@@ -142,6 +156,7 @@
         <p class="speach">이제 준비는 다 되었군. 이것이 자네가 없애야 할 바이러스의 모습이네.
           각각 항생 물질을 1번, 2번, 10번 맞아야 사라지고 심장에 가까워질수록 강해지지...</p>
         <div class="speachBubbleBtn" id="scene6Btn1">다음</div>
+        <div class="backBubbleBtn" id="scene6Btn2">뒤로</div>
       </div>
     </div>
     <!-- scene7 -->
@@ -166,18 +181,35 @@
         <p class="speach">흠...어디부터 가야할까?</p>
         <!-- 게임 시작 버튼 -->
         <div class="speachBubbleBtn disableStartBtn" id="startBtn">시작</div>
+        <div class="backBubbleBtn" id="scene7Btn2">뒤로</div>
       </div>
     </div>
     <!-- last scene -->
     <div class="scene" id="lastScene">
       <img class="backgroundImage" src="./images/bgImage.png">
       <img class="doctor" src="./images/doctor.png">
+      <img id="closeddoctor7" class="closeddoctor" src="./images/closeddoctor.png" display="none">
       <div class="titleBox">
         <h2 class="title">Welcome!</h2>
       </div>
       <div class="speachBubble">
         <p class="speaker">닥터 박.</p>
         <p class="speach">무사히 돌아온 것을 환영하네..!!<br>자네는 지구의 영웅이야!</p>
+        <!-- 다시하기 버튼을 눌렀을 때 게임 초기화시키는 로직 추가 부탁드려요. -->
+        <div class="speachBubbleBtn" id="resetBtn">다시하기</div>
+      </div>
+    </div>
+    <!-- failed scene -->
+    <div class="scene" id="failedScene">
+      <img class="backgroundImage" src="./images/bgImage.png">
+      <img class="doctor" src="./images/doctor.png">
+      <img id="closeddoctor8" class="closeddoctor" src="./images/closeddoctor.png" display="none">
+      <div class="titleBox">
+        <h2 class="title">Fail!</h2>
+      </div>
+      <div class="speachBubble">
+        <p class="speaker">닥터 박.</p>
+        <p class="speach">이런.. 아직 완전히 번식한게 아니니<br>걱정말고 다시 시도해보게.</p>
         <!-- 다시하기 버튼을 눌렀을 때 게임 초기화시키는 로직 추가 부탁드려요. -->
         <div class="speachBubbleBtn" id="resetBtn">다시하기</div>
       </div>
@@ -220,9 +252,9 @@
     <div id="timer"></div>
     <div id="score_div"></div>
     <div id="lives_div"></div>
-    <div id="breeding_img1"></div>
-    <div id="breeding_img2"></div>
-    <div id="breeding_img3"></div>
+    <div id="breeding_img1" class="breedingimgs"></div>
+    <div id="breeding_img2" class="breedingimgs"></div>
+    <div id="breeding_img3" class="breedingimgs"></div>
   </div>
   <canvas id="myCanvas"> </canvas>
 </body>
