@@ -16,124 +16,26 @@ var dx = 0;
 var dy = vel;
 var bdinterval1; // 1스테이지 번식 interval
 var bdinterval2; // 2스테이지 번식 interval
-var isPlayed = 0;
+var isPlayed = 0; // 게임 진행 여부
+// bgm 관련
+var audio_breeding = new Audio("audio/breeding_bgm.mp3"); // 번식 이펙트 -> 번식 5초전에 경고.
+var wall_bgm = new Audio("audio/wall_bgm.mp3");
+var background1 = new Audio("audio/background1.mp3");
+var background2 = new Audio("audio/background2.mp3");
+var background3 = new Audio("audio/background3.wav");
+var brick_hit1 = new Audio("audio/brick_hit1.wav");
+var brick_hit2 = new Audio("audio/brick_hit2.wav");
+var brick_hit3 = new Audio("audio/brick_hit3.wav");
+var doctor_bgm = new Audio("audio/doctor_bgm.mp3");
+var setting_bgm = new Audio("audio/setting_bgm.mp3");
+var challenge1 = new Audio("audio/challenge1.mp3");
+challenge1.volume = 0.5;
+var button = new Audio("audio/button.wav");
+var clear = new Audio("audio/complete.ogg");
+var lose = new Audio("audio/fail.ogg");
 
 $(document).ready(function () {
   $("#scene1").show();
-  //for(var n = 0; n <= 5; n++){
-  //  setInterval(function(){
-  //    setTimeout(function(){
-  //      document.getElementsByClassName("closeddoctor")[n].style.display = "block";
-  //      setTimeout(function(){
-  //        document.getElementsByClassName("closeddoctor")[n].style.display = "none";
-  //        setTimeout(function(){
-  //          document.getElementsByClassName("closeddoctor")[n].style.display = "block";
-  //          setTimeout(function(){
-  //            document.getElementsByClassName("closeddoctor")[n].style.display = "none";
-  //          },500)
-  //        },200)
-  //      },500)
-  //    },0)
-  //  },3000)
-  //}
-  setInterval(function(){
-    setTimeout(function(){
-      document.getElementById("closeddoctor2").style.display = "block";
-      setTimeout(function(){
-        document.getElementById("closeddoctor2").style.display = "none";
-        setTimeout(function(){
-          document.getElementById("closeddoctor2").style.display = "block";
-          setTimeout(function(){
-            document.getElementById("closeddoctor2").style.display = "none";
-          },500)
-        },200)
-      },500)
-    },0)
-  },3000)
-  setInterval(function(){
-    setTimeout(function(){
-      document.getElementById("closeddoctor3").style.display = "block";
-      setTimeout(function(){
-        document.getElementById("closeddoctor3").style.display = "none";
-        setTimeout(function(){
-          document.getElementById("closeddoctor3").style.display = "block";
-          setTimeout(function(){
-            document.getElementById("closeddoctor3").style.display = "none";
-          },500)
-        },200)
-      },500)
-    },0)
-  },3000)
-  setInterval(function(){
-    setTimeout(function(){
-      document.getElementById("closeddoctor4").style.display = "block";
-      setTimeout(function(){
-        document.getElementById("closeddoctor4").style.display = "none";
-        setTimeout(function(){
-          document.getElementById("closeddoctor4").style.display = "block";
-          setTimeout(function(){
-            document.getElementById("closeddoctor4").style.display = "none";
-          },500)
-        },200)
-      },500)
-    },0)
-  },3000)
-  setInterval(function(){
-    setTimeout(function(){
-      document.getElementById("closeddoctor5").style.display = "block";
-      setTimeout(function(){
-        document.getElementById("closeddoctor5").style.display = "none";
-        setTimeout(function(){
-          document.getElementById("closeddoctor5").style.display = "block";
-          setTimeout(function(){
-            document.getElementById("closeddoctor5").style.display = "none";
-          },500)
-        },200)
-      },500)
-    },0)
-  },3000)
-  setInterval(function(){
-    setTimeout(function(){
-      document.getElementById("closeddoctor6").style.display = "block";
-      setTimeout(function(){
-        document.getElementById("closeddoctor6").style.display = "none";
-        setTimeout(function(){
-          document.getElementById("closeddoctor6").style.display = "block";
-          setTimeout(function(){
-            document.getElementById("closeddoctor6").style.display = "none";
-          },500)
-        },200)
-      },500)
-    },0)
-  },3000)
-  setInterval(function(){
-    setTimeout(function(){
-      document.getElementById("closeddoctor7").style.display = "block";
-      setTimeout(function(){
-        document.getElementById("closeddoctor7").style.display = "none";
-        setTimeout(function(){
-          document.getElementById("closeddoctor7").style.display = "block";
-          setTimeout(function(){
-            document.getElementById("closeddoctor7").style.display = "none";
-          },500)
-        },200)
-      },500)
-    },0)
-  },3000)
-  setInterval(function(){
-    setTimeout(function(){
-      document.getElementById("closeddoctor8").style.display = "block";
-      setTimeout(function(){
-        document.getElementById("closeddoctor8").style.display = "none";
-        setTimeout(function(){
-          document.getElementById("closeddoctor8").style.display = "block";
-          setTimeout(function(){
-            document.getElementById("closeddoctor8").style.display = "none";
-          },500)
-        },200)
-      },500)
-    },0)
-  },3000)
 
   // title 색 변경 함수
   var titleColorIndex = 0;
@@ -157,7 +59,7 @@ $(document).ready(function () {
         x: (Math.random() - 0.5) * 10,
         y: Math.random() * -30,
       };
-      p.mass = Math.random() * 0.2 + 0.8;
+      p.mass = Math.random() * 0.2 + 0.8; // 속도 변화 관련
       particles.push(p);
       p.style.transform = `translate(${p.x}px, ${p.y}px)`;
       const size = Math.random() * 15 + 5;
@@ -170,19 +72,135 @@ $(document).ready(function () {
   function render() {
     for (var i = particles.length - 1; i--; i > -1) {
       const p = particles[i];
-      p.style.transform = `translate3d(${p.x}px, ${p.y}px, 1px)`;
+      p.style.transform = `translate2d(${p.x}px, ${p.y}px)`;
 
       p.x += p.vel.x;
       p.y += p.vel.y;
 
       p.vel.y += 0.5 * p.mass;
       if (p.y > window.innerHeight * 2) {
-        p.remove();
+        p.remove(); // 일정 범위 벗어나면 삭제
         particles.splice(i, 1);
       }
     }
     requestAnimationFrame(render);
   }
+
+  // 교수님 눈 깜빡임. 승균님이 코드 확인 후 필요 없으면 지워주세요.
+  //for(var n = 0; n <= 5; n++){
+  //  setInterval(function(){
+  //    setTimeout(function(){
+  //      document.getElementsByClassName("closeddoctor")[n].style.display = "block";
+  //      setTimeout(function(){
+  //        document.getElementsByClassName("closeddoctor")[n].style.display = "none";
+  //        setTimeout(function(){
+  //          document.getElementsByClassName("closeddoctor")[n].style.display = "block";
+  //          setTimeout(function(){
+  //            document.getElementsByClassName("closeddoctor")[n].style.display = "none";
+  //          },500)
+  //        },200)
+  //      },500)
+  //    },0)
+  //  },3000)
+  //}
+  var doctorInterval1 = setInterval(function () {
+    setTimeout(function () {
+      document.getElementById("closeddoctor2").style.display = "block";
+      setTimeout(function () {
+        document.getElementById("closeddoctor2").style.display = "none";
+        setTimeout(function () {
+          document.getElementById("closeddoctor2").style.display = "block";
+          setTimeout(function () {
+            document.getElementById("closeddoctor2").style.display = "none";
+          }, 500);
+        }, 200);
+      }, 500);
+    }, 0);
+  }, 3000);
+  setInterval(function () {
+    setTimeout(function () {
+      document.getElementById("closeddoctor3").style.display = "block";
+      setTimeout(function () {
+        document.getElementById("closeddoctor3").style.display = "none";
+        setTimeout(function () {
+          document.getElementById("closeddoctor3").style.display = "block";
+          setTimeout(function () {
+            document.getElementById("closeddoctor3").style.display = "none";
+          }, 500);
+        }, 200);
+      }, 500);
+    }, 0);
+  }, 3000);
+  setInterval(function () {
+    setTimeout(function () {
+      document.getElementById("closeddoctor4").style.display = "block";
+      setTimeout(function () {
+        document.getElementById("closeddoctor4").style.display = "none";
+        setTimeout(function () {
+          document.getElementById("closeddoctor4").style.display = "block";
+          setTimeout(function () {
+            document.getElementById("closeddoctor4").style.display = "none";
+          }, 500);
+        }, 200);
+      }, 500);
+    }, 0);
+  }, 3000);
+  setInterval(function () {
+    setTimeout(function () {
+      document.getElementById("closeddoctor5").style.display = "block";
+      setTimeout(function () {
+        document.getElementById("closeddoctor5").style.display = "none";
+        setTimeout(function () {
+          document.getElementById("closeddoctor5").style.display = "block";
+          setTimeout(function () {
+            document.getElementById("closeddoctor5").style.display = "none";
+          }, 500);
+        }, 200);
+      }, 500);
+    }, 0);
+  }, 3000);
+  setInterval(function () {
+    setTimeout(function () {
+      document.getElementById("closeddoctor6").style.display = "block";
+      setTimeout(function () {
+        document.getElementById("closeddoctor6").style.display = "none";
+        setTimeout(function () {
+          document.getElementById("closeddoctor6").style.display = "block";
+          setTimeout(function () {
+            document.getElementById("closeddoctor6").style.display = "none";
+          }, 500);
+        }, 200);
+      }, 500);
+    }, 0);
+  }, 3000);
+  setInterval(function () {
+    setTimeout(function () {
+      document.getElementById("closeddoctor7").style.display = "block";
+      setTimeout(function () {
+        document.getElementById("closeddoctor7").style.display = "none";
+        setTimeout(function () {
+          document.getElementById("closeddoctor7").style.display = "block";
+          setTimeout(function () {
+            document.getElementById("closeddoctor7").style.display = "none";
+          }, 500);
+        }, 200);
+      }, 500);
+    }, 0);
+  }, 3000);
+  setInterval(function () {
+    setTimeout(function () {
+      document.getElementById("closeddoctor8").style.display = "block";
+      setTimeout(function () {
+        document.getElementById("closeddoctor8").style.display = "none";
+        setTimeout(function () {
+          document.getElementById("closeddoctor8").style.display = "block";
+          setTimeout(function () {
+            document.getElementById("closeddoctor8").style.display = "none";
+          }, 500);
+        }, 200);
+      }, 500);
+    }, 0);
+  }, 3000);
 
   // scene 변경
   $("#scene1Btn1").click(function () {
@@ -190,55 +208,54 @@ $(document).ready(function () {
     $("#scene1").hide();
     $("#scene2").show();
     doctor_bgm.play();
+    doctorInterval1();
   });
+  // 배경음악 설정
   $("#scene1Btn2").click(function () {
     button.play();
     $("#scene1").hide();
     $("#settingScene").show();
     setting_bgm.play();
 
-    $("#bgm1").click(function (){
-      if(!setting_bgm.paused)setting_bgm.pause();
-      if(!background2.paused)background2.pause();
-      if(!background3.paused)background3.pause();
+    $("#bgm1").click(function () {
+      if (!setting_bgm.paused) setting_bgm.pause();
+      if (!background2.paused) background2.pause();
+      if (!background3.paused) background3.pause();
       background1.load();
       background1.play();
-    })
-
-    $("#bgm2").click(function (){
-      if(!setting_bgm.paused)setting_bgm.pause();
-      if(!background1.paused) background1.pause();
-      if(!background3.paused) background3.pause();
+    });
+    $("#bgm2").click(function () {
+      if (!setting_bgm.paused) setting_bgm.pause();
+      if (!background1.paused) background1.pause();
+      if (!background3.paused) background3.pause();
       background2.load();
       background2.play();
-    })
-
-    $("#bgm3").click(function (){
-      if(!setting_bgm.paused)setting_bgm.pause();
-      if(!background1.paused) background1.pause();
-      if(!background2.paused) background2.pause();
+    });
+    $("#bgm3").click(function () {
+      if (!setting_bgm.paused) setting_bgm.pause();
+      if (!background1.paused) background1.pause();
+      if (!background2.paused) background2.pause();
       background3.load();
       background3.play();
-    })
-
+    });
   });
   $("#settingSaveBtn").click(function () {
     button.play();
     $("#settingScene").hide();
 
-    if(!setting_bgm.paused){
+    if (!setting_bgm.paused) {
       setting_bgm.pause();
       setting_bgm.load();
     }
-    if(!background1.paused) {
+    if (!background1.paused) {
       background1.pause();
       background1.load();
     }
-    if(!background2.paused) {
+    if (!background2.paused) {
       background2.pause();
       background2.load();
     }
-    if(!background3.paused) {
+    if (!background3.paused) {
       background3.pause();
       background3.load();
     }
@@ -246,6 +263,8 @@ $(document).ready(function () {
     $("#scene1").show();
     bgm = parseInt($("input[name=bgm]:checked").val());
   });
+
+  // 스킵 버튼
   $("#skipBtn2").click(function () {
     button.play();
     $("#scene2").hide();
@@ -331,7 +350,7 @@ $(document).ready(function () {
     button.play();
     if (!activeScene7) {
       $("#scene6").hide();
-      $("#scene5").show();
+      $("#scene5").show(); // 동일한 화면 재사용
     }
     activeScene7 = false;
     $("#scene6 .speach").html(
@@ -347,100 +366,78 @@ $(document).ready(function () {
     $("#scene7").hide();
     $("#scene6").show();
   });
-  // 난이도에 따른 벽돌 체력 설정
-  var s_index = 0;
-  var bricks = []; //벽돌 배열
-  var shuffle_list = [];
+  // 난이도에 따른 바이러스 체력 설정
+  var s_index = 0; // 바이러스 배열의 인덱스
+  var bricks = []; // 바이러스 배열
+  var shuffle_list = []; // 바이러스 체력 관련 배열
 
+  // 게임 시작 버튼 클릭
   $("#startBtn").click(function () {
     button.play();
     doctor_bgm.pause();
     // 선택한 stage로 이동
-    // stage에 맞는 게임을 실행시켜주시면 됩니다. 임시로 마지막 장면이랑 연결시켰습니다.
     if ($("input[name=stage]").is(":checked")) {
       stage = parseInt($("input[name=stage]:checked").val());
-      //if (stage == 1) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-      //else if (stage == 2) shuffle_list = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
-      //else {
-      //} //보스 스테이지
-      //shuffle_list = shuffle(shuffle_list);
-      //for (var c = 0; c < brickColumnCount; c++) {
-      //  bricks[c] = [];
-      //  for (var r = 0; r < brickRowCount; r++) {
-      //    bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 벽돌목숨
-      //    winscore += bricks[c][r].status;
-      //  }
-      //}
-      //if(stage == 3)
-      //  winscore = 10;
       $("#scene7").hide();
-      //목으로 가는 이미지
+      //목으로 이동
       challenge1.play();
-      if(stage==1){
+      if (stage == 1) {
         $("#rect1").show();
       }
-
-      //폐로 가는 이미지
-      if(stage==2){
+      //폐로 이동
+      if (stage == 2) {
         $("#rect2").show();
       }
-
-      //심장으로 가는 이미지
-      if(stage==3){
+      //심장으로 이동
+      if (stage == 3) {
         $("#rect3").show();
       }
-
-      // $("#lastScene").show();
-
-      // 이 아래는 마지막 장면에서만 사용되는 코드입니다.
-      //makeParticle();
-      //window.setTimeout(render, 200);
-      //$("#lastScene .titleBox").css("cursor", "pointer");
-      //$("#lastScene .titleBox").click(makeParticle);
-      // 마지막 장면에서 welcome!을 클릭하면 커서 모양이 변하고 폭죽이 다시 터집니다.
     }
   });
-  $("#resetBtn").click(function(){document.location.reload();});
-  //폐로가는 애니메이트
-  $("#box1").click(function(){
+  // 게임 다시하기
+  $("#resetBtn").click(function () {
+    document.location.reload();
+  });
+  // 공 설정 초기화
+  function resetBall() {
     x = canvasWidth / 2;
     y = canvasHeight - 400;
     dx = 0;
     dy = vel;
+  }
+  //목으로 이동하는 화면
+  $("#box1").click(function () {
+    resetBall();
     s_index = 0;
-    shuffle_list1 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+    shuffle_list1 = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
     shuffle_list = shuffle(shuffle_list1);
     for (var c = 0; c < brickColumnCount; c++) {
       bricks[c] = [];
       for (var r = 0; r < brickRowCount; r++) {
-        bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 벽돌목숨
+        bricks[c][r] = { x: 0, y: 0, status: shuffle_list[s_index++] }; //status는 바이러스 목숨
         winscore += bricks[c][r].status;
       }
     }
     button.play();
     $(".clickInfo").hide();
-    $("#box1").animate({height:40, width:40, top:168, left:250})
-    $("#oval1").fadeIn('slow');
+    $("#box1").animate({ height: 40, width: 40, top: 168, left: 250 });
+    $("#oval1").fadeIn("slow");
     $("#rect1").fadeOut(2000);
-    $('#myCanvas').show();
+    $("#myCanvas").show();
     $("#info").fadeIn(2000);
     challenge1.pause();
     start = 1;
-    console.log("score : " + score);
-    console.log("winscore : " + winscore);
-    setTimeout(function(){
+    setTimeout(function () {
       start_time = new Date().getTime();
       draw();
-      bdinterval1 = setInterval(breeding, 25000);}, 2000);
-  })
-
-  $("#box2").click(function(){
-    x = canvasWidth / 2;
-    y = canvasHeight - 400;
-    dx = 0;
-    dy = vel;
+      bdinterval1 = setInterval(breeding, 25000);
+    }, 2000);
+  });
+  // 폐로 이동하는 화면
+  $("#box2").click(function () {
+    resetBall();
     s_index = 0;
-    shuffle_list2 = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2];
+    shuffle_list2 = [1, 1, 1, 1, 1, 2, 2, 2, 3, 3];
     shuffle_list = shuffle(shuffle_list2);
     for (var c = 0; c < brickColumnCount; c++) {
       bricks[c] = [];
@@ -449,47 +446,41 @@ $(document).ready(function () {
         winscore += bricks[c][r].status;
       }
     }
-    for (var c = 0; c < brickColumnCount; c++) {
-      for (var r = 0; r < brickRowCount; r++) {
-        console.log(c + " " + r + " " + bricks[c][r].status);
-      }
-    }
     button.play();
     $(".clickInfo").hide();
-    $("#box2").animate({height:40, width:40, top:290, left:213})
-    $("#oval2").fadeIn('slow');
+    $("#box2").animate({ height: 40, width: 40, top: 290, left: 213 });
+    $("#oval2").fadeIn("slow");
     $("#rect2").fadeOut(2000);
     if (isPlayed) {
       canvas.style.background = "#6f74ce";
       document.getElementById("info").style.background = "#6f74ce";
       document.getElementById("progress").value = 100;
       document.getElementById("timer").innerText = "100.000";
-      document.getElementsByClassName("breedingimgs")[0].style.display = "block";
-      document.getElementsByClassName("breedingimgs")[1].style.display = "block";
-      document.getElementsByClassName("breedingimgs")[2].style.display = "block";
+      document.getElementsByClassName("breedingimgs")[0].style.display =
+        "block";
+      document.getElementsByClassName("breedingimgs")[1].style.display =
+        "block";
+      document.getElementsByClassName("breedingimgs")[2].style.display =
+        "block";
     }
-    $('#myCanvas').show();
+    $("#myCanvas").show();
     $("#info").fadeIn(2000);
     challenge1.pause();
     start = 1;
-    console.log("score : " + score);
-    console.log("winscore : " + winscore);
-    setTimeout(function(){
+    setTimeout(function () {
       start_time = new Date().getTime();
       draw();
-      bdinterval2 = setInterval(breeding, 25000);}, 2000);
-  })
-
-  $("#box3").click(function(){
-    x = canvasWidth / 2;
-    y = canvasHeight - 400;
-    dx = 0;
-    dy = vel;
-    winscore = score + 10;
+      bdinterval2 = setInterval(breeding, 25000);
+    }, 2000);
+  });
+  // 심장으로 이동하는 화면
+  $("#box3").click(function () {
+    resetBall();
+    winscore = score + bosslives; // 보스 체력만큼
     button.play();
     $(".clickInfo").hide();
-    $("#box3").animate({height:40, width:40, top:322, left:268})
-    $("#oval3").fadeIn('slow');
+    $("#box3").animate({ height: 40, width: 40, top: 322, left: 268 });
+    $("#oval3").fadeIn("slow");
     $("#rect3").fadeOut(2000);
     if (isPlayed) {
       canvas.style.background = "#f6c03e";
@@ -497,88 +488,47 @@ $(document).ready(function () {
       document.getElementById("progress").value = 100;
       document.getElementById("timer").innerText = "100.000";
     }
-    $('#myCanvas').show();
+    $("#myCanvas").show();
     $("#info").fadeIn(2000);
     document.getElementsByClassName("breedingimgs")[0].style.display = "none";
     document.getElementsByClassName("breedingimgs")[1].style.display = "none";
     document.getElementsByClassName("breedingimgs")[2].style.display = "none";
     challenge1.pause();
     start = 1;
-    console.log("score : " + score);
-    console.log("winscore : " + winscore);
-    setTimeout(function(){
-      start_time = new Date().getTime(); draw();}, 2000);
-  })
+    setTimeout(function () {
+      start_time = new Date().getTime();
+      draw();
+    }, 2000);
+  });
 
-  function canvasOn(){
-    document.getElementById("container").style.display = "none";
-    document.getElementById("info").style.display = "block";
-    document.getElementById("myCanvas").style.display = "block";
-  }
-  function containerOn(){
-    document.getElementById("container").style.display = "flex";
-    document.getElementById("info").style.display = "none";
-    document.getElementById("myCanvas").style.display = "none";
-  }
-  // 여기서부터 준원님 코드입니다
+  // canvas 관련 변수
   document.body.style.overflow = "hidden"; //스크롤바 제거
-  //var canvasWidth = 850; // 캔버스 폭
-  //var canvasHeight = 740; // 캔버스 높이
-  //window.onresize = function (event) {
-    //창 크기 변경하면 작동하는 함수, 작동안됨
-  //  canvasWidth = window.innerWidth;
-  //  canvasHeight = window.innerHeight;
-  //};
   document.getElementById("myCanvas").width = canvasWidth;
   document.getElementById("myCanvas").height = canvasHeight;
-  var canvas = document.getElementById("myCanvas"); //캔버스
-  var ctx = canvas.getContext("2d"); //캔버스컨텍트
-
-  //캔버스 기준으로 좌표설정됨.
+  var canvas = document.getElementById("myCanvas");
+  var ctx = canvas.getContext("2d"); //캔버스 컨택스트
   var ballRadius = 25;
-  //var x = canvas.width / 2;
-  //var y = canvas.height - 400;
-  //var vel = 13;
-  //var dx = 0;
-  //var dy = vel;
   var paddleHeight = 20;
   var paddleWidth = 350;
   var paddleX = (canvas.width - paddleWidth) / 2;
   var brickWidth = 135;
   var brickHeight = 55;
   var brickUDPadding = (1 / 48) * canvas.height; // 바이러스 간의 위아래 간격
-  var brickRLPadding = (1 / 32) * canvas.width; // 좌우 간격
+  var brickRLPadding = (1 / 32) * canvas.width; // 바이러스 간의 좌우 간격
   var brickOffsetTop = (3 / 32) * canvas.height;
   var brickOffsetLeft = (1 / 16) * canvas.width;
   var rightPressed = false; //오른쪽 방향키
   var leftPressed = false; //왼쪽 방향키
-  var brickRowCount = 5; //벽돌 열개수
-  var brickColumnCount = 2; //벽돌 행개수
+  var brickRowCount = 5; //바이러스 열개수
+  var brickColumnCount = 2; //바이러스 행개수
   var score = 0; //점수
   var lives = 3; //목숨
-  //var winscore = 0; //승리점수
-  var bosslives = 10; //보스 체력
-  var bdx = 5; //보스 속도
+  var bosslives = 20; //보스 체력
+  var bdx = 6; //보스 속도
   var bossX = canvas.width / 2 - 80; //보스 x좌표
   var bossY = 50; //보스 y좌표
   var bossWidth = 160; //보스 가로길이
   var bossHeight = 147; //보스 세로길이
-
-  // bgm
-  var audio_breeding = new Audio("audio/breeding_bgm.mp3"); // 번식 이펙트 -> 번식 5초전에 경고.
-  var wall_bgm = new Audio("audio/wall_bgm.mp3");
-  var background1 = new Audio("audio/background1.mp3");
-  var background2 = new Audio("audio/background2.mp3");
-  var background3 = new Audio("audio/background3.wav");
-  var brick_hit1 = new Audio("audio/brick_hit1.wav");
-  var brick_hit2 = new Audio("audio/brick_hit2.wav");
-  var brick_hit3 = new Audio("audio/brick_hit3.wav");
-  var doctor_bgm = new Audio("audio/doctor_bgm.mp3");
-  var setting_bgm = new Audio("audio/setting_bgm.mp3");
-  var challenge1 = new Audio("audio/challenge1.mp3")
-  var button = new Audio("audio/button.wav");
-  var clear = new Audio("audio/complete.ogg")
-  var lose = new Audio("audio/fail.ogg")
 
   // 타이머
   function Timer() {
@@ -611,8 +561,7 @@ $(document).ready(function () {
       rightPressed = true;
     } else if (e.key == "Left" || e.key == "ArrowLeft") {
       leftPressed = true;
-    } else if(e.key == "p")
-      score = winscore - 1;
+    } else if (e.key == "p") score = winscore - 1;
   }
 
   //키를 뗐을 때 작동
@@ -626,69 +575,84 @@ $(document).ready(function () {
 
   //마우스를 움직일 때 작동
   function mouseMoveHandler(e) {
-    var relativeX = e.clientX- canvas.offsetLeft;
+    var relativeX = e.clientX - canvas.offsetLeft;
     if (relativeX > 0 && relativeX < canvas.width) {
-      paddleX = relativeX - paddleWidth * 1 / 2;
+      paddleX = relativeX - (paddleWidth * 1) / 2;
     }
   }
 
   //공이 벽돌에 닿을 때 작동
   function collisionDetection() {
-    if(stage != 3){
-      for(var c = 0; c < brickColumnCount; c++) {
-        for(var r = 0; r < brickRowCount; r++) {
+    if (stage != 3) {
+      for (var c = 0; c < brickColumnCount; c++) {
+        for (var r = 0; r < brickRowCount; r++) {
           var b = bricks[c][r];
-          if(b.status > 0) {
-            if(collision(x, y, ballRadius, bricks[c][r].x, bricks[c][r].y, brickWidth, brickHeight)){
+          if (b.status > 0) {
+            if (
+              collision(
+                x,
+                y,
+                ballRadius,
+                bricks[c][r].x,
+                bricks[c][r].y,
+                brickWidth,
+                brickHeight
+              )
+            ) {
               b.status--; //벽돌 목숨 감소
 
-              if(b.status == 0) brick_hit1.play();
-              else brick_hit2.play();
-
+              if (b.status == 0) brick_hit1.play();
+              else {
+                brick_hit2.currentTime = 0.5;
+                brick_hit2.play();
+              }
               score++; //점수 증가
-              console.log("score : " + score);
-              console.log("winscore : " + winscore);
-              if(score == winscore) { //벽돌이 다 부서지면
+              if (score == winscore) {
+                //벽돌이 다 부서지면
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                if (stage == 1)
-                  clearInterval(bdinterval1);
-                else if (stage == 2)
-                  clearInterval(bdinterval2);
+                if (stage == 1) clearInterval(bdinterval1);
+                else if (stage == 2) clearInterval(bdinterval2);
                 isPlayed = 1;
                 start = 0;
-                $('#myCanvas').fadeOut(2000);
+                $("#myCanvas").fadeOut(2000);
                 $("#info").fadeOut(2000);
                 stage++;
-                setTimeout(function(){
+                setTimeout(function () {
                   $("#rect" + stage).fadeIn(2000);
-                  $(".clickInfo").show();}, 2000);
+                  $(".clickInfo").show();
+                }, 2000);
               }
             }
           }
         }
       }
-    }else{
-      if(bosslives > 0){
-        if(collision(x, y, ballRadius, bossX, bossY, bossWidth, bossHeight)){
+    } else {
+      // 보스 스테이지
+      if (bosslives > 0) {
+        if (collision(x, y, ballRadius, bossX, bossY, bossWidth, bossHeight)) {
+          brick_hit3.currentTime = 3;
           brick_hit3.play();
           bosslives--;
           score++;
-          if(score == winscore){
+          if (score == winscore) {
             start = 0;
-            $('#myCanvas').fadeOut(2000);
+            $("#myCanvas").fadeOut(2000);
             $("#info").fadeOut(2000);
-            setTimeout(function(){
+            setTimeout(function () {
               $("#container").fadeIn(2000);
-              $("#lastScene").fadeIn(2000);}, 2000);
+              $("#lastScene").fadeIn(2000);
+            }, 2000);
             makeParticle();
-            if(!background1.paused)background1.pause();
-            if(!background2.paused)background2.pause();
-            if(!background3.paused)background3.pause();
+            if (!background1.paused) background1.pause();
+            if (!background2.paused) background2.pause();
+            if (!background3.paused) background3.pause();
             clear.play();
             window.setTimeout(render, 200);
             $("#lastScene .titleBox").css("cursor", "pointer");
             $("#lastScene .titleBox").click(makeParticle);
-            $("#resetBtn").click(function(){document.location.reload();});
+            $("#resetBtn").click(function () {
+              document.location.reload();
+            });
           }
         }
       }
@@ -697,41 +661,36 @@ $(document).ready(function () {
 
   //충돌 여부
   function collision(x, y, r, bx, by, bw, bh) {
-    if(x > bx && x < bx + bw && y > by - r && y < by + bh + r){
+    if (x > bx && x < bx + bw && y > by - r && y < by + bh + r) {
       dy *= -1;
       return true;
-    } else if(y > by && y < by + bh && x > bx - r && x < bx + bw + r){
-      if(bdx * dx < 0)
-        bdx *= -1;
+    } else if (y > by && y < by + bh && x > bx - r && x < bx + bw + r) {
+      if (bdx * dx < 0) bdx *= -1;
       dx *= -1;
       return true;
-    } else if(distance(x, y, bx, by) <= r){
-      if(bdx * dx < 0)
-        bdx *= -1;
+    } else if (distance(x, y, bx, by) <= r) {
+      if (bdx * dx < 0) bdx *= -1;
       var temp = dx;
-      dx = dy * (-1);
-      dy = temp * (-1);
+      dx = dy * -1;
+      dy = temp * -1;
       return true;
-    } else if(distance(x, y, bx + bw, by) <= r){
-      if(bdx * dx < 0)
-        bdx *= -1;
+    } else if (distance(x, y, bx + bw, by) <= r) {
+      if (bdx * dx < 0) bdx *= -1;
       var temp = dx;
       dx = dy;
       dy = temp;
       return true;
-    } else if(distance(x, y, bx, by + bh) <= r){
-      if(bdx * dx < 0)
-        bdx *= -1;
+    } else if (distance(x, y, bx, by + bh) <= r) {
+      if (bdx * dx < 0) bdx *= -1;
       var temp = dx;
       dx = dy;
       dy = temp;
       return true;
-    } else if(distance(x, y, bx + bw, by + bh) <= r){
-      if(bdx * dx < 0)
-        bdx *= -1;
+    } else if (distance(x, y, bx + bw, by + bh) <= r) {
+      if (bdx * dx < 0) bdx *= -1;
       var temp = dx;
-      dx = dy * (-1);
-      dy = temp * (-1);
+      dx = dy * -1;
+      dy = temp * -1;
       return true;
     }
     return false;
@@ -744,12 +703,9 @@ $(document).ready(function () {
   //공 그리기
   function drawBall() {
     var ballimg = new Image();
-    if(character == "brave")
-      ballimg.src = "images/ball1.png";
-    else if(character == "smart")
-      ballimg.src = "images/ball2.png";
-    else if(character == "bully")
-      ballimg.src = "images/ball3.png";
+    if (character == "brave") ballimg.src = "images/ball1.png";
+    else if (character == "smart") ballimg.src = "images/ball2.png";
+    else if (character == "bully") ballimg.src = "images/ball3.png";
     ctx.drawImage(
       ballimg,
       x - ballRadius,
@@ -757,92 +713,73 @@ $(document).ready(function () {
       ballRadius * 2,
       ballRadius * 2
     );
-    //ctx.beginPath();
-    //ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-    //ctx.fillStyle = "red";
-    //ctx.fill();
-    //ctx.closePath();
   }
 
   //패들 그리기
   function drawPaddle() {
-    //ctx.fillStyle = "white";
-    //ctx.fillRect(0, canvas.height - paddleHeight, canvas.width, paddleHeight);
     var paddletype = new Image();
-    if(paddle == "green")
-      paddletype.src = "images/paddle1.png";
-    else if(paddle == "pink")
-      paddletype.src = "images/paddle2.png";
-    else if(paddle == "blue")
-      paddletype.src = "images/paddle3.png";
+    if (paddle == "green") paddletype.src = "images/paddle1.png";
+    else if (paddle == "pink") paddletype.src = "images/paddle2.png";
+    else if (paddle == "blue") paddletype.src = "images/paddle3.png";
     ctx.drawImage(
-        paddletype,
-        paddleX,
-        canvas.height - paddleHeight,
-        paddleWidth,
-        paddleHeight
+      paddletype,
+      paddleX,
+      canvas.height - paddleHeight,
+      paddleWidth,
+      paddleHeight
     );
-    //ctx.fillStyle = "#0095DD";
-    //ctx.fillRect(
-    //  paddleX,
-    //  canvas.height - paddleHeight,
-    //  paddleWidth,
-    //  paddleHeight
-    //);
   }
 
   // 번식
-    function breeding() {
-      var cnt = 0; // 번식된 바이러스의 갯수
-      var empty_cnt = 0; // 체력 0인 바이러스의 갯수
-      var empty = []; // 바이러스가 없는 위치정보
-      for (var c = 0; c < brickColumnCount; c++) {
-        for (var r = 0; r < brickRowCount; r++) {
-          if(stage==1){
-            if (bricks[c][r].status == 0) {
-              empty[empty_cnt] = c*1000+r;
-              empty_cnt++;
-              var breeding_status;
-              var random_status = Math.floor(Math.random() * 10); // 0~9
-              if (random_status >= 2) breeding_status = 0;  // 80%
-              else {
-                breeding_status = 1; //20%
-                cnt++;
-              }
-              winscore += breeding_status;
-              bricks[c][r].status = breeding_status;
+  function breeding() {
+    var cnt = 0; // 번식된 바이러스의 갯수
+    var empty_cnt = 0; // 체력 0인 바이러스의 갯수
+    var empty = []; // 바이러스가 없는 위치정보
+    for (var c = 0; c < brickColumnCount; c++) {
+      for (var r = 0; r < brickRowCount; r++) {
+        if (stage == 1) {
+          if (bricks[c][r].status == 0) {
+            empty[empty_cnt] = c * 1000 + r;
+            empty_cnt++;
+            var breeding_status;
+            var random_status = Math.floor(Math.random() * 10); // 0~9
+            if (random_status >= 2) breeding_status = 0; // 80%
+            else {
+              breeding_status = 1; //20%
+              cnt++;
             }
+            winscore += breeding_status;
+            bricks[c][r].status = breeding_status;
           }
-          else if(stage==2){
-            if (bricks[c][r].status == 0) {
-              empty[empty_cnt] = c*1000+r;
-              empty_cnt++;
-              var breeding_status;
-              var random_status = Math.floor(Math.random() * 10); // 0~9
-              if (random_status >= 4) breeding_status = 0;  // 60%
-              else if (random_status >= 2) {
-                breeding_status = 2; //20%
-                cnt++;
-              }
-              else {
-                breeding_status = 1; //20%
-                cnt++;
-              }
-              winscore += breeding_status;
-              bricks[c][r].status = breeding_status;
+        } else if (stage == 2) {
+          if (bricks[c][r].status == 0) {
+            empty[empty_cnt] = c * 1000 + r;
+            empty_cnt++;
+            var breeding_status;
+            var random_status = Math.floor(Math.random() * 10); // 0~9
+            if (random_status >= 4) breeding_status = 0; // 60%
+            else if (random_status >= 2) {
+              breeding_status = 2; //20%
+              cnt++;
+            } else {
+              breeding_status = 1; //20%
+              cnt++;
             }
+            winscore += breeding_status;
+            bricks[c][r].status = breeding_status;
           }
         }
       }
-      //빈 공간은 있지만 번식이 안된 경우, 최소 1개는 번식.
-      if(empty_cnt > 0 && cnt == 0){
-        empty = shuffle(empty);
-        var locate_c = parseInt(empty[0]/1000);
-        var locate_r = parseInt(empty[0])%1000;
-        bricks[locate_c][locate_r].status = stage;
-        winscore += stage;
-      }
     }
+    //빈 공간은 있지만 번식이 안된 경우, 최소 1개는 번식.
+    if (empty_cnt > 0 && cnt == 0) {
+      empty = shuffle(empty);
+      var locate_c = parseInt(empty[0] / 1000);
+      var locate_r = parseInt(empty[0]) % 1000;
+      bricks[locate_c][locate_r].status = stage;
+      winscore += stage;
+    }
+  }
 
   //벽돌 그리기
   function drawBricks() {
@@ -850,6 +787,8 @@ $(document).ready(function () {
     virus1.src = "images/virus1.png";
     var virus2 = new Image();
     virus2.src = "images/virus2.png";
+    var virus3 = new Image();
+    virus3.src = "images/virus3.png";
     for (var c = 0; c < brickColumnCount; c++) {
       for (var r = 0; r < brickRowCount; r++) {
         if (bricks[c][r].status > 0) {
@@ -857,23 +796,24 @@ $(document).ready(function () {
           var brickY = c * (brickHeight + brickUDPadding) + brickOffsetTop;
           bricks[c][r].x = brickX;
           bricks[c][r].y = brickY;
-          if (bricks[c][r].status == 1) ctx.drawImage(virus1, brickX, brickY, brickWidth, brickHeight);
-          else if (bricks[c][r].status == 2) ctx.drawImage(virus2, brickX, brickY, brickWidth, brickHeight);
+          if (bricks[c][r].status == 1)
+            ctx.drawImage(virus1, brickX, brickY, brickWidth, brickHeight);
+          else if (bricks[c][r].status == 2)
+            ctx.drawImage(virus2, brickX, brickY, brickWidth, brickHeight);
+          else ctx.drawImage(virus3, brickX, brickY, brickWidth, brickHeight);
         }
       }
     }
   }
 
-
   //보스 그리기
-  function drawBoss(){
+  function drawBoss() {
     var boss = new Image();
     boss.src = "images/boss.png";
-    if (bosslives > 0)
-      ctx.drawImage(boss, bossX, bossY, bossWidth, bossHeight);
-      ctx.font = "32px neodgm";
-      ctx.fillStyle = "black";
-      ctx.fillText(winscore - score, bossX + bossWidth / 2 - 5, bossY - 20);
+    if (bosslives > 0) ctx.drawImage(boss, bossX, bossY, bossWidth, bossHeight);
+    ctx.font = "32px neodgm";
+    ctx.fillStyle = "black";
+    ctx.fillText(winscore - score, bossX + bossWidth / 2 - 5, bossY - 20);
   }
 
   //점수 그리기
@@ -917,61 +857,64 @@ $(document).ready(function () {
 
   //main
   function draw() {
-    if(bgm == 1) background1.play();
-    if(bgm == 2) background2.play();
-    if(bgm == 3) background3.play();
+    if (bgm == 1) background1.play();
+    if (bgm == 2) background2.play();
+    if (bgm == 3) background3.play();
     drawProgressBar();
     Timer();
 
     // 게임시간이 0 이되면 게임종료.
     if (play_time < 0) {
       start = 0;
-      $('#myCanvas').fadeOut(2000);
+      $("#myCanvas").fadeOut(2000);
       $("#info").fadeOut(2000);
-      setTimeout(function(){$("#failedScene").fadeIn(2000);}, 2000);
-      if(!background1.paused)background1.pause();
-      if(!background2.paused)background2.pause();
-      if(!background3.paused)background3.pause();
+      setTimeout(function () {
+        $("#failedScene").fadeIn(2000);
+      }, 2000);
+      if (!background1.paused) background1.pause();
+      if (!background2.paused) background2.pause();
+      if (!background3.paused) background3.pause();
       lose.play();
-      $("#failedScene #resetBtn").click(function(){document.location.reload();});
+      $("#failedScene #resetBtn").click(function () {
+        document.location.reload();
+      });
       return;
     }
 
     // breeding bgm, breeding 5초 전에 play
-    if(stage != 3) {
+    if (stage != 3) {
       if (
         Math.floor(play_time) == 80 ||
         Math.floor(play_time) == 55 ||
         Math.floor(play_time) == 30 ||
         Math.floor(play_time) == 5
       ) {
-          audio_breeding.play();
-          document.getElementById("timer").style.color = "red";
-          setTimeout(function(){document.getElementById("timer").style.color = "black";}, 5000);
-        }
+        audio_breeding.play();
+        document.getElementById("timer").style.color = "red";
+        setTimeout(function () {
+          document.getElementById("timer").style.color = "black";
+        }, 5000);
+      }
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (stage == 1){
+    if (stage == 1) {
       canvas.style.background = "#ff9797";
       document.getElementById("info").style.background = "#ff9797";
-    } else if(stage == 2) {
+    } else if (stage == 2) {
       canvas.style.background = "#6f74ce";
       document.getElementById("info").style.background = "#6f74ce";
-    } else if(stage == 3) {
+    } else if (stage == 3) {
       canvas.style.background = "#f6c03e";
       document.getElementById("info").style.background = "#f6c03e";
     }
-    if (stage != 3)
-      drawBricks();
-    else
-      drawBoss();
+    if (stage != 3) drawBricks();
+    else drawBoss();
     drawBall();
     drawPaddle();
     drawScore();
     drawLives();
     drawTimerImg();
-    if (stage != 3)
-      drawBreedingImg();
+    if (stage != 3) drawBreedingImg();
     drawBall();
     collisionDetection();
 
@@ -1013,27 +956,32 @@ $(document).ready(function () {
         lives--;
         if (!lives) {
           start = 0;
-          $('#myCanvas').fadeOut(2000);
+          $("#myCanvas").fadeOut(2000);
           $("#info").fadeOut(2000);
-          setTimeout(function(){$("#failedScene").fadeIn(2000);}, 2000);
-          if(!background1.paused)background1.pause();
-          if(!background2.paused)background2.pause();
-          if(!background3.paused)background3.pause();
+          setTimeout(function () {
+            $("#failedScene").fadeIn(2000);
+          }, 2000);
+          if (!background1.paused) background1.pause();
+          if (!background2.paused) background2.pause();
+          if (!background3.paused) background3.pause();
           lose.play();
-          $("#failedScene #resetBtn").click(function(){document.location.reload();});
+          $("#failedScene #resetBtn").click(function () {
+            document.location.reload();
+          });
         } else {
           x = canvas.width / 2;
           y = canvas.height - 400;
           dx = 0;
           dy = 0;
           paddleX = (canvas.width - paddleWidth) / 2;
-          setTimeout(function(){dy = vel}, 1000);
+          setTimeout(function () {
+            dy = vel;
+          }, 1000);
         }
       }
     }
-
-    if(bossX + bdx > canvas.width - bossWidth || bossX + bdx < 0)
-      bdx = -bdx;
+    // 보스 움직임 제한
+    if (bossX + bdx > canvas.width - bossWidth || bossX + bdx < 0) bdx = -bdx;
 
     if (rightPressed && paddleX < canvas.width - paddleWidth) {
       paddleX += 20;
@@ -1043,9 +991,7 @@ $(document).ready(function () {
 
     x += dx;
     y += dy;
-    if(stage == 3)
-      bossX += bdx;
-    if(start == 1)
-      requestAnimationFrame(draw);
+    if (stage == 3) bossX += bdx;
+    if (start == 1) requestAnimationFrame(draw);
   }
 });
