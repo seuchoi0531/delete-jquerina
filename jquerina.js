@@ -514,7 +514,7 @@ $(document).ready(function () {
   var bosslives = 20; //보스 체력
   var bdx = 6; //보스 속도
   var bossX = canvas.width / 2 - 80; //보스 x좌표
-  var bossY = 50; //보스 y좌표
+  var bossY = 100; //보스 y좌표
   var bossWidth = 160; //보스 가로길이
   var bossHeight = 147; //보스 세로길이
 
