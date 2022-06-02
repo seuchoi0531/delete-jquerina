@@ -35,14 +35,14 @@ li {
   height:517px;
   top :283px;
   left :150px;
-  background: url(organs.png);
+  background: url(images/organs.png);
 }
 
 #oval1{
   position: relative;
   width: 424px;
   height: 172px;
-  background: url(Ellipse.png);
+  background: url(images/Ellipse.png);
   top: 91px;
   left: 213px;
   display: none;
@@ -81,14 +81,14 @@ li {
   height:517px;
   top :283px;
   left :150px;
-  background: url(organs.png);
+  background: url(images/organs.png);
 }
 
 #oval2{
   position: relative;
   width: 424px;
   height: 172px;
-  background: url(Ellipse.png);
+  background: url(images/Ellipse.png);
   top: 91px;
   left: 213px;
   display: none;
@@ -128,14 +128,14 @@ li {
   height:517px;
   top :283px;
   left :150px;
-  background: url(organs.png);
+  background: url(images/organs.png);
 }
 
 #oval3{
   position: relative;
   width: 424px;
   height: 172px;
-  background: url(Ellipse.png);
+  background: url(images/Ellipse.png);
   top: 91px;
   left: 213px;
   display: none;
@@ -503,13 +503,13 @@ particle {
   height:517px;
   top :283px;
   left :150px;
-  background: url(organs.png);
+  background: url(images/organs.png);
 }
 .oval{
   position: relative;
   width: 424px;
   height: 172px;
-  background: url(Ellipse.png);
+  background: url(images/Ellipse.png);
   top: 91px;
   left: 213px;
   display: none;
