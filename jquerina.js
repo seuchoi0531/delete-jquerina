@@ -482,6 +482,10 @@ $(document).ready(function () {
     setTimeout(function () {
       start_time = new Date().getTime();
       draw();
+      bdinterval2 = setInterval(function () {
+          bosslives += 5;
+          winscore += 5;
+      }, 25000);
     }, 2000);
   });
 
