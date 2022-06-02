@@ -6,34 +6,35 @@ var bgm = 1; // 배경음악 종류. 1,2,3.
 var start_time; // start 버튼을 누른 시간
 var time_limit = 100; //타임 리미트
 var play_time = -1; // 남은 게임 시간
-var start = 0;
+var start = 0; //draw함수를 반복하는 requestAnimationFrame함수를 제어하는 변수
 var winscore = 0; //승리점수
 var canvasWidth = 850; // 캔버스 폭
 var canvasHeight = 740; // 캔버스 높이
 var x = canvasWidth / 2;
 var y = canvasHeight - 400;
-var vel = 13;
-var dx = 0;
-var dy = vel;
+var vel = 13; // 공 속도
+var dx = 0; // 공의 x축 방향 속도
+var dy = vel;// 공의 y축 방향 속도
 var bdinterval1; // 1스테이지 번식 interval
 var bdinterval2; // 2스테이지 번식 interval
 var isPlayed = 0; // 게임 진행 여부
+
 // bgm 관련
 var audio_breeding = new Audio("audio/breeding_bgm.mp3"); // 번식 이펙트 -> 번식 5초전에 경고.
-var wall_bgm = new Audio("audio/wall_bgm.mp3");
-var background1 = new Audio("audio/background1.mp3");
-var background2 = new Audio("audio/background2.mp3");
-var background3 = new Audio("audio/background3.wav");
-var brick_hit1 = new Audio("audio/brick_hit1.wav");
-var brick_hit2 = new Audio("audio/brick_hit2.wav");
-var brick_hit3 = new Audio("audio/brick_hit3.wav");
-var doctor_bgm = new Audio("audio/doctor_bgm.mp3");
-var setting_bgm = new Audio("audio/setting_bgm.mp3");
-var challenge1 = new Audio("audio/challenge1.mp3");
+var wall_bgm = new Audio("audio/wall_bgm.mp3"); //벽, 패들에 공이 닿을 때
+var background1 = new Audio("audio/background1.mp3"); //배경음악1
+var background2 = new Audio("audio/background2.mp3"); //배경음악2
+var background3 = new Audio("audio/background3.wav"); //배경음악3
+var brick_hit1 = new Audio("audio/brick_hit1.wav"); //1레벨 벽돌 맞을 때
+var brick_hit2 = new Audio("audio/brick_hit2.wav"); //2레벨 벽돌 맞을 때
+var brick_hit3 = new Audio("audio/brick_hit3.wav"); //3레벨 벽돌 맞을 때
+var doctor_bgm = new Audio("audio/doctor_bgm.mp3"); //scene 배경음악
+var setting_bgm = new Audio("audio/setting_bgm.mp3"); //설정창 배경음악
+var challenge1 = new Audio("audio/challenge1.mp3"); //scene에서 게임으로 넘어가는 화면 배경음악
 challenge1.volume = 0.5;
-var button = new Audio("audio/button.wav");
-var clear = new Audio("audio/complete.ogg");
-var lose = new Audio("audio/fail.ogg");
+var button = new Audio("audio/button.wav"); //scene에서 버튼 누를 때
+var clear = new Audio("audio/complete.ogg"); //이겼을 때
+var lose = new Audio("audio/fail.ogg"); //졌을 때
 
 $(document).ready(function () {
   $("#scene1").show();
@@ -73,7 +74,7 @@ $(document).ready(function () {
   function render() {
     for (var i = particles.length - 1; i--; i > -1) {
       const p = particles[i];
-      p.style.transform = `translate2d(${p.x}px, ${p.y}px)`;
+      p.style.transform = `translate3d(${p.x}px, ${p.y}px, 1px)`;
 
       p.x += p.vel.x;
       p.y += p.vel.y;
@@ -87,24 +88,7 @@ $(document).ready(function () {
     requestAnimationFrame(render);
   }
 
-  // 교수님 눈 깜빡임. 승균님이 코드 확인 후 필요 없으면 지워주세요.
-  //for(var n = 0; n <= 5; n++){
-  //  setInterval(function(){
-  //    setTimeout(function(){
-  //      document.getElementsByClassName("closeddoctor")[n].style.display = "block";
-  //      setTimeout(function(){
-  //        document.getElementsByClassName("closeddoctor")[n].style.display = "none";
-  //        setTimeout(function(){
-  //          document.getElementsByClassName("closeddoctor")[n].style.display = "block";
-  //          setTimeout(function(){
-  //            document.getElementsByClassName("closeddoctor")[n].style.display = "none";
-  //          },500)
-  //        },200)
-  //      },500)
-  //    },0)
-  //  },3000)
-  //}
-  var doctorInterval1 = setInterval(function () {
+  setInterval(function () {
     setTimeout(function () {
       document.getElementById("closeddoctor2").style.display = "block";
       setTimeout(function () {
@@ -209,7 +193,6 @@ $(document).ready(function () {
     $("#scene1").hide();
     $("#scene2").show();
     doctor_bgm.play();
-    doctorInterval1();
   });
   // 배경음악 설정
   $("#scene1Btn2").click(function () {
@@ -744,9 +727,12 @@ $(document).ready(function () {
             empty_cnt++;
             var breeding_status;
             var random_status = Math.floor(Math.random() * 10); // 0~9
-            if (random_status >= 2) breeding_status = 0; // 80%
-            else {
-              breeding_status = 1; //20%
+            if (random_status >= 4) breeding_status = 0; // 60%
+            else if (random_status >= 2) { // 20%
+              breeding_status = 1;
+              cnt++;
+            } else { // 20%
+              breeding_status = 2;
               cnt++;
             }
             winscore += breeding_status;
@@ -758,12 +744,15 @@ $(document).ready(function () {
             empty_cnt++;
             var breeding_status;
             var random_status = Math.floor(Math.random() * 10); // 0~9
-            if (random_status >= 4) breeding_status = 0; // 60%
-            else if (random_status >= 2) {
-              breeding_status = 2; //20%
+            if (random_status >= 8) breeding_status = 0; // 20%
+            else if (random_status >= 4) { //40%
+              breeding_status = 1;
               cnt++;
-            } else {
-              breeding_status = 1; //20%
+            } else if (random_status >= 2) { //20%
+              breeding_status = 2;
+              cnt++;
+            } else { //20%
+              breeding_status = 3;
               cnt++;
             }
             winscore += breeding_status;
