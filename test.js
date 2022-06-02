@@ -574,7 +574,7 @@ $(document).ready(function () {
   var brick_hit2 = new Audio("audio/brick_hit2.wav");
   var brick_hit3 = new Audio("audio/brick_hit3.wav");
   var doctor_bgm = new Audio("audio/doctor_bgm.mp3");
-  var setting_bgm = new Audio("audio/setting_bgm.wav");
+  var setting_bgm = new Audio("audio/setting_bgm.mp3");
   var challenge1 = new Audio("audio/challenge1.mp3")
   var button = new Audio("audio/button.wav");
   var clear = new Audio("audio/complete.ogg")
