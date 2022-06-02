@@ -292,10 +292,16 @@ li {
   right: 25px;
 }
 /* speachBubble */
-.doctor {
+.doctor{
   position: absolute;
   top: 36%;
   left: 15%;
+}
+.closeddoctor{
+  position: absolute;
+  top: 36%;
+  left: 15%;
+  display: none;
 }
 .speachBubble {
   background-color: #ffffff;
@@ -330,6 +336,33 @@ li {
   position: absolute;
   bottom: 20px;
   right: 20px;
+}
+.backBubbleBtn {
+  width: 102px;
+  height: 49px;
+  background-color: #8224a2;
+  font-size: 20px;
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  line-height: 49px;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+.skipBtn {
+  width: 102px;
+  height: 49px;
+  background-color: #8224a2;
+  font-size: 20px;
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  line-height: 49px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-family: 'neodgm';
 }
 .red {
   color: #FF0000;
@@ -516,7 +549,6 @@ particle {
 }
 /* canvas */
 canvas{
-  background: #eee;
   margin: 0 auto;
   display: none;
 }
@@ -524,7 +556,6 @@ canvas{
 #info{
   margin: 0 auto;
   position: relative;
-  background-color: rgb(201, 201, 201);
   width: 850px;
   height: 60px;
   display: none;
