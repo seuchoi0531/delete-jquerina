@@ -577,6 +577,8 @@ $(document).ready(function () {
   var setting_bgm = new Audio("audio/setting_bgm.wav");
   var challenge1 = new Audio("audio/challenge1.mp3")
   var button = new Audio("audio/button.wav");
+  var clear = new Audio("audio/complete.ogg")
+  var lose = new Audio("audio/fail.ogg")
 
   // 타이머
   function Timer() {
@@ -679,6 +681,10 @@ $(document).ready(function () {
               $("#container").fadeIn(2000);
               $("#lastScene").fadeIn(2000);}, 2000);
             makeParticle();
+            if(!background1.paused)background1.pause();
+            if(!background2.paused)background2.pause();
+            if(!background3.paused)background3.pause();
+            clear.play();
             window.setTimeout(render, 200);
             $("#lastScene .titleBox").css("cursor", "pointer");
             $("#lastScene .titleBox").click(makeParticle);
@@ -923,6 +929,10 @@ $(document).ready(function () {
       $('#myCanvas').fadeOut(2000);
       $("#info").fadeOut(2000);
       setTimeout(function(){$("#failedScene").fadeIn(2000);}, 2000);
+      if(!background1.paused)background1.pause();
+      if(!background2.paused)background2.pause();
+      if(!background3.paused)background3.pause();
+      lose.play();
       $("#failedScene #resetBtn").click(function(){document.location.reload();});
       return;
     }
@@ -1006,6 +1016,10 @@ $(document).ready(function () {
           $('#myCanvas').fadeOut(2000);
           $("#info").fadeOut(2000);
           setTimeout(function(){$("#failedScene").fadeIn(2000);}, 2000);
+          if(!background1.paused)background1.pause();
+          if(!background2.paused)background2.pause();
+          if(!background3.paused)background3.pause();
+          lose.play();
           $("#failedScene #resetBtn").click(function(){document.location.reload();});
         } else {
           x = canvas.width / 2;
