@@ -1,3 +1,4 @@
+// 2022 web programming team project
 var character = "brave"; // 선택된 캐릭터 종류. brave, smart, bully.
 var paddle = "green"; // 선택된 패들 종류. green, pink, blue.
 var stage = 1; // 스테이지 단계. 1,2,3.
