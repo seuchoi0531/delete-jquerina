@@ -1,0 +1,519 @@
+/* 2022 web programming team project */
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+body {
+  background-color: #2e2e2e;
+}
+
+li {
+  list-style-type: none;
+}
+
+.clickInfo {
+  font-size: 32px;
+  font-family: 'neodgm';
+  margin-top: 133px;
+}
+
+#container {
+  display: flex;
+  justify-content: center;
+}
+
+/* font */
+@font-face {
+  font-family: "neodgm";
+  src: url("fonts/neodgm.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* scene */
+.scene {
+  width: 850px;
+  height: 800px;
+  position: relative;
+  display: none;
+}
+
+/* start scene */
+.titleBox {
+  position: absolute;
+  top: 16%;
+  width: 100%;
+  text-align: center;
+  font-family: 'neodgm';
+}
+
+.backgroundImage {
+  width: 100%;
+  height: 100%;
+}
+
+.title {
+  font-size: 72px;
+  color: #FF1919;
+}
+
+.titleWhite {
+  font-size: 56px;
+  color: #ffffff;
+}
+
+.scene1Btn {
+  width: 330px;
+  height: 83px;
+  background-color: #ffffff;
+  font-family: 'neodgm';
+  font-size: 32px;
+  color: #141414;
+  text-align: center;
+  line-height: 83px;
+  border-radius: 10px;
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+.scene1Btn:hover {
+  background-color: #a70000;
+  color: #ffffff;
+}
+
+#scene1Btn1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+#scene1Btn2 {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+/* settingBox */
+.settingBox {
+  position: absolute;
+  top: 330px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.settingBox li {
+  display: inline-block;
+}
+
+.settingBox label {
+  display: inline-block;
+  width: 200px;
+  height: 50px;
+  background-color: #626262;
+  font-size: 20px;
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  line-height: 50px;
+  font-family: 'neodgm';
+  border: 1px solid #ffffff;
+}
+
+.settingBox input {
+  display: none;
+}
+
+.settingBox input:checked+label {
+  background-color: #D663FF;
+}
+
+.settingSaveBtn {
+  width: 130px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 24px;
+  opacity: 0.8;
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+}
+
+/* speachBubble */
+.doctor {
+  position: absolute;
+  top: 36%;
+  left: 15%;
+}
+
+.closeddoctor {
+  position: absolute;
+  top: 36%;
+  left: 15%;
+  display: none;
+}
+
+.speachBubble {
+  background-color: #ffffff;
+  opacity: 0.9;
+  width: 780px;
+  height: 220px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 20px 35px 0px 35px;
+  font-family: 'neodgm';
+}
+
+.speaker {
+  font-size: 32px;
+  display: block;
+  padding-bottom: 10px;
+  font-weight: 600;
+}
+
+.speach {
+  font-size: 20px;
+  line-height: 32px;
+}
+
+.speachBubbleBtn {
+  width: 102px;
+  height: 49px;
+  background-color: #8224a2;
+  font-size: 20px;
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  line-height: 49px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.backBubbleBtn {
+  width: 102px;
+  height: 49px;
+  background-color: #8224a2;
+  font-size: 20px;
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  line-height: 49px;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.skipBtn {
+  width: 102px;
+  height: 49px;
+  background-color: #8224a2;
+  font-size: 20px;
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  line-height: 49px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-family: 'neodgm';
+}
+
+.red {
+  color: #FF0000;
+}
+
+/* selectBox */
+.selectBox {
+  position: absolute;
+  bottom: 330px;
+  right: 70px;
+}
+
+.selectBox li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 42px;
+}
+
+.selectBox label {
+  width: 102px;
+  height: 49px;
+  background-color: #626262;
+  font-size: 20px;
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  line-height: 49px;
+  display: inline-block;
+  margin-left: 70px;
+  font-family: 'neodgm';
+  border: 1px solid #ffffff;
+}
+
+.selectBox input {
+  display: none;
+}
+
+.selectBox input:checked+label {
+  background-color: #D663FF;
+}
+
+.paddleImg {
+  width: 175px;
+  height: 20px;
+}
+
+/* virusBox */
+.virusImgBox {
+  width: 331px;
+  height: 440px;
+  border-radius: 9px;
+  position: absolute;
+  background-color: #ffffff;
+  bottom: 330px;
+  right: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.virusImgBox li {
+  width: 232px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.virusImgBox li:last-child img {
+  width: 135px;
+  height: 126px;
+}
+
+.virusImgBox li span {
+  font-size: 24px;
+  font-family: 'neodgm';
+  margin-left: 20px;
+}
+
+/* stageBox */
+.stageBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%, -80%);
+}
+
+.stageBox li label {
+  display: block;
+  width: 330px;
+  height: 83px;
+  background-color: #ffffff;
+  font-family: 'neodgm';
+  font-size: 32px;
+  color: #141414;
+  text-align: center;
+  line-height: 83px;
+  border-radius: 10px;
+  opacity: 0.9;
+  cursor: pointer;
+  margin: 28px 0;
+  border: 1px solid #ffffff;
+}
+
+.stageBox input {
+  display: none;
+}
+
+.stageBox input:checked+label {
+  background-color: #D663FF;
+  color: #ffffff;
+}
+
+.stageBox label:hover {
+  background-color: #e8d5ef;
+}
+
+.disableStartBtn {
+  background-color: #b2b2b2;
+  cursor: default;
+}
+
+/* 마지막 scene 폭죽 */
+particle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  box-shadow: 1px 1px 4px #eb6383;
+}
+
+/* next stage scene */
+.rect {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 850px;
+  height: 800px;
+  background-color: #f5f5f5;
+  display: none;
+  z-index: 1;
+  text-align: center;
+}
+
+.clickInfo {
+  font-size: 32px;
+  font-family: 'neodgm';
+  margin-top: 133px;
+}
+
+.organ {
+  position: absolute;
+  width: 550px;
+  height: 517px;
+  top: 283px;
+  left: 150px;
+  background: url(images/organs.png);
+}
+
+.oval {
+  position: relative;
+  width: 424px;
+  height: 172px;
+  background: url(images/Ellipse.png);
+  top: 91px;
+  left: 213px;
+  display: none;
+}
+
+.message {
+  position: relative;
+  width: 160px;
+  height: 58px;
+  font-size: 32px;
+  font-family: 'neodgm';
+  line-height: 58px;
+  text-align: center;
+  color: #000000;
+  top: 57px;
+  left: 132px;
+}
+
+.box {
+  width: 40px;
+  height: 40px;
+  background: #44FFE9;
+  cursor: pointer;
+}
+
+#box1 {
+  position: relative;
+  top: 150px;
+  left: 350px;
+}
+
+#box2 {
+  position: relative;
+  top: 168px;
+  left: 250px;
+}
+
+#box3 {
+  position: relative;
+  top: 290px;
+  left: 213px;
+}
+
+/* canvas */
+canvas {
+  margin: 0 auto;
+  display: none;
+}
+
+#info {
+  margin: 0 auto;
+  position: relative;
+  width: 850px;
+  height: 60px;
+  display: none;
+}
+
+#timer {
+  position: absolute;
+  top: 15px;
+  left: 390px;
+  font-size: 32px;
+  font-family: 'neodgm';
+}
+
+#timer_img_div {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+}
+
+#progress {
+  width: 300px;
+  height: 25px;
+  position: absolute;
+  top: 18px;
+  left: 65px;
+}
+
+#score_div {
+  position: absolute;
+  font-size: 32px;
+  top: 15px;
+  left: 600px;
+  font-family: 'neodgm';
+}
+
+#lives_div {
+  position: absolute;
+  font-size: 32px;
+  top: 15px;
+  left: 770px;
+  font-family: 'neodgm';
+}
+
+#progress {
+  appearance: none;
+}
+
+#progress::-webkit-progress-bar {
+  background: white;
+  border-radius: 12px;
+}
+
+#progress::-webkit-progress-value {
+  border-radius: 12px;
+  background: #601473;
+}
+
+#breeding_img1 {
+  position: absolute;
+  left: 277px;
+  top: 18px;
+}
+
+#breeding_img2 {
+  position: absolute;
+  left: 202px;
+  top: 18px;
+}
+
+#breeding_img3 {
+  position: absolute;
+  left: 127px;
+  top: 18px;
+}
