@@ -292,10 +292,10 @@ li {
   margin-bottom: 20px;
 }
 
-.virusImgBox li:last-child img {
+/* .virusImgBox li:last-child img {
   width: 135px;
   height: 126px;
-}
+} */
 
 .virusImgBox li span {
   font-size: 24px;
