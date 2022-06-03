@@ -471,20 +471,23 @@ $(document).ready(function () {
       document.getElementById("info").style.background = "#f6c03e";
       document.getElementById("progress").value = 100;
       document.getElementById("timer").innerText = "100.000";
+      document.getElementsByClassName("breedingimgs")[0].style.display =
+      "block";
+      document.getElementsByClassName("breedingimgs")[1].style.display =
+      "block";
+      document.getElementsByClassName("breedingimgs")[2].style.display =
+      "block";
     }
     $("#myCanvas").show();
     $("#info").fadeIn(2000);
-    document.getElementsByClassName("breedingimgs")[0].style.display = "none";
-    document.getElementsByClassName("breedingimgs")[1].style.display = "none";
-    document.getElementsByClassName("breedingimgs")[2].style.display = "none";
     challenge1.pause();
     start = 1;
     setTimeout(function () {
       start_time = new Date().getTime();
       draw();
       bdinterval2 = setInterval(function () {
-          bosslives += 5;
-          winscore += 5;
+          bosslives += 3;
+          winscore += 3;
       }, 25000);
     }, 2000);
   });
@@ -511,8 +514,8 @@ $(document).ready(function () {
   var brickColumnCount = 2; //바이러스 행개수
   var score = 0; //점수
   var lives = 3; //목숨
-  var bosslives = 20; //보스 체력
-  var bdx = 6; //보스 속도
+  var bosslives = 18; //보스 체력
+  var bdx = 5; //보스 속도
   var bossX = canvas.width / 2 - 80; //보스 x좌표
   var bossY = 100; //보스 y좌표
   var bossWidth = 160; //보스 가로길이
@@ -647,7 +650,6 @@ $(document).ready(function () {
     }
   }
 
-  //충돌 여부
   function collision(x, y, r, bx, by, bw, bh) {
     if (x > bx && x < bx + bw && y > by - r && y < by + bh + r) {
       dy *= -1;
@@ -828,9 +830,23 @@ $(document).ready(function () {
     document.getElementById("timer_img_div").innerHTML = str;
   }
 
-  //번식 이미지 그리기
+  //번식 이미지 타이머에 그리기
   function drawBreedingImg() {
     var str = "<img src='images/timeVirus.png' />";
+    if (play_time >= 75)
+      document.getElementById("breeding_img1").innerHTML = str;
+    else document.getElementById("breeding_img1").innerHTML = "";
+    if (play_time >= 50)
+      document.getElementById("breeding_img2").innerHTML = str;
+    else document.getElementById("breeding_img2").innerHTML = "";
+    if (play_time >= 25)
+      document.getElementById("breeding_img3").innerHTML = str;
+    else document.getElementById("breeding_img3").innerHTML = "";
+  }
+
+  // 보스 이미지 타이머에 그리기
+  function drawBossHealingImg() {
+    var str = "<img src='images/timeBoss.png' />";
     if (play_time >= 75)
       document.getElementById("breeding_img1").innerHTML = str;
     else document.getElementById("breeding_img1").innerHTML = "";
@@ -875,20 +891,18 @@ $(document).ready(function () {
       return;
     }
 
-    // breeding bgm, breeding 5초 전에 play
-    if (stage != 3) {
-      if (
-        Math.floor(play_time) == 80 ||
-        Math.floor(play_time) == 55 ||
-        Math.floor(play_time) == 30 ||
-        Math.floor(play_time) == 5
-      ) {
-        audio_breeding.play();
-        document.getElementById("timer").style.color = "red";
-        setTimeout(function () {
-          document.getElementById("timer").style.color = "black";
-        }, 5000);
-      }
+    // breeding or boss healing bgm, 5초 전에 play해서 경고
+    if (
+      Math.floor(play_time) == 80 ||
+      Math.floor(play_time) == 55 ||
+      Math.floor(play_time) == 30 ||
+      Math.floor(play_time) == 5
+    ) {
+      audio_breeding.play();
+      document.getElementById("timer").style.color = "red";
+      setTimeout(function () {
+        document.getElementById("timer").style.color = "black";
+      }, 5000);
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (stage == 1) {
@@ -909,7 +923,7 @@ $(document).ready(function () {
     drawLives();
     drawTimerImg();
     if (stage != 3) drawBreedingImg();
-    drawBall();
+    else drawBossHealingImg();
     collisionDetection();
 
     //캔버스 좌우에 공이 닿을 때
