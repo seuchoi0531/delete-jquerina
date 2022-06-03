@@ -924,7 +924,6 @@ $(document).ready(function () {
     drawTimerImg();
     if (stage != 3) drawBreedingImg();
     else drawBossHealingImg();
-    drawBall();
     collisionDetection();
 
     //캔버스 좌우에 공이 닿을 때
