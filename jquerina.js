@@ -517,7 +517,7 @@ $(document).ready(function () {
   var bosslives = 18; //보스 체력
   var bdx = 5; //보스 속도
   var bossX = canvas.width / 2 - 80; //보스 x좌표
-  var bossY = 100; //보스 y좌표
+  var bossY = 50; //보스 y좌표
   var bossWidth = 160; //보스 가로길이
   var bossHeight = 147; //보스 세로길이
 
@@ -989,7 +989,8 @@ $(document).ready(function () {
       }
     }
     // 보스 움직임 제한
-    if (bossX + bdx > canvas.width - bossWidth || bossX + bdx < 0) bdx = -bdx;
+    if (bossX + bdx > canvas.width - bossWidth && bdx > 0) bdx = -bdx;
+    if (bossX + bdx < 0 && bdx < 0) bdx = -bdx;
 
     if (rightPressed && paddleX < canvas.width - paddleWidth) {
       paddleX += 20;
