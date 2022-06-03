@@ -518,8 +518,8 @@ $(document).ready(function () {
   var bdx = 5; //보스 속도
   var bossX = canvas.width / 2 - 80; //보스 x좌표
   var bossY = 100; //보스 y좌표
-  var bossWidth = 135; //보스 가로길이
-  var bossHeight = 55; //보스 세로길이
+  var bossWidth = 160; //보스 가로길이
+  var bossHeight = 147; //보스 세로길이
 
   // 타이머
   function Timer() {
@@ -650,7 +650,6 @@ $(document).ready(function () {
     }
   }
 
-  //충돌 여부
   function collision(x, y, r, bx, by, bw, bh) {
     if (x > bx && x < bx + bw && y > by - r && y < by + bh + r) {
       dy *= -1;
